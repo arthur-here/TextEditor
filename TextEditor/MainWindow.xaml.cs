@@ -3,7 +3,7 @@
 namespace TextEditor
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml.
+    /// Interaction logic for MainWindow.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -13,7 +13,7 @@ namespace TextEditor
         /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
