@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TextEditor</RootNamespace>
     <AssemblyName>TextEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -20,6 +20,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -46,6 +47,7 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>TextEditor.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,11 +60,10 @@
     <CodeAnalysisRuleSet>TextEditor.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>text_editor_strong_key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -125,8 +126,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Settings.StyleCop" />
+    <None Include="Settings.StyleCop">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TextEditor.ruleset" />
+    <None Include="text_editor_strong_key.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -161,7 +165,9 @@
     <Error Condition="!Exists('..\packages\StyleCopPlus.MSBuild.4.7.49.5\build\StyleCopPlus.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StyleCopPlus.MSBuild.4.7.49.5\build\StyleCopPlus.MSBuild.props'))" />
     <Error Condition="!Exists('..\packages\System.Runtime.Analyzers.1.0.1\build\System.Runtime.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Runtime.Analyzers.1.0.1\build\System.Runtime.Analyzers.props'))" />
     <Error Condition="!Exists('..\packages\System.Runtime.InteropServices.Analyzers.1.0.1\build\System.Runtime.InteropServices.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Runtime.InteropServices.Analyzers.1.0.1\build\System.Runtime.InteropServices.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets'))" />
   </Target>
+  <Import Project="..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets" Condition="Exists('..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

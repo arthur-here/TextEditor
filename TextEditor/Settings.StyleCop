@@ -1,8 +1,11 @@
 <StyleCopSettings Version="105">
+  <GlobalSettings>
+    <BooleanProperty Name="ViolationsAsErrors">True</BooleanProperty>
+  </GlobalSettings>
   <Parsers>
     <Parser ParserId="StyleCop.CSharp.CsParser">
       <ParserSettings>
-        <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
+        <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
       </ParserSettings>
     </Parser>
   </Parsers>
