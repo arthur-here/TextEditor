@@ -129,9 +129,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Settings.StyleCop">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="TextEditor.ruleset" />
     <None Include="text_editor_strong_key.snk" />
   </ItemGroup>
@@ -173,6 +170,9 @@
     <Error Condition="!Exists('..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets'))" />
   </Target>
   <Import Project="..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets" Condition="Exists('..\packages\IgnoreGeneratedFilesBuildTask.1.2.0\build\IgnoreGeneratedFilesBuildTask.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)packages\Tools.InnoSetup.5.5.6\tools\ISCC.exe" "$(SolutionDir)text_editor_setup_script.iss"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

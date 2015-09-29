@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditor", "TextEditor\Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F921D377-4B33-43D3-A1DA-0BF3B4942EE1}"
 	ProjectSection(SolutionItems) = preProject
+		Y:\Documents\Visual Studio 2015\Projects\TextEditor\Settings.StyleCop = Y:\Documents\Visual Studio 2015\Projects\TextEditor\Settings.StyleCop
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+		Y:\Documents\Visual Studio 2015\Projects\TextEditor\text_editor_setup_script.iss = Y:\Documents\Visual Studio 2015\Projects\TextEditor\text_editor_setup_script.iss
 	EndProjectSection
 EndProject
 Global
