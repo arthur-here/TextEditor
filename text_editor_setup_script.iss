@@ -20,7 +20,7 @@ AppPublisher={#Publisher}
 DefaultDirName={pf}\{#Name}
 DefaultGroupName={#Name}
 AllowNoIcons=yes
-OutputDir=..\TextEditor\TextEditor\bin\Release\
+OutputDir=..\TextEditor\TextEditor\bin\Debug\
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
@@ -32,7 +32,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "\\psf\Home\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor\bin\Release\TextEditor.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: {#Path}; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -65,7 +65,7 @@ var
   sUnInstallString: String;
 begin
   Result := '';
-  sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\{674DC930-9FA6-42BE-9602-C4653197B721}_is1'); //Your App GUID/ID
+  sUnInstPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\{#GUID}_is1'); //Your App GUID/ID
   sUnInstallString := '';
   if not RegQueryStringValue(HKLM, sUnInstPath, 'UninstallString', sUnInstallString) then
     RegQueryStringValue(HKCU, sUnInstPath, 'UninstallString', sUnInstallString);
@@ -84,7 +84,7 @@ var
   sUnInstallString: string;
 begin
   Result := True; // in case when no previous version is found
-  if RegValueExists(HKEY_LOCAL_MACHINE,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{674DC930-9FA6-42BE-9602-C4653197B721}_is1', 'UninstallString') then  //Your App GUID/ID
+  if RegValueExists(HKEY_LOCAL_MACHINE,'Software\Microsoft\Windows\CurrentVersion\Uninstall\{#GUID}_is1', 'UninstallString') then  //Your App GUID/ID
   begin
     V := MsgBox(ExpandConstant('Hey! An old version of app was detected. Do you want to uninstall it?'), mbInformation, MB_YESNO); //Custom Message if App installed
     if V = IDYES then
