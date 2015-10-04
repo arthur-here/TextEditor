@@ -11,6 +11,14 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <RichTextBox x:Name="richTextBox" Grid.RowSpan="2" FontFamily="Consolas" Block.LineHeight="13.333" AcceptsTab="True" IsDocumentEnabled="True" FontSize="14.667">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument FontFamily="Consolas" PagePadding="0" FontSize="11"/>
+        </RichTextBox>
 
     </Grid>
 </Window>
