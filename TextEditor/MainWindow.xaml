@@ -5,20 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <RichTextBox x:Name="richTextBox" Grid.RowSpan="2" FontFamily="Consolas" Block.LineHeight="13.333" AcceptsTab="True" IsDocumentEnabled="True" FontSize="14.667">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="0"/>
-                </Style>
-            </RichTextBox.Resources>
-            <FlowDocument FontFamily="Consolas" PagePadding="0" FontSize="11"/>
-        </RichTextBox>
+        Title="MainWindow" Height="350" Width="525" WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent" ResizeMode="CanResizeWithGrip">
+    <Border CornerRadius="10,10,0,0" BorderThickness="1" BorderBrush="#FFBFBFBF">
+        <Grid>
+            <Border Name="mask" Background="LightBlue" CornerRadius="10,10,0,0" BorderThickness="1"/>
+            <Rectangle Fill="#FFF4F4F5" Height="34" VerticalAlignment="Top" MouseDown="Rectangle_MouseDown"/>
+            <Label x:Name="label" Content="Text Editor" Margin="224,0,215,0" HorizontalAlignment="Center" FontSize="16" Height="34" VerticalAlignment="Top"/>
 
-    </Grid>
+            <RichTextBox x:Name="richTextBox" FontFamily="Consolas" Block.LineHeight="13.333" AcceptsTab="True" IsDocumentEnabled="True" FontSize="14.667" Margin="0,63,0,0">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0"/>
+                    </Style>
+                </RichTextBox.Resources>
+                <FlowDocument FontFamily="Consolas" PagePadding="0" FontSize="11">
+                    <Paragraph/>
+                </FlowDocument>
+            </RichTextBox>
+            <Menu x:Name="menu" ClipToBounds="True" Background="#FF898989" Height="29" VerticalAlignment="Top" Margin="0,34,0,0" Foreground="White">
+                <MenuItem Height="30" Padding="7,2,8,3">
+                    <MenuItem.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </MenuItem.ItemsPanel>
+                    <MenuItem.Header>
+                        <TextBlock Text="File" VerticalAlignment="CENTER" HorizontalAlignment="Center"/>
+                    </MenuItem.Header>
+
+                    <MenuItem Name="NewFileMenuItem" Header="New" Background="#FF898989" Click="NewFileMenuItem_Click"/>
+                    <MenuItem Name="OpenFileMenuItem" Header="Open..." Background="#FF898989" Click="OpenFileMenuItem_Click"/>
+                    <MenuItem Name="SaveFileMenuItem" Header="Save" Background="#FF898989" Click="SaveFileMenuItem_Click"/>
+                </MenuItem>
+            </Menu>
+            <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click">
+                <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
+            </Button>
+            <Grid.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=mask}"/>
+            </Grid.OpacityMask>
+        </Grid>
+    </Border>
 </Window>
