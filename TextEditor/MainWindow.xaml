@@ -4,33 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextEditor"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="411.5" Width="612" WindowStyle="None"
+        Title="MainWindow" Height="589.5" Width="606" WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent" ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <System:Double x:Key="FontSize">12</System:Double>
+    </Window.Resources>
     <Border CornerRadius="5,5,0,0" BorderThickness="1" BorderBrush="#FFF4F4F5">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="51*"/>
-                <ColumnDefinition Width="254*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1" Grid.ColumnSpan="2"/>
-            <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="16">
-                <ListBoxItem Content="1" Height="13" FontFamily="Consolas"/>
-                <ListBoxItem Content="2" Height="13" FontFamily="Consolas"/>
+            <Border x:Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1"/>
+            
+            <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}">
             </ListBox>
-            <Rectangle Fill="#FFF4F4F5" Height="34" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-            <Label x:Name="TitleLabel" Content="Text Editor" Margin="0" FontSize="16" Height="34" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" MouseDown="TitleLabel_MouseDown"/>
-
-            <RichTextBox x:Name="TextBox" FontFamily="Consolas" Block.LineHeight="13.333" AcceptsTab="True" IsDocumentEnabled="True" FontSize="18.667" Margin="16,86,0,0" Background="#FF2C2F3C" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" SelectionBrush="#FFF0F0F0" Grid.ColumnSpan="2">
-                <RichTextBox.Resources>
-                    <Style TargetType="{x:Type Paragraph}">
-                        <Setter Property="Margin" Value="0"/>
-                    </Style>
-                </RichTextBox.Resources>
-                <FlowDocument FontSize="12"/>
-            </RichTextBox>
-            <Menu x:Name="menu" ClipToBounds="True" Background="#FF2A2F3A" Height="29" VerticalAlignment="Top" Margin="0,34,0,0" Foreground="White" Grid.ColumnSpan="2">
+            <Rectangle Fill="#FFF4F4F5" Height="34" VerticalAlignment="Top"/>
+            <Label x:Name="TitleLabel" Content="Text Editor" Margin="0" FontSize="16" Height="34" VerticalAlignment="Top" HorizontalContentAlignment="Center" MouseDown="TitleLabel_MouseDown"/>
+            <Menu x:Name="menu" ClipToBounds="True" Background="#FF2A2F3A" Height="29" VerticalAlignment="Top" Margin="0,34,0,0" Foreground="White">
                 <MenuItem Height="30" Padding="7,2,8,3" Background="#FF2A2F3A">
                     <MenuItem.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -41,15 +34,16 @@
                         <TextBlock Text="File" VerticalAlignment="CENTER" HorizontalAlignment="Center"/>
                     </MenuItem.Header>
 
-                    <MenuItem Name="NewFileMenuItem" Header="New" Background="#FF2A2F3A" Click="NewFileMenuItem_Click"/>
-                    <MenuItem Name="OpenFileMenuItem" Header="Open..." Background="#FF2A2F3A" Click="OpenFileMenuItem_Click"/>
-                    <MenuItem Name="SaveFileMenuItem" Header="Save" Background="#FF2A2F3A" Click="SaveFileMenuItem_Click"/>
+                    <MenuItem x:Name="NewFileMenuItem" Header="New" Background="#FF2A2F3A" Click="NewFileMenuItem_Click"/>
+                    <MenuItem x:Name="OpenFileMenuItem" Header="Open..." Background="#FF2A2F3A" Click="OpenFileMenuItem_Click"/>
+                    <MenuItem x:Name="SaveFileMenuItem" Header="Save" Background="#FF2A2F3A" Click="SaveFileMenuItem_Click"/>
                 </MenuItem>
             </Menu>
-            <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click" Grid.Column="1">
+            <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click">
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
             </Button>
-            <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top"/>
+            <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Height="23" VerticalAlignment="Top"/>
+            <ListBox x:Name="codeListBox" Margin="31,86,0,0" BorderThickness="0" Background="#FF2C2F3C" BorderBrush="{x:Null}" Foreground="#FFF0F0F0" FontFamily="Consolas" FontSize="{StaticResource FontSize}"/>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Grid.OpacityMask>

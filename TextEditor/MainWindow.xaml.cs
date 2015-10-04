@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using TextEditor.FileManager;
@@ -21,21 +22,29 @@ namespace TextEditor
             this.InitializeComponent();
         }
 
-        private FlowDocument Document
-        {
-            get { return this.TextBox.Document; }
-        }
-
         private void DisplayText(string[] text, bool clearWindow = true)
         {
             if (clearWindow)
             {
-                this.Document.Blocks.Clear();
+                this.codeListBox.Items.Clear();
+                this.LineNumberListBox.Items.Clear();
             }
+
+            int index = this.LineNumberListBox.Items.Count + 1;
 
             foreach (string line in text)
             {
-                this.Document.Blocks.Add(new Paragraph(new Run(line)));
+                TextBlock block = new TextBlock();
+                block.Text = line;
+                int charactersPerLine = (int)(this.codeListBox.RenderSize.Width / 7);
+                if (line.Length > charactersPerLine)
+                {
+                    block.Text = block.Text.Insert(charactersPerLine, "\n");
+                }
+
+                this.codeListBox.Items.Add(block);
+                this.LineNumberListBox.Items.Add(index);
+                index++;
             }
         }
 
