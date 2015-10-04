@@ -588,8 +588,6 @@
     <Rule Id="SA1648" Action="None" />
     <Rule Id="SA1651" Action="None" />
     <Rule Id="SA1652" Action="None" />
-    <Rule Id="SX1309" Action="Error" />
-    <Rule Id="SX1309S" Action="Error" />
   </Rules>
   <Rules AnalyzerId="System.Runtime.Analyzers" RuleNamespace="System.Runtime.Analyzers">
     <Rule Id="CA1001" Action="Error" />

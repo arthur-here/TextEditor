@@ -7,20 +7,34 @@ using System.Threading.Tasks;
 namespace TextEditor
 {
     /// <summary>
-    /// Interface provides basic functionality for reading text from file.
+    /// Represents an abstract strategy class for reading from file
+    /// in different encodings.
     /// </summary>
-    public interface IFileReader
+    public abstract class FileReaderStrategy : IFileReader
     {
+        private string fileName;
+
         /// <summary>
         /// Gets or sets the path to file.
         /// </summary>
         /// <value>The FileName property gets/sets the value of the string field, filename.</value>
-        string FileName { get; set; }
+        public string FileName
+        {
+            get
+            {
+                return this.fileName;
+            }
+
+            set
+            {
+                this.fileName = value;
+            }
+        }
 
         /// <summary>
         /// Reads data from file.
         /// </summary>
         /// <returns>Array of read strings.</returns>
-        string[] ReadFile();
+        public abstract string[] ReadFile();
     }
 }
