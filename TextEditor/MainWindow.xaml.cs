@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
+using TextEditor.FileManager;
 
 namespace TextEditor
 {
@@ -17,6 +21,24 @@ namespace TextEditor
             this.InitializeComponent();
         }
 
+        private FlowDocument Document
+        {
+            get { return this.TextBox.Document; }
+        }
+
+        private void DisplayText(string[] text, bool clearWindow = true)
+        {
+            if (clearWindow)
+            {
+                this.Document.Blocks.Clear();
+            }
+
+            foreach (string line in text)
+            {
+                this.Document.Blocks.Add(new Paragraph(new Run(line)));
+            }
+        }
+
         private void NewFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
         }
@@ -25,11 +47,31 @@ namespace TextEditor
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 
-            if (ofd.ShowDialog() == true)
+            if (ofd.ShowDialog() == false)
             {
-                string filename = ofd.FileName;
-                Console.WriteLine(filename);
+                return;
             }
+
+            FileReaderStrategy fileReader;
+            string filename = ofd.FileName;
+            using (StreamReader streamReader = new StreamReader(filename))
+            {
+                streamReader.Peek();
+                if (streamReader.CurrentEncoding == UTF8Encoding.Default)
+                {
+                    fileReader = new UTF8FileReader(filename);
+                }
+                else if (streamReader.CurrentEncoding == ASCIIEncoding.Default)
+                {
+                    fileReader = new ASCIIFileReader(filename);
+                }
+                else
+                {
+                    fileReader = new DefaultFileReader(filename);
+                }
+            }
+
+            this.DisplayText(fileReader.Read());
         }
 
         private void SaveFileMenuItem_Click(object sender, RoutedEventArgs e)

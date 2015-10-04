@@ -87,8 +87,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FileSaveLoad\ASCIIFileReader.cs" />
-    <Compile Include="FileSaveLoad\UTF8FileReader.cs">
+    <Compile Include="FileManager\ASCIIFileReader.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="FileManager\DefaultFileReader.cs" />
+    <Compile Include="FileManager\UTF8FileReader.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -103,7 +106,7 @@
       <SubType>Code</SubType>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="FileSaveLoad\FileReaderStrategy.cs" />
+    <Compile Include="FileManager\FileReaderStrategy.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

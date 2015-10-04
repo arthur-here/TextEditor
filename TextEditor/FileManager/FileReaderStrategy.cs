@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextEditor
+namespace TextEditor.FileManager
 {
     /// <summary>
     /// Represents an abstract strategy class for reading from file
@@ -35,6 +35,6 @@ namespace TextEditor
         /// Reads data from file.
         /// </summary>
         /// <returns>Array of read strings.</returns>
-        public abstract string[] ReadFile();
+        public abstract string[] Read();
     }
 }
