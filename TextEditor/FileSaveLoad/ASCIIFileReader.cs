@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace TextEditor
 {
     /// <summary>
-    /// Provides agorythm to reading UTF-8 encoded file
+    /// Provides agorythm to reading ASCII encoded file
     /// </summary>
-    public class UTF8FileReader : FileReaderStrategy
+    public class ASCIIFileReader : FileReaderStrategy
     {
-        public UTF8FileReader(string fileName)
+        public ASCIIFileReader(string fileName)
         {
             this.FileName = fileName;
         }
@@ -19,7 +19,7 @@ namespace TextEditor
         public override string[] ReadFile()
         {
             List<string> result = new List<string>();
-            using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.FileName, UTF8Encoding.UTF8))
+            using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.FileName, Encoding.ASCII))
             {
                 while (!streamReader.EndOfStream)
                 {
