@@ -8,13 +8,13 @@
         Title="MainWindow" Height="411.5" Width="612" WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent" ResizeMode="CanResizeWithGrip">
-    <Border CornerRadius="10,10,0,0" BorderThickness="1" BorderBrush="#FFF4F4F5">
+    <Border CornerRadius="5,5,0,0" BorderThickness="1" BorderBrush="#FFF4F4F5">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="51*"/>
                 <ColumnDefinition Width="254*"/>
             </Grid.ColumnDefinitions>
-            <Border Name="mask" Background="LightBlue" CornerRadius="6,6,0,0" BorderThickness="1" Grid.ColumnSpan="2"/>
+            <Border Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1" Grid.ColumnSpan="2"/>
             <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="16">
                 <ListBoxItem Content="1" Height="13" FontFamily="Consolas"/>
                 <ListBoxItem Content="2" Height="13" FontFamily="Consolas"/>
