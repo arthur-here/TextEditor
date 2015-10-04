@@ -10,7 +10,7 @@ namespace TextEditor
     /// Represents an abstract strategy class for reading from file
     /// in different encodings.
     /// </summary>
-    public abstract class FileReaderStrategy : IFileReader
+    public abstract class FileReaderStrategy
     {
         private string fileName;
 
