@@ -1,6 +1,7 @@
-![](https://ci.appveyor.com/api/projects/status/b0u0mybkt68xak7u)
-
 # TextEditor
+
+[![Build status](https://ci.appveyor.com/api/projects/status/b0u0mybkt68xak7u?svg=true)](https://ci.appveyor.com/project/arthur-myronenko/texteditor)
+
 *OOAD Course Assignments*
 
 ####Текстовый редактор (strategy, command, observer, template method, flyweight)
