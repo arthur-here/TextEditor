@@ -57,11 +57,15 @@ namespace TextEditor.FileManager
             return result;
         }
 
+        /// <summary>
+        /// Saves document to location specified in FileName.
+        /// </summary>
+        /// <param name="document">Document to save.</param>
         public void SaveDocument(TextEditorDocument document)
         {
             if (document == null)
             {
-                return;
+                throw new ArgumentNullException("document");
             }
 
             using (FileStream sw = new FileStream(document.FileName, FileMode.OpenOrCreate, FileAccess.Write))
@@ -71,6 +75,10 @@ namespace TextEditor.FileManager
             }
         }
 
+        /// <summary>
+        /// Shows SaveFileDialog to specify new document location.
+        /// </summary>
+        /// <returns>New document.</returns>
         public TextEditorDocument New()
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
