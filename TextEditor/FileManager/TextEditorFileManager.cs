@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using TextEditor.FileManager;
 
@@ -18,7 +19,7 @@ namespace TextEditor.FileManager
         /// Shows OpenFileDialog.
         /// </summary>
         /// <returns>FlowDocument with read data.</returns>
-        public FlowDocument OpenFile()
+        public TextEditorDocument OpenFile()
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 
@@ -47,13 +48,39 @@ namespace TextEditor.FileManager
             }
 
             string[] text = fileReader.Read();
-            FlowDocument result = new FlowDocument();
+            TextEditorDocument result = new TextEditorDocument(filename);
             foreach (string line in text)
             {
                 result.Blocks.Add(new Paragraph(new Run(line)));
             }
 
             return result;
+        }
+
+        public void SaveDocument(TextEditorDocument document)
+        {
+            if (document == null)
+            {
+                return;
+            }
+
+            using (FileStream sw = new FileStream(document.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
+                range.Save(sw, DataFormats.Text);
+            }
+        }
+
+        public TextEditorDocument New()
+        {
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
+
+            if (sfd.ShowDialog() == false)
+            {
+                return null;
+            }
+            
+            return new TextEditorDocument(sfd.FileName);
         }
     }
 }

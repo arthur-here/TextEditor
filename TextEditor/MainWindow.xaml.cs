@@ -15,6 +15,7 @@ namespace TextEditor
     public partial class MainWindow : Window
     {
         private TextEditorFileManager fileManager = new FileManager.TextEditorFileManager();
+        private TextEditorDocument document;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class..
@@ -24,17 +25,23 @@ namespace TextEditor
             this.InitializeComponent();
         }
 
-        private FlowDocument Document
+        private TextEditorDocument Document
         {
+            get
+            {
+                return this.document == null ? this.codeArea.Document as TextEditorDocument : this.document;
+            }
+
             set
             {
                 this.codeArea.Document = value;
-                this.codeArea.Document.FontFamily = new System.Windows.Media.FontFamily("Consolas");
+                this.document = value;
             }
         }
 
         private void NewFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            this.Document = this.fileManager.New();
         }
 
         private void OpenFileMenuItem_Click(object sender, RoutedEventArgs e)
@@ -44,13 +51,7 @@ namespace TextEditor
 
         private void SaveFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
-
-            if (sfd.ShowDialog() == true)
-            {
-                string filename = sfd.FileName;
-                Console.WriteLine(filename);
-            }
+            this.fileManager.SaveDocument(this.Document);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
