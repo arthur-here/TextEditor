@@ -76,6 +76,28 @@ namespace TextEditor.FileManager
         }
 
         /// <summary>
+        /// Shows SaveFileDialogSaves and saves document to specified location.
+        /// </summary>
+        /// <param name="document">Document to save.</param>
+        public void SaveAsDocument(TextEditorDocument document)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
+
+            if (sfd.ShowDialog() == false)
+            {
+                return;
+            }
+
+            document.FileName = sfd.FileName;
+            this.SaveDocument(document);
+        }
+
+        /// <summary>
         /// Shows SaveFileDialog to specify new document location.
         /// </summary>
         /// <returns>New document.</returns>

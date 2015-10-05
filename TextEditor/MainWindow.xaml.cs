@@ -54,6 +54,11 @@ namespace TextEditor
             this.fileManager.SaveDocument(this.Document);
         }
 
+        private void SaveAsFileMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.fileManager.SaveAsDocument(this.Document);
+        }
+
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

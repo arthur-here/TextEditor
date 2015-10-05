@@ -42,6 +42,7 @@
                     <MenuItem x:Name="NewFileMenuItem" Header="New" Background="#FF2A2F3A" Click="NewFileMenuItem_Click"/>
                     <MenuItem x:Name="OpenFileMenuItem" Header="Open..." Background="#FF2A2F3A" Click="OpenFileMenuItem_Click"/>
                     <MenuItem x:Name="SaveFileMenuItem" Header="Save" Background="#FF2A2F3A" Click="SaveFileMenuItem_Click"/>
+                    <MenuItem x:Name="SaveAsFileMenuItem" Header="Save As..." Background="#FF2A2F3A" Click="SaveAsFileMenuItem_Click"/>
                 </MenuItem>
             </Menu>
             <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click">
