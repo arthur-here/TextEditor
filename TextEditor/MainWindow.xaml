@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TextEditor"
+        xmlns:local="clr-namespace:TextEditor;assembly=TextEditor"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="589.5" Width="606" WindowStyle="None"
@@ -18,10 +18,16 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border x:Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1"/>
-            
-            <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}">
-            </ListBox>
-            <Rectangle Fill="#FFF4F4F5" Height="34" VerticalAlignment="Top"/>
+            <RichTextBox x:Name="codeArea" Background="#FF2C2F3C" Margin="31,86,0,0" BorderThickness="0" SelectionBrush="#FFE8E8E8" Foreground="#FFEAE6E6" BorderBrush="{x:Null}">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0"/>
+                    </Style>
+                </RichTextBox.Resources>
+                <FlowDocument FontFamily="Consolas"/>
+            </RichTextBox>
+            <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}"/>
+            <Rectangle Fill="#FFE2E2E2" Height="34" VerticalAlignment="Top"/>
             <Label x:Name="TitleLabel" Content="Text Editor" Margin="0" FontSize="16" Height="34" VerticalAlignment="Top" HorizontalContentAlignment="Center" MouseDown="TitleLabel_MouseDown"/>
             <Menu x:Name="menu" ClipToBounds="True" Background="#FF2A2F3A" Height="29" VerticalAlignment="Top" Margin="0,34,0,0" Foreground="White">
                 <MenuItem Height="30" Padding="7,2,8,3" Background="#FF2A2F3A">
@@ -33,7 +39,6 @@
                     <MenuItem.Header>
                         <TextBlock Text="File" VerticalAlignment="CENTER" HorizontalAlignment="Center"/>
                     </MenuItem.Header>
-
                     <MenuItem x:Name="NewFileMenuItem" Header="New" Background="#FF2A2F3A" Click="NewFileMenuItem_Click"/>
                     <MenuItem x:Name="OpenFileMenuItem" Header="Open..." Background="#FF2A2F3A" Click="OpenFileMenuItem_Click"/>
                     <MenuItem x:Name="SaveFileMenuItem" Header="Save" Background="#FF2A2F3A" Click="SaveFileMenuItem_Click"/>
@@ -43,7 +48,6 @@
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
             </Button>
             <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Height="23" VerticalAlignment="Top"/>
-            <ListBox x:Name="codeListBox" Margin="31,86,0,0" BorderThickness="0" Background="#FF2C2F3C" BorderBrush="{x:Null}" Foreground="#FFF0F0F0" FontFamily="Consolas" FontSize="{StaticResource FontSize}"/>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Grid.OpacityMask>

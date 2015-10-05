@@ -22,11 +22,16 @@ namespace TextEditor
             this.InitializeComponent();
         }
 
+        private FlowDocument Document
+        {
+            get { return this.codeArea.Document; }
+        }
+
         private void DisplayText(string[] text, bool clearWindow = true)
         {
             if (clearWindow)
             {
-                this.codeListBox.Items.Clear();
+                this.Document.Blocks.Clear();
                 this.LineNumberListBox.Items.Clear();
             }
 
@@ -34,15 +39,7 @@ namespace TextEditor
 
             foreach (string line in text)
             {
-                TextBlock block = new TextBlock();
-                block.Text = line;
-                int charactersPerLine = (int)(this.codeListBox.RenderSize.Width / 7);
-                if (line.Length > charactersPerLine)
-                {
-                    block.Text = block.Text.Insert(charactersPerLine, "\n");
-                }
-
-                this.codeListBox.Items.Add(block);
+                this.Document.Blocks.Add(new Paragraph(new Run(line)));
                 this.LineNumberListBox.Items.Add(index);
                 index++;
             }
