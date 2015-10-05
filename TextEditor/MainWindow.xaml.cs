@@ -14,6 +14,8 @@ namespace TextEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        private TextEditorFileManager fileManager = new FileManager.TextEditorFileManager();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class..
         /// </summary>
@@ -24,24 +26,10 @@ namespace TextEditor
 
         private FlowDocument Document
         {
-            get { return this.codeArea.Document; }
-        }
-
-        private void DisplayText(string[] text, bool clearWindow = true)
-        {
-            if (clearWindow)
+            set
             {
-                this.Document.Blocks.Clear();
-                this.LineNumberListBox.Items.Clear();
-            }
-
-            int index = this.LineNumberListBox.Items.Count + 1;
-
-            foreach (string line in text)
-            {
-                this.Document.Blocks.Add(new Paragraph(new Run(line)));
-                this.LineNumberListBox.Items.Add(index);
-                index++;
+                this.codeArea.Document = value;
+                this.codeArea.Document.FontFamily = new System.Windows.Media.FontFamily("Consolas");
             }
         }
 
@@ -51,33 +39,7 @@ namespace TextEditor
 
         private void OpenFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
-
-            if (ofd.ShowDialog() == false)
-            {
-                return;
-            }
-
-            FileReaderStrategy fileReader;
-            string filename = ofd.FileName;
-            using (StreamReader streamReader = new StreamReader(filename))
-            {
-                streamReader.Peek();
-                if (streamReader.CurrentEncoding == UTF8Encoding.Default)
-                {
-                    fileReader = new UTF8FileReader(filename);
-                }
-                else if (streamReader.CurrentEncoding == ASCIIEncoding.Default)
-                {
-                    fileReader = new ASCIIFileReader(filename);
-                }
-                else
-                {
-                    fileReader = new DefaultFileReader(filename);
-                }
-            }
-
-            this.DisplayText(fileReader.Read());
+            this.Document = this.fileManager.OpenFile();
         }
 
         private void SaveFileMenuItem_Click(object sender, RoutedEventArgs e)
