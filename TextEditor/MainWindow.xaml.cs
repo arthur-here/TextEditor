@@ -18,7 +18,7 @@ namespace TextEditor
         private TextEditorDocument document;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow"/> class..
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
         public MainWindow()
         {
@@ -36,6 +36,7 @@ namespace TextEditor
             {
                 this.codeArea.Document = value;
                 this.document = value;
+                this.TitleLabel.Text = "Text Editor - " + value.FileName;
             }
         }
 

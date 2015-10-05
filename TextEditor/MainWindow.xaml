@@ -18,7 +18,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border x:Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1"/>
-            <RichTextBox x:Name="codeArea" Background="#FF2C2F3C" Margin="31,86,0,0" BorderThickness="0" SelectionBrush="#FFE8E8E8" Foreground="#FFEAE6E6" BorderBrush="{x:Null}">
+            <RichTextBox x:Name="codeArea" Background="#FF2C2F3C" Margin="31,86,0,0" BorderThickness="0" SelectionBrush="#FFE8E8E8" Foreground="#FFEAE6E6" BorderBrush="{x:Null}" VerticalScrollBarVisibility="Auto">
                 <RichTextBox.Resources>
                     <Style TargetType="{x:Type Paragraph}">
                         <Setter Property="Margin" Value="0"/>
@@ -28,7 +28,7 @@
             </RichTextBox>
             <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}"/>
             <Rectangle Fill="#FFE2E2E2" Height="34" VerticalAlignment="Top"/>
-            <Label x:Name="TitleLabel" Content="Text Editor" Margin="0" FontSize="16" Height="34" VerticalAlignment="Top" HorizontalContentAlignment="Center" MouseDown="TitleLabel_MouseDown"/>
+            <TextBlock x:Name="TitleLabel" Text="Text Editor" TextTrimming="CharacterEllipsis" FontSize="16" MouseDown="TitleLabel_MouseDown" Height="34" TextAlignment="Center" MaxHeight="34" VerticalAlignment="Top" UseLayoutRounding="False" Padding="10,5,10,0" Margin="34,0"/>
             <Menu x:Name="menu" ClipToBounds="True" Background="#FF2A2F3A" Height="29" VerticalAlignment="Top" Margin="0,34,0,0" Foreground="White">
                 <MenuItem Height="30" Padding="7,2,8,3" Background="#FF2A2F3A">
                     <MenuItem.ItemsPanel>
