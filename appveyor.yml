@@ -2,7 +2,7 @@ version: 0.0.2.{build}
 
 before_build:
   - nuget restore
-  - ps:
+  - ps: |
     if($env:APPVEYOR_REPO_BRANCH -eq "master"){
       if($env:APPVEYOR_REPO_TAG){
         $env:CONFIGURATION = "Release"
