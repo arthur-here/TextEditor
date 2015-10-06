@@ -42,22 +42,36 @@ namespace TextEditor
 
         private void NewFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.Document = this.fileManager.New();
+            TextEditorDocument newDocument = this.fileManager.New();
+            if (newDocument != null)
+            {
+                this.Document = newDocument;
+            }
         }
 
         private void OpenFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.Document = this.fileManager.OpenFile();
+            TextEditorDocument newDocument = this.fileManager.OpenFile();
+            if (newDocument != null)
+            {
+                this.Document = newDocument;
+            }
         }
 
         private void SaveFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.fileManager.SaveDocument(this.Document);
+            if (this.Document != null)
+            {
+                this.fileManager.SaveDocument(this.Document);
+            }
         }
 
         private void SaveAsFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.fileManager.SaveAsDocument(this.Document);
+            if (this.Document != null)
+            {
+                this.fileManager.SaveAsDocument(this.Document);
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
