@@ -1,9 +1,9 @@
 deploy: 
   - provider: GitHub
-	tag: v$(APPVEYOR_BUILD_VERSION)
-	release: TextEditor release of v$(APPVEYOR_BUILD_VERSION)
-	description: New release of Text Editor
-	auth_token: 2d1353e0da17919b1d828c4d880b6042540ac15d
+    tag: v$(APPVEYOR_BUILD_VERSION)
+    release: TextEditor release of v$(APPVEYOR_BUILD_VERSION)
+    description: New release of Text Editor
+    auth_token: 2d1353e0da17919b1d828c4d880b6042540ac15d
     artifact: Setup
     draft: false
     prerelease: true
