@@ -29,7 +29,8 @@ deploy:
     tag: v$(APPVEYOR_BUILD_VERSION)
     release: TextEditor release of v$(APPVEYOR_BUILD_VERSION)
     description: New release of Text Editor
-    auth_token: 2d1353e0da17919b1d828c4d880b6042540ac15d
+    auth_token: 
+      secure: dF2YDzxVNGz6ZthIejitb9kTWbGKl8otozY6oDPHg5BPY3+QY0Jq8NsaDucxa3Cc
     artifact: Setup
     draft: false
     prerelease: true
