@@ -1,5 +1,7 @@
 version: 0.0.2.{build}
 
+skip_tags: true
+
 before_build:
   - nuget restore
   - ps: |
@@ -12,8 +14,15 @@ before_build:
           Write-Host "Switch to Debug configuration"
         }}
 
+build:
+  verbosity: minimal
+
 after_build:
   - cmd: if %APPVEYOR_REPO_BRANCH% == master "C:\projects\texteditor\packages\Tools.InnoSetup.5.5.6\tools\ISCC.exe" "C:\projects\texteditor\SetupScriptRelease.iss"
+
+artifacts:
+  - path: TextEditor\bin\setup.exe
+    name: Setup
 
 deploy: 
   - provider: GitHub
