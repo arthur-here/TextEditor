@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Y:\Documents\Visual Studio 2015\Projects\TextEditor\SetupScriptDebug.iss = Y:\Documents\Visual Studio 2015\Projects\TextEditor\SetupScriptDebug.iss
 		SetupScriptRelease.iss = SetupScriptRelease.iss
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+		Y:\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor.ruleset = Y:\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor.ruleset
 	EndProjectSection
 EndProject
 Global
