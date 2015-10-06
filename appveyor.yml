@@ -2,17 +2,15 @@ version: 0.0.2.{build}
 
 before_build:
   - nuget restore
-  - ps: >-
+  - ps: |
       if($env:APPVEYOR_REPO_BRANCH -eq "master"){
         if($env:APPVEYOR_REPO_TAG){
           $env:CONFIGURATION = "Release"
           Write-Host "Switch to Release configuration"
-        }
-        else{
+        } else{
           $env:CONFIGURATION = "Debug"
           Write-Host "Switch to Debug configuration"
-        }
-     }
+        }}
 
 after_build:
   - cmd: if %APPVEYOR_REPO_BRANCH% == master "C:\projects\texteditor\packages\Tools.InnoSetup.5.5.6\tools\ISCC.exe" "C:\projects\texteditor\SetupScriptRelease.iss"
