@@ -86,5 +86,11 @@ namespace TextEditor
                 this.DragMove();
             }
         }
+
+        private void EncodingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem senderMenuItem = sender as MenuItem;
+            this.Document = this.fileManager.OpenFileUsingEncoding(this.Document.FileName, senderMenuItem.Header.ToString());
+        }
     }
 }

@@ -90,7 +90,9 @@
     <Compile Include="FileManager\TextEditorDocument.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="FileManager\TextEditorFileManager.cs" />
+    <Compile Include="FileManager\TextEditorFileManager.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="FileManager\ASCIIFileReader.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>

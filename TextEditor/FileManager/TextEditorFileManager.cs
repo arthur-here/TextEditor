@@ -18,7 +18,7 @@ namespace TextEditor.FileManager
         /// <summary>
         /// Shows OpenFileDialog.
         /// </summary>
-        /// <returns>FlowDocument with read data.</returns>
+        /// <returns>TextEditorDocument with read data.</returns>
         public TextEditorDocument OpenFile()
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -28,33 +28,37 @@ namespace TextEditor.FileManager
                 return null;
             }
 
-            FileReaderStrategy fileReader;
             string filename = ofd.FileName;
-            using (StreamReader streamReader = new StreamReader(filename))
+            FileReaderStrategy fileReader = new DefaultFileReader(filename);
+
+            return this.readWithReaderStrategy(filename, fileReader);
+        }
+
+        /// <summary>
+        /// Reads file at 'filename' using encoding 'encodingName'.
+        /// </summary>
+        /// <param name="fileName">Path to file.</param>
+        /// <param name="encodingName">Name of encoding to use.</param>
+        /// <returns>New TextEditorDocument with data from 'fileName'.</returns>
+        public TextEditorDocument OpenFileUsingEncoding(string fileName, string encodingName)
+        {
+            FileReaderStrategy fileReader;
+            switch (encodingName)
             {
-                streamReader.Peek();
-                if (streamReader.CurrentEncoding == UTF8Encoding.Default)
-                {
-                    fileReader = new UTF8FileReader(filename);
-                }
-                else if (streamReader.CurrentEncoding == ASCIIEncoding.Default)
-                {
-                    fileReader = new ASCIIFileReader(filename);
-                }
-                else
-                {
-                    fileReader = new DefaultFileReader(filename);
-                }
+                case "Auto":
+                    fileReader = new DefaultFileReader(fileName);
+                    break;
+                case "UTF8":
+                    fileReader = new UTF8FileReader(fileName);
+                    break;
+                case "ASCII":
+                    fileReader = new ASCIIFileReader(fileName);
+                    break;
+                default:
+                    throw new ArgumentException("Unknown encoding");
             }
 
-            string[] text = fileReader.Read();
-            TextEditorDocument result = new TextEditorDocument(filename);
-            foreach (string line in text)
-            {
-                result.Blocks.Add(new Paragraph(new Run(line)));
-            }
-
-            return result;
+            return this.readWithReaderStrategy(fileName, fileReader);
         }
 
         /// <summary>
@@ -111,6 +115,18 @@ namespace TextEditor.FileManager
             }
             
             return new TextEditorDocument(sfd.FileName);
+        }
+
+        private TextEditorDocument readWithReaderStrategy(string filename, FileReaderStrategy strategy)
+        {
+            string[] text = strategy.Read();
+            TextEditorDocument result = new TextEditorDocument(filename);
+            foreach (string line in text)
+            {
+                result.Blocks.Add(new Paragraph(new Run(line)));
+            }
+
+            return result;
         }
     }
 }

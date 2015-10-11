@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +20,7 @@ namespace TextEditor.FileManager
 
         public override string[] Read()
         {
-            List<string> result = new List<string>();
-            using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.FileName, UTF8Encoding.UTF8))
-            {
-                while (!streamReader.EndOfStream)
-                {
-                    result.Add(streamReader.ReadLine());
-                }
-            }
-
-            return result.ToArray();
+            return File.ReadAllLines(this.FileName, Encoding.UTF8);
         }
     }
 }

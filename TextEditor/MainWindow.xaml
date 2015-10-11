@@ -44,6 +44,16 @@
                     <MenuItem x:Name="SaveFileMenuItem" Header="Save" Background="#FF2A2F3A" Click="SaveFileMenuItem_Click"/>
                     <MenuItem x:Name="SaveAsFileMenuItem" Header="Save As..." Background="#FF2A2F3A" Click="SaveAsFileMenuItem_Click"/>
                 </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <TextBlock Text="Edit" VerticalAlignment="CENTER" HorizontalAlignment="Center"/>
+                    </MenuItem.Header>
+                    <MenuItem Header="Encoding" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145">
+                        <MenuItem Header="Auto" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
+                        <MenuItem Header="UTF8" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
+                        <MenuItem Header="ASCII" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
+                    </MenuItem>
+                </MenuItem>
             </Menu>
             <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click">
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
