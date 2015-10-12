@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Y:\Documents\Visual Studio 2015\Projects\TextEditor\SetupScriptDebug.iss = Y:\Documents\Visual Studio 2015\Projects\TextEditor\SetupScriptDebug.iss
 		SetupScriptRelease.iss = SetupScriptRelease.iss
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
-		Y:\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor.ruleset = Y:\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor.ruleset
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditorTests", "TextEditorTests\TextEditorTests.csproj", "{8BAFA5A5-0E4A-4380-9F6C-309A6C3F0598}"
