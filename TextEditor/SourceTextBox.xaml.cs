@@ -21,6 +21,8 @@ namespace TextEditor
     /// </summary>
     public partial class SourceTextBox : TextBox
     {
+        private Brush fontBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+
         private TextEditorDocument document;
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace TextEditor
 
             drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, this.ActualWidth, this.ActualHeight)));
             drawingContext.DrawRectangle(
-                new SolidColorBrush(Color.FromRgb(255, 255, 255)), 
+                new SolidColorBrush(Color.FromRgb(44, 47, 60)), 
                 new Pen(), 
                 new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
@@ -144,7 +146,7 @@ namespace TextEditor
                 FlowDirection.LeftToRight,
                 new Typeface(this.FontFamily.Source),
                 this.FontSize, 
-                new SolidColorBrush(Color.FromRgb(255, 0, 0)));
+                this.fontBrush);
 
             var topMargin = 2.0 + this.BorderThickness.Top;
 

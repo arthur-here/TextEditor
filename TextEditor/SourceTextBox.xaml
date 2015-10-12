@@ -5,5 +5,5 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TextEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto">
+             d:DesignHeight="300" d:DesignWidth="300" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" BorderThickness="0" SelectionBrush="#FFE8E8E8" CaretBrush="#FFE6E6E6">
 </TextBox>
