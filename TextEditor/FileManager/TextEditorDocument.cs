@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace TextEditor.FileManager
                 Collection<string> result = new Collection<string>();
                 foreach (Block b in this.Blocks)
                 {
-                    result.Add(b.ToString());
+                    result.Add(new TextRange(b.ContentStart, b.ContentEnd).Text);
                 }
 
                 return result;

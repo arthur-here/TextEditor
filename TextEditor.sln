@@ -8,12 +8,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F921D377-4B33-43D3-A1DA-0BF3B4942EE1}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
+		local.testsettings = local.testsettings
 		Y:\Documents\Visual Studio 2015\Projects\TextEditor\Settings.StyleCop = Y:\Documents\Visual Studio 2015\Projects\TextEditor\Settings.StyleCop
 		Y:\Documents\Visual Studio 2015\Projects\TextEditor\SetupScriptDebug.iss = Y:\Documents\Visual Studio 2015\Projects\TextEditor\SetupScriptDebug.iss
 		SetupScriptRelease.iss = SetupScriptRelease.iss
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 		Y:\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor.ruleset = Y:\Documents\Visual Studio 2015\Projects\TextEditor\TextEditor.ruleset
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditorTests", "TextEditorTests\TextEditorTests.csproj", "{8BAFA5A5-0E4A-4380-9F6C-309A6C3F0598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +28,10 @@ Global
 		{80C430F0-96A6-4CDA-B6EB-1157CF47F24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80C430F0-96A6-4CDA-B6EB-1157CF47F24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80C430F0-96A6-4CDA-B6EB-1157CF47F24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BAFA5A5-0E4A-4380-9F6C-309A6C3F0598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BAFA5A5-0E4A-4380-9F6C-309A6C3F0598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BAFA5A5-0E4A-4380-9F6C-309A6C3F0598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BAFA5A5-0E4A-4380-9F6C-309A6C3F0598}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

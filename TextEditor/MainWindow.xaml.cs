@@ -89,8 +89,24 @@ namespace TextEditor
 
         private void EncodingMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            Encoding encoding;
             MenuItem senderMenuItem = sender as MenuItem;
-            this.Document = this.fileManager.OpenFileUsingEncoding(this.Document.FileName, senderMenuItem.Header.ToString());
+            switch (senderMenuItem.Header.ToString())
+            {
+                case "Auto":
+                    encoding = Encoding.Default;
+                    break;
+                case "UTF8":
+                    encoding = Encoding.UTF8;
+                    break;
+                case "ASCII":
+                    encoding = Encoding.ASCII;
+                    break;
+                default:
+                    throw new ArgumentException("Unknown encoding");
+            }
+
+            this.Document = this.fileManager.OpenFileUsingEncoding(this.Document.FileName, encoding);
         }
     }
 }

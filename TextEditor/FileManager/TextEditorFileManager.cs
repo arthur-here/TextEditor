@@ -40,22 +40,20 @@ namespace TextEditor.FileManager
         /// <param name="fileName">Path to file.</param>
         /// <param name="encodingName">Name of encoding to use.</param>
         /// <returns>New TextEditorDocument with data from 'fileName'.</returns>
-        public TextEditorDocument OpenFileUsingEncoding(string fileName, string encodingName)
+        public TextEditorDocument OpenFileUsingEncoding(string fileName, Encoding encoding)
         {
             FileReaderStrategy fileReader;
-            switch (encodingName)
+            if (encoding == Encoding.ASCII)
             {
-                case "Auto":
-                    fileReader = new DefaultFileReader(fileName);
-                    break;
-                case "UTF8":
-                    fileReader = new UTF8FileReader(fileName);
-                    break;
-                case "ASCII":
-                    fileReader = new ASCIIFileReader(fileName);
-                    break;
-                default:
-                    throw new ArgumentException("Unknown encoding");
+                fileReader = new ASCIIFileReader(fileName);
+            }
+            else if (encoding == Encoding.UTF8)
+            {
+                fileReader = new UTF8FileReader(fileName);
+            }
+            else
+            {
+                fileReader = new DefaultFileReader(fileName);
             }
 
             return this.readWithReaderStrategy(fileName, fileReader);
