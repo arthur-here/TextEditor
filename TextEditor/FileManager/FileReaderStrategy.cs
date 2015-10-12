@@ -15,6 +15,15 @@ namespace TextEditor.FileManager
         private string fileName;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FileReaderStrategy"/> class.
+        /// </summary>
+        /// <param name="fileName">Path to read file.</param>
+        protected FileReaderStrategy(string fileName)
+        {
+            this.fileName = fileName;
+        }
+
+        /// <summary>
         /// Gets or sets the path to file.
         /// </summary>
         /// <value>The FileName property gets/sets the value of the string field, filename.</value>

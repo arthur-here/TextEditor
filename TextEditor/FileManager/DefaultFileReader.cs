@@ -17,8 +17,8 @@ namespace TextEditor.FileManager
         /// </summary>
         /// <param name="fileName">Path to read file.</param>
         public DefaultFileReader(string fileName)
+            : base(fileName)
         {
-            this.FileName = fileName;
         }
 
         /// <summary>

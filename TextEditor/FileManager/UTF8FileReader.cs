@@ -14,8 +14,8 @@ namespace TextEditor.FileManager
     public class UTF8FileReader : FileReaderStrategy
     {
         public UTF8FileReader(string fileName)
+            : base(fileName)
         {
-            this.FileName = fileName;
         }
 
         public override string[] Read()
