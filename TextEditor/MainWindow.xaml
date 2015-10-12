@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TextEditor;assembly=TextEditor"
+        xmlns:local="clr-namespace:TextEditor"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="589.5" Width="606" WindowStyle="None"
@@ -18,14 +18,6 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border x:Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1"/>
-            <RichTextBox x:Name="codeArea" Background="#FF2C2F3C" Margin="31,86,0,0" BorderThickness="0" SelectionBrush="#FFE8E8E8" Foreground="#FFEAE6E6" BorderBrush="{x:Null}" VerticalScrollBarVisibility="Auto">
-                <RichTextBox.Resources>
-                    <Style TargetType="{x:Type Paragraph}">
-                        <Setter Property="Margin" Value="0"/>
-                    </Style>
-                </RichTextBox.Resources>
-                <FlowDocument FontFamily="Consolas"/>
-            </RichTextBox>
             <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}"/>
             <Rectangle Fill="#FFE2E2E2" Height="34" VerticalAlignment="Top"/>
             <TextBlock x:Name="TitleLabel" Text="Text Editor" TextTrimming="CharacterEllipsis" FontSize="16" MouseDown="TitleLabel_MouseDown" Height="34" TextAlignment="Center" MaxHeight="34" VerticalAlignment="Top" UseLayoutRounding="False" Padding="10,5,10,0" Margin="34,0"/>
@@ -60,6 +52,7 @@
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
             </Button>
             <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Height="23" VerticalAlignment="Top"/>
+            <local:SourceTextBox x:Name="codeArea" TextWrapping="Wrap" Text="SourceTextBox" Margin="31,87,0,0"/>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Grid.OpacityMask>
