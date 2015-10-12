@@ -28,6 +28,8 @@ namespace TextEditor
         /// </summary>
         public SourceTextBox()
         {
+            this.AcceptsReturn = true;
+
             this.InitializeComponent();
         }
 
@@ -50,7 +52,117 @@ namespace TextEditor
 
                 this.document = value;
                 this.Text = string.Join("\n", this.document.Lines);
+                this.InvalidateVisual();
             }
+        }
+
+        /// <summary>
+        /// Handles text changing.
+        /// </summary>
+        /// <param name="e">Event arguments.</param>
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+            this.InvalidateVisual();
+        }
+
+        /// <summary>
+        /// Handles KeyDown.
+        /// </summary>
+        /// <param name="e">Key event arguments.</param>
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+
+            if (e.Key == System.Windows.Input.Key.Return)
+            {
+                int index = this.CaretIndex;
+                int lastLine = this.Text.LastIndexOf(Environment.NewLine, index, StringComparison.CurrentCulture);
+                int spaces = 0;
+
+                if (lastLine != -1)
+                {
+                    string line = this.Text.Substring(lastLine, this.Text.Length - lastLine);
+
+                    int startLine = line.IndexOf(Environment.NewLine, StringComparison.CurrentCulture);
+
+                    if (startLine != -1)
+                    {
+                        line = line.Substring(startLine).TrimStart('\r', '\n');
+                    }
+
+                    foreach (char c in line)
+                    {
+                        if (c == ' ')
+                        {
+                            spaces++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.Text = this.Text.Insert(index, Environment.NewLine + new string(' ', spaces));
+                this.CaretIndex = index + Environment.NewLine.Length + spaces;
+
+                e.Handled = true;
+            }
+
+            base.OnPreviewKeyDown(e);
+        }
+
+        /// <summary>
+        /// Called when <see cref="SourceTextBox"/> is rendered.
+        /// </summary>
+        /// <param name="drawingContext"><see cref="DrawingContext"/> on which content is rendered.</param>
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            if (drawingContext == null)
+            {
+                return;
+            }
+
+            drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, this.ActualWidth, this.ActualHeight)));
+            drawingContext.DrawRectangle(
+                new SolidColorBrush(Color.FromRgb(255, 255, 255)), 
+                new Pen(), 
+                new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+
+            if (this.Text == null)
+            {
+                return;
+            }
+
+            FormattedText ft = new FormattedText(
+                this.Text,
+                System.Globalization.CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(this.FontFamily.Source),
+                this.FontSize, 
+                new SolidColorBrush(Color.FromRgb(255, 0, 0)));
+
+            var topMargin = 2.0 + this.BorderThickness.Top;
+
+            ft.MaxTextWidth = this.ActualWidth - 10;
+            ft.Trimming = TextTrimming.None;
+            double leftBorder = GetRectFromCharacterIndex(0).Left;
+            double leftTextBorder = double.PositiveInfinity;
+            if (!double.IsInfinity(leftBorder))
+            {
+                leftTextBorder = leftBorder;
+                Console.WriteLine(leftBorder);
+            }
+            else
+            {
+                leftTextBorder = 5;
+            }
+
+            drawingContext.DrawText(ft, new Point(leftTextBorder - this.HorizontalOffset, topMargin - this.VerticalOffset));
         }
     }
 }

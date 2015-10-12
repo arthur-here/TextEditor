@@ -52,7 +52,7 @@
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
             </Button>
             <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Height="23" VerticalAlignment="Top"/>
-            <local:SourceTextBox x:Name="codeArea" TextWrapping="Wrap" Text="SourceTextBox" Margin="31,87,0,0"/>
+            <local:SourceTextBox x:Name="codeArea" Text="SourceTextBox" Margin="31,87,0,0" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Grid.OpacityMask>
