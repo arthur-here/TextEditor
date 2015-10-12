@@ -97,6 +97,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="FileManager\DefaultFileReader.cs" />
+    <Compile Include="FileManager\UnicodeFileReader.cs" />
     <Compile Include="FileManager\UTF8FileReader.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>

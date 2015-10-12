@@ -21,6 +21,10 @@ namespace TextEditor.FileManager
         {
         }
 
+        /// <summary>
+        /// Reads data from file.
+        /// </summary>
+        /// <returns>Array of read strings.</returns>
         public override string[] Read()
         {
             return File.ReadAllLines(this.FileName, Encoding.ASCII);

@@ -38,6 +38,12 @@ namespace TextEditorTests
         {
             this.document = this.fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Default);
             Assert.IsNotNull(this.document, "FileManager couldn't open document");
+            this.document = this.fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.ASCII);
+            Assert.IsNotNull(this.document, "FileManager couldn't open document");
+            this.document = this.fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Unicode);
+            Assert.IsNotNull(this.document, "FileManager couldn't open document");
+            this.document = this.fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.UTF8);
+            Assert.IsNotNull(this.document, "FileManager couldn't open document");
         }
 
         [TestMethod]

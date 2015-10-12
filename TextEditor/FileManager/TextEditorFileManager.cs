@@ -51,6 +51,10 @@ namespace TextEditor.FileManager
             {
                 fileReader = new UTF8FileReader(fileName);
             }
+            else if (encoding == Encoding.Unicode)
+            {
+                fileReader = new UnicodeFileReader(fileName);
+            }
             else
             {
                 fileReader = new DefaultFileReader(fileName);

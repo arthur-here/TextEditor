@@ -50,8 +50,9 @@
                     </MenuItem.Header>
                     <MenuItem Header="Encoding" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145">
                         <MenuItem Header="Auto" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
-                        <MenuItem Header="UTF8" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
                         <MenuItem Header="ASCII" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
+                        <MenuItem Header="Unicode" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
+                        <MenuItem Header="UTF8" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
                     </MenuItem>
                 </MenuItem>
             </Menu>

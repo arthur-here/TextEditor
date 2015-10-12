@@ -102,6 +102,9 @@ namespace TextEditor
                 case "ASCII":
                     encoding = Encoding.ASCII;
                     break;
+                case "Unicode":
+                    encoding = Encoding.Unicode;
+                    break;
                 default:
                     throw new ArgumentException("Unknown encoding");
             }
