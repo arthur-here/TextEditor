@@ -24,6 +24,9 @@ artifacts:
   - path: TextEditor\bin\setup.exe
     name: Setup
 
+cache:
+  - packages -> **\packages.config
+
 deploy: 
   - provider: GitHub
     tag: v$(APPVEYOR_BUILD_VERSION)
