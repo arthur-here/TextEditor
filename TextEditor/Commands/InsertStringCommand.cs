@@ -9,24 +9,44 @@ using TextEditor.FileManager;
 
 namespace TextEditor.Commands
 {
-    class InsertStringCommand : ICommand
+    /// <summary>
+    /// Provides command to insert text into document at specified position.
+    /// </summary>
+    public class InsertStringCommand : ICommand
     {
         private TextEditorDocument document;
         private int line;
         private int position;
+        private string text;
 
-        public InsertStringCommand(TextEditorDocument document, int line, int position)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InsertStringCommand"/> class.
+        /// </summary>
+        /// <param name="text">Text to insert.</param>
+        /// <param name="document">Document insert to.</param>
+        /// <param name="line">Line number.</param>
+        /// <param name="position">Index in line.</param>
+        public InsertStringCommand(string text, TextEditorDocument document, int line, int position)
         {
+            this.text = text;
             this.document = document;
             this.line = line;
             this.position = position;
         }
 
+        /// <summary>
+        /// Executes command.
+        /// </summary>
         public void Execute()
         {
-            Paragraph paragraph = document.Blocks.ElementAt(line) as Paragraph;
+            Paragraph paragraph = this.document.Blocks.ElementAt(this.line) as Paragraph;
+            TextRange textRange = new TextRange(paragraph.ContentStart, paragraph.ContentEnd);
+            textRange.Text = textRange.Text.Insert(this.position, this.text); 
         }
 
+        /// <summary>
+        /// Undo command.
+        /// </summary>
         public void Undo()
         {
             throw new NotImplementedException();
