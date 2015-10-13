@@ -57,7 +57,7 @@ namespace TextEditor
                 this.InvalidateVisual();
             }
         }
-
+ 
         /// <summary>
         /// Handles text changing.
         /// </summary>
@@ -147,24 +147,59 @@ namespace TextEditor
                 new Typeface(this.FontFamily.Source),
                 this.FontSize, 
                 this.fontBrush);
-
+            
             var topMargin = 2.0 + this.BorderThickness.Top;
 
             ft.MaxTextWidth = this.ActualWidth - 10;
+            ScrollViewer scrollview = this.FindVisualChild<ScrollViewer>(this);
+            Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;
+            if (verticalVisibility == Visibility.Visible)
+            {
+                ft.MaxTextWidth -= SystemParameters.VerticalScrollBarWidth;
+            }
+
             ft.Trimming = TextTrimming.None;
             double leftBorder = GetRectFromCharacterIndex(0).Left;
             double leftTextBorder = double.PositiveInfinity;
             if (!double.IsInfinity(leftBorder))
             {
                 leftTextBorder = leftBorder;
-                Console.WriteLine(leftBorder);
+                Console.WriteLine(leftTextBorder);
             }
             else
             {
-                leftTextBorder = 5;
+                leftTextBorder = 3;
             }
 
             drawingContext.DrawText(ft, new Point(leftTextBorder - this.HorizontalOffset, topMargin - this.VerticalOffset));
+        }
+
+        private void TextBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            this.InvalidateVisual();
+        }
+
+        private T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        return (T)child;
+                    }
+
+                    T childItem = this.FindVisualChild<T>(child);
+                    if (childItem != null)
+                    {
+                        return childItem;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

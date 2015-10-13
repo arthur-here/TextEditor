@@ -4,6 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TextEditor"
+             xmlns:a="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" BorderThickness="0" SelectionBrush="#FFE8E8E8" CaretBrush="#FFE6E6E6">
+             d:DesignHeight="300" d:DesignWidth="300" 
+         Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" 
+         HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" 
+         BorderThickness="0" SelectionBrush="#FFE8E8E8" CaretBrush="#FFE6E6E6" 
+         ScrollViewer.ScrollChanged="TextBox_ScrollChanged">
+    <!--<TextBox.Template>
+        <ControlTemplate TargetType="TextBox">
+            <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" 
+                  Name="Bd" SnapsToDevicePixels="True" >
+                <Grid Background="Transparent">
+                    <ScrollViewer Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Grid.Column="1" />
+                    <Canvas Background="Transparent" IsHitTestVisible="True">
+                    </Canvas>
+                </Grid>
+            </Border >
+            <ControlTemplate.Triggers>
+                <Trigger Property="UIElement.IsEnabled">
+                    <Setter Property="Panel.Background" TargetName="Bd">
+                        <Setter.Value>
+                            <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="TextElement.Foreground">
+                        <Setter.Value>
+                            <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                        </Setter.Value>
+                    </Setter>
+                    <Trigger.Value>
+                        <a:Boolean>False</a:Boolean>
+                    </Trigger.Value>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </TextBox.Template>-->
 </TextBox>
