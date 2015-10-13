@@ -12,7 +12,7 @@ namespace TextEditor.FileManager
     /// <summary>
     /// Represents a TextEditor Document.
     /// </summary>
-    public class TextEditorDocument : FlowDocument
+    public class TextEditorDocument
     {
         private string fileName;
 
@@ -24,7 +24,6 @@ namespace TextEditor.FileManager
             : base()
         {
             this.FileName = fileName;
-            this.setupUI();
         }
 
         /// <summary>
@@ -39,32 +38,18 @@ namespace TextEditor.FileManager
         /// <summary>
         /// Gets array of document's lines.
         /// </summary>
-        public Collection<string> Lines
+        public List<string> Lines
         {
             get
             {
-                Collection<string> result = new Collection<string>();
-                foreach (Block b in this.Blocks)
-                {
-                    result.Add(new TextRange(b.ContentStart, b.ContentEnd).Text);
-                }
-
-                return result;
+                return lines;
+            }
+            set
+            {
+                lines = value;
             }
         }
 
-        /// <summary>
-        /// Gets amount of lines in document.
-        /// </summary>
-        public int LinesCount
-        {
-            get { return this.Blocks.Count; }
-        }
-
-        private void setupUI()
-        {
-            this.FontFamily = new System.Windows.Media.FontFamily("Consolas");
-            this.FontSize = 12.0;
-        }
+        private List<string> lines = new List<string>();
     }
 }

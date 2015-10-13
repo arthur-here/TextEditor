@@ -39,9 +39,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Execute()
         {
-            Paragraph paragraph = this.document.Blocks.ElementAt(this.line) as Paragraph;
-            TextRange textRange = new TextRange(paragraph.ContentStart, paragraph.ContentEnd);
-            textRange.Text = textRange.Text.Insert(this.position, this.text); 
+            string paragraph = this.document.Lines.ElementAt(this.line);
+            paragraph = paragraph.Insert(this.position, this.text);
         }
 
         /// <summary>

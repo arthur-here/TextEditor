@@ -74,11 +74,7 @@ namespace TextEditor.FileManager
                 throw new ArgumentNullException("document");
             }
 
-            using (FileStream sw = new FileStream(document.FileName, FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
-                range.Save(sw, DataFormats.Text);
-            }
+            File.WriteAllLines(document.FileName, document.Lines);
         }
 
         /// <summary>
@@ -125,7 +121,7 @@ namespace TextEditor.FileManager
             TextEditorDocument result = new TextEditorDocument(filename);
             foreach (string line in text)
             {
-                result.Blocks.Add(new Paragraph(new Run(line)));
+                result.Lines.Add(line);
             }
 
             return result;

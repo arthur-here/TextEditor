@@ -23,12 +23,12 @@ namespace TextEditorTests
             document = new TextEditorDocument("DocumentExample.txt");
 
             Assert.IsNotNull(document, "Document wasn't created");
-            document.Blocks.Add(new Paragraph(new Run("hello")));
-            document.Blocks.Add(new Paragraph(new Run("world")));
-            Assert.IsTrue(document.LinesCount == 2, "Couldn't add lines to document");
+            document.Lines.Add("hello");
+            document.Lines.Add("world");
+            Assert.IsTrue(document.Lines.Count == 2, "Couldn't add lines to document");
             Assert.AreEqual(document.Lines[0], "hello", "Lines aren't added in right order");
-            document.Blocks.Clear();
-            Assert.IsTrue(document.LinesCount == 0, "Couldn't clear document's lines");
+            document.Lines.Clear();
+            Assert.IsTrue(document.Lines.Count == 0, "Couldn't clear document's lines");
         }
 
         [TestMethod]
@@ -51,11 +51,11 @@ namespace TextEditorTests
         {
             document = fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Default);
             Assert.IsNotNull(this.document, "FileManager couldn't open document");
-            document.Blocks.Add(new Paragraph(new Run("Hello")));
+            document.Lines.Add("Hello");
             fileManager.SaveDocument(document);
             document = fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Default);
-            Assert.IsTrue(document.Lines[document.LinesCount - 1] == "Hello", "Changes to document haven't been saved by FileManager");
-            document.Blocks.Remove(document.Blocks.LastBlock);
+            Assert.IsTrue(document.Lines[document.Lines.Count - 1] == "Hello", "Changes to document haven't been saved by FileManager");
+            document.Lines.RemoveAt(document.Lines.Count - 1);
             fileManager.SaveDocument(document);
         }
     }

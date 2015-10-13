@@ -66,6 +66,19 @@ namespace TextEditor
         {
             base.OnTextChanged(e);
             this.InvalidateVisual();
+            if (this.Document != null)
+            {
+                this.Document.Lines = this.Text.Split('\n').ToList();
+                for (int lineIndex = 0; lineIndex < this.Document.Lines.Count; lineIndex++)
+                {
+                    string line = this.Document.Lines.ElementAt(lineIndex);
+                    int index = line.IndexOf('\r');
+                    if (index != -1)
+                    {
+                        line = line.Remove(index);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -150,7 +163,7 @@ namespace TextEditor
             
             var topMargin = 2.0 + this.BorderThickness.Top;
 
-            ft.MaxTextWidth = this.ActualWidth - 10;
+            ft.MaxTextWidth = this.ActualWidth - 6;
             ScrollViewer scrollview = this.FindVisualChild<ScrollViewer>(this);
             Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;
             if (verticalVisibility == Visibility.Visible)
@@ -164,7 +177,6 @@ namespace TextEditor
             if (!double.IsInfinity(leftBorder))
             {
                 leftTextBorder = leftBorder;
-                Console.WriteLine(leftTextBorder);
             }
             else
             {
