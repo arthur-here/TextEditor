@@ -93,6 +93,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Commands\InsertStringCommand.cs" />
+    <Compile Include="Commands\RemoveStringCommand.cs" />
     <Compile Include="TextEditorDocument.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>

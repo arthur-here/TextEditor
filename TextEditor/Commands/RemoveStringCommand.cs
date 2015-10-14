@@ -1,57 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
-using TextEditor.FileManager;
 
 namespace TextEditor.Commands
 {
     /// <summary>
-    /// Provides command to insert text into document at specified position.
+    /// Provides command to remove string from document at specified position.
     /// </summary>
-    public class InsertStringCommand : ICommand
+    public class RemoveStringCommand : ICommand
     {
         private TextEditorDocument document;
         private int line;
         private int position;
-        private string text;
+        private int length;
+        private string removedString;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InsertStringCommand"/> class.
+        /// Initializes a new instance of the <see cref="RemoveStringCommand"/> class.
         /// </summary>
-        /// <param name="text">Text to insert.</param>
         /// <param name="document">Document insert to.</param>
         /// <param name="line">Line number.</param>
         /// <param name="position">Index in line.</param>
-        public InsertStringCommand(string text, TextEditorDocument document, int line, int position)
+        /// <param name="length">Count of chars to delete.</param>
+        public RemoveStringCommand(TextEditorDocument document, int line, int position, int length)
         {
-            this.text = text;
             this.document = document;
             this.line = line;
             this.position = position;
+            this.length = length;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InsertStringCommand"/> class.
+        /// Initializes a new instance of the <see cref="RemoveStringCommand"/> class.
         /// </summary>
-        /// <param name="text">Text to insert.</param>
         /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
-        public InsertStringCommand(string text, TextEditorDocument document, int caretIndex)
+        /// <param name="length">Count of chars to delete.</param>
+        public RemoveStringCommand(TextEditorDocument document, int caretIndex, int length)
         {
             if (document == null)
             {
                 throw new ArgumentException("document shouldn't be null");
             }
 
-            this.text = text;
             this.document = document;
             this.line = this.document.LineNumberByIndex(caretIndex);
             this.position = this.document.CaretPositionInLineByIndex(caretIndex);
+            this.length = length;
         }
 
         /// <summary>
@@ -60,7 +57,13 @@ namespace TextEditor.Commands
         public void Execute()
         {
             string paragraph = this.document.Lines[this.line];
-            this.document.Lines[this.line] = paragraph.Insert(this.position, this.text);
+            if (this.position + this.length > paragraph.Length)
+            {
+                return;
+            }
+
+            this.removedString = paragraph.Substring(this.position, this.length);
+            this.document.Lines[this.line] = paragraph.Remove(this.position, this.length);
         }
 
         /// <summary>
@@ -68,8 +71,13 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
+            if (this.removedString == null)
+            {
+                return;
+            }
+
             string paragraph = this.document.Lines.ElementAt(this.line);
-            this.document.Lines[this.line] = paragraph.Remove(this.position, this.text.Length);
+            this.document.Lines[this.line] = paragraph.Insert(this.position, this.removedString);
         }
     }
 }

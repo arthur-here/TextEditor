@@ -74,15 +74,32 @@ namespace TextEditor
             }
 
             char pressedChar = e.Key.GetChar();
-            if (!char.IsControl(pressedChar) && !pressedChar.Equals(' '))
+
+            // CTRL + Z
+            if (e.Key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                this.lastCarretIndex = this.CaretIndex + 1;
-                InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.document, this.CaretIndex);
-                this.commandManager.AddCommand(insertCommand);
+                this.commandManager.Undo();
+                this.UpdateUi();
+                e.Handled = true;
+            }
+
+            // Backspace
+            else if (e.Key == Key.Back)
+            {
+                if (this.CaretIndex == 0)
+                {
+                    return;
+                }
+
+                this.lastCarretIndex = this.CaretIndex - 1;
+                RemoveStringCommand removeCommand = new RemoveStringCommand(this.document, this.CaretIndex - 1, 1);
+                this.commandManager.AddCommand(removeCommand);
                 this.commandManager.Run();
                 this.UpdateUi();
                 e.Handled = true;
             }
+
+            // Enter
             else if (e.Key == System.Windows.Input.Key.Return)
             {
                 int index = this.CaretIndex;
@@ -116,6 +133,15 @@ namespace TextEditor
                 this.Text = this.Text.Insert(index, Environment.NewLine + new string(' ', spaces));
                 this.CaretIndex = index + Environment.NewLine.Length + spaces;
 
+                e.Handled = true;
+            }
+            else if (!char.IsControl(pressedChar) && !pressedChar.Equals(' '))
+            {
+                this.lastCarretIndex = this.CaretIndex + 1;
+                InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.document, this.CaretIndex);
+                this.commandManager.AddCommand(insertCommand);
+                this.commandManager.Run();
+                this.UpdateUi();
                 e.Handled = true;
             }
 
