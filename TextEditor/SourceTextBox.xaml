@@ -10,7 +10,7 @@
          Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" 
          HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" 
          BorderThickness="0" SelectionBrush="#FFE8E8E8" CaretBrush="#FFE6E6E6" 
-         ScrollViewer.ScrollChanged="TextBox_ScrollChanged">
+         ScrollViewer.ScrollChanged="TextBox_ScrollChanged" FontFamily="Consolas">
     <!--<TextBox.Template>
         <ControlTemplate TargetType="TextBox">
             <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" 
