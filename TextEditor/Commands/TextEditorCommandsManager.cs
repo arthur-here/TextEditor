@@ -11,9 +11,9 @@ namespace TextEditor.Commands
     /// </summary>
     public class TextEditorCommandManager
     {
-        private Queue<ICommand> commandsQueue = new Queue<ICommand>();
+        private List<ICommand> commandsQueue = new List<ICommand>();
 
-        private int lastExecutedCommandIndex = 0;
+        private int lastExecutedCommandIndex = -1;
 
         /// <summary>
         /// Adds new command to command queue.
@@ -21,7 +21,9 @@ namespace TextEditor.Commands
         /// <param name="command">Command to add to queue.</param>
         public void AddCommand(ICommand command)
         {
-            this.commandsQueue.Enqueue(command);
+            int unusedCommandCount = this.commandsQueue.Count - (this.lastExecutedCommandIndex + 1);
+            this.commandsQueue.RemoveRange(this.lastExecutedCommandIndex + 1, unusedCommandCount);
+            this.commandsQueue.Add(command);
         }
 
         /// <summary>
@@ -29,12 +31,12 @@ namespace TextEditor.Commands
         /// </summary>
         public void Run()
         {
-            for (int index = this.lastExecutedCommandIndex; index < this.commandsQueue.Count; index++)
+            for (int index = this.lastExecutedCommandIndex + 1; index < this.commandsQueue.Count; index++)
             {
                 this.commandsQueue.ElementAt(index).Execute();
             }
 
-            this.lastExecutedCommandIndex = this.commandsQueue.Count;
+            this.lastExecutedCommandIndex = this.commandsQueue.Count - 1;
         }
 
         /// <summary>
@@ -42,12 +44,12 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            if (this.lastExecutedCommandIndex == 0)
+            if (this.lastExecutedCommandIndex == -1)
             {
                 return;
             }
 
-            this.commandsQueue.Last().Undo();
+            this.commandsQueue[this.lastExecutedCommandIndex].Undo();
             this.lastExecutedCommandIndex--;
         }
     }

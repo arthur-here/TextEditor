@@ -16,6 +16,7 @@ namespace TextEditor.Commands
         private int position;
         private int length;
         private string removedString;
+        private bool isLineRemoved = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveStringCommand"/> class.
@@ -42,7 +43,7 @@ namespace TextEditor.Commands
         {
             if (document == null)
             {
-                throw new ArgumentException("document shouldn't be null");
+                throw new ArgumentException("Document shouldn't be null");
             }
 
             this.document = document;
@@ -59,6 +60,12 @@ namespace TextEditor.Commands
             string paragraph = this.document.Lines[this.line];
             if (this.position + this.length > paragraph.Length)
             {
+                if (this.line + 1 < this.document.Lines.Count)
+                {
+                    this.isLineRemoved = true;
+                    this.document.Lines.RemoveAt(this.line + 1);
+                }
+
                 return;
             }
 
@@ -73,6 +80,11 @@ namespace TextEditor.Commands
         {
             if (this.removedString == null)
             {
+                if (this.isLineRemoved)
+                {
+                    this.document.Lines.Insert(this.line + 1, string.Empty);
+                }
+
                 return;
             }
 
