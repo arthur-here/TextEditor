@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TextEditor.Commands;
 using TextEditor.FileManager;
+using TextEditor.Utilities;
 
 namespace TextEditor
 {
@@ -24,6 +27,8 @@ namespace TextEditor
         private Brush fontBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
 
         private TextEditorDocument document;
+        private TextEditorCommandManager commandManager = new TextEditorCommandManager();
+        private int lastCarretIndex = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceTextBox"/> class.
@@ -53,31 +58,7 @@ namespace TextEditor
                 }
 
                 this.document = value;
-                this.Text = string.Join("\n", this.document.Lines);
-                this.InvalidateVisual();
-            }
-        }
- 
-        /// <summary>
-        /// Handles text changing.
-        /// </summary>
-        /// <param name="e">Event arguments.</param>
-        protected override void OnTextChanged(TextChangedEventArgs e)
-        {
-            base.OnTextChanged(e);
-            this.InvalidateVisual();
-            if (this.Document != null)
-            {
-                this.Document.Lines = this.Text.Split('\n').ToList();
-                for (int lineIndex = 0; lineIndex < this.Document.Lines.Count; lineIndex++)
-                {
-                    string line = this.Document.Lines.ElementAt(lineIndex);
-                    int index = line.IndexOf('\r');
-                    if (index != -1)
-                    {
-                        line = line.Remove(index);
-                    }
-                }
+                this.UpdateUi();
             }
         }
 
@@ -92,15 +73,25 @@ namespace TextEditor
                 return;
             }
 
-            if (e.Key == System.Windows.Input.Key.Return)
+            char pressedChar = e.Key.GetChar();
+            if (!char.IsControl(pressedChar) && !pressedChar.Equals(' '))
+            {
+                this.lastCarretIndex = this.CaretIndex + 1;
+                InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.document, this.CaretIndex);
+                this.commandManager.AddCommand(insertCommand);
+                this.commandManager.Run();
+                this.UpdateUi();
+                e.Handled = true;
+            }
+            else if (e.Key == System.Windows.Input.Key.Return)
             {
                 int index = this.CaretIndex;
-                int lastLine = this.Text.LastIndexOf(Environment.NewLine, index, StringComparison.CurrentCulture);
+                int lastLine = this.document.Text.LastIndexOf(Environment.NewLine, index, StringComparison.CurrentCulture);
                 int spaces = 0;
 
                 if (lastLine != -1)
                 {
-                    string line = this.Text.Substring(lastLine, this.Text.Length - lastLine);
+                    string line = this.document.Text.Substring(lastLine, this.document.Text.Length - lastLine);
 
                     int startLine = line.IndexOf(Environment.NewLine, StringComparison.CurrentCulture);
 
@@ -148,13 +139,13 @@ namespace TextEditor
                 new Pen(), 
                 new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
-            if (this.Text == null)
+            if (this.document == null || this.document.Text.Length == 0)
             {
                 return;
             }
 
             FormattedText ft = new FormattedText(
-                this.Text,
+                this.document.Text,
                 System.Globalization.CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 new Typeface(this.FontFamily.Source),
@@ -162,9 +153,8 @@ namespace TextEditor
                 this.fontBrush);
             
             var topMargin = 2.0 + this.BorderThickness.Top;
-
             ft.MaxTextWidth = this.ActualWidth - 6;
-            ScrollViewer scrollview = this.FindVisualChild<ScrollViewer>(this);
+            ScrollViewer scrollview = this.FindVisualChild<ScrollViewer>();
             Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;
             if (verticalVisibility == Visibility.Visible)
             {
@@ -191,27 +181,15 @@ namespace TextEditor
             this.InvalidateVisual();
         }
 
-        private T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
+        private void UpdateUi()
         {
-            if (depObj != null)
+            if (this.document != null)
             {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
-                    {
-                        return (T)child;
-                    }
-
-                    T childItem = this.FindVisualChild<T>(child);
-                    if (childItem != null)
-                    {
-                        return childItem;
-                    }
-                }
+                this.Text = this.document.Text;
+                this.CaretIndex = this.lastCarretIndex;
             }
 
-            return null;
+            this.InvalidateVisual();
         }
     }
 }

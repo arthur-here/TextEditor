@@ -2,6 +2,7 @@
 using TextEditor.FileManager;
 using System.Windows.Documents;
 using System.Text;
+using TextEditor;
 
 namespace TextEditorTests
 {
@@ -15,20 +16,6 @@ namespace TextEditorTests
         public void SetUp()
         {
             fileManager = new TextEditorFileManager();
-        }
-
-        [TestMethod]
-        public void TextEditorDocument_Lines()
-        {
-            document = new TextEditorDocument("DocumentExample.txt");
-
-            Assert.IsNotNull(document, "Document wasn't created");
-            document.Lines.Add("hello");
-            document.Lines.Add("world");
-            Assert.IsTrue(document.Lines.Count == 2, "Couldn't add lines to document");
-            Assert.AreEqual(document.Lines[0], "hello", "Lines aren't added in right order");
-            document.Lines.Clear();
-            Assert.IsTrue(document.Lines.Count == 0, "Couldn't clear document's lines");
         }
 
         [TestMethod]

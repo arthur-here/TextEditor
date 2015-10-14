@@ -88,26 +88,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandsManager.cs" />
     <Compile Include="Commands\ICommand.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Commands\InsertStringCommand.cs" />
-    <Compile Include="FileManager\TextEditorDocument.cs">
+    <Compile Include="TextEditorDocument.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="FileManager\TextEditorFileManager.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="FileManager\ASCIIFileReader.cs">
+    <Compile Include="FileManager\FileReaderStrategy\ASCIIFileReader.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="FileManager\DefaultFileReader.cs" />
-    <Compile Include="FileManager\UnicodeFileReader.cs" />
-    <Compile Include="FileManager\UTF8FileReader.cs">
+    <Compile Include="FileManager\FileReaderStrategy\DefaultFileReader.cs" />
+    <Compile Include="FileManager\FileReaderStrategy\UnicodeFileReader.cs" />
+    <Compile Include="FileManager\FileReaderStrategy\UTF8FileReader.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="SourceTextBox.xaml.cs">
       <DependentUpon>SourceTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\ExtensionMethods.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

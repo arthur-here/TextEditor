@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,12 +36,31 @@ namespace TextEditor.Commands
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="InsertStringCommand"/> class.
+        /// </summary>
+        /// <param name="text">Text to insert.</param>
+        /// <param name="document">Document insert to.</param>
+        /// <param name="caretIndex">Index of caret in document.</param>
+        public InsertStringCommand(string text, TextEditorDocument document, int caretIndex)
+        {
+            if (document == null)
+            {
+                throw new ArgumentException("document shouldn't be null");
+            }
+
+            this.text = text;
+            this.document = document;
+            this.line = this.document.LineNumberByIndex(caretIndex);
+            this.position = this.document.CaretPositionInLineByIndex(caretIndex);
+        }
+
+        /// <summary>
         /// Executes command.
         /// </summary>
         public void Execute()
         {
-            string paragraph = this.document.Lines.ElementAt(this.line);
-            paragraph = paragraph.Insert(this.position, this.text);
+            string paragraph = this.document.Lines[this.line];
+            this.document.Lines[this.line] = paragraph.Insert(this.position, this.text);
         }
 
         /// <summary>
@@ -48,7 +68,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            throw new NotImplementedException();
+            string paragraph = this.document.Lines.ElementAt(this.line);
+            paragraph = paragraph.Remove(this.position, this.text.Length);
         }
     }
 }

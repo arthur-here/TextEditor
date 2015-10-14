@@ -74,7 +74,7 @@
     <Rule Id="CA1057" Action="Error" />
     <Rule Id="CA1058" Action="Error" />
     <Rule Id="CA1059" Action="Error" />
-    <Rule Id="CA1060" Action="Error" />
+    <Rule Id="CA1060" Action="None" />
     <Rule Id="CA1061" Action="Error" />
     <Rule Id="CA1062" Action="Error" />
     <Rule Id="CA1063" Action="Error" />
@@ -600,7 +600,6 @@
     <Rule Id="CA2213" Action="Error" />
   </Rules>
   <Rules AnalyzerId="System.Runtime.InteropServices.Analyzers" RuleNamespace="System.Runtime.InteropServices.Analyzers">
-    <Rule Id="CA1060" Action="Error" />
     <Rule Id="CA1401" Action="Error" />
     <Rule Id="CA2101" Action="Error" />
   </Rules>
