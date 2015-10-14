@@ -102,11 +102,37 @@ namespace TextEditor
             // Enter
             else if (e.Key == System.Windows.Input.Key.Return)
             {
-                NewLineCommand newLineCommand = new NewLineCommand(this.document, this.CaretIndex);
-                this.lastCarretIndex += 1;
-                this.commandManager.AddCommand(newLineCommand);
-                this.commandManager.Run();
-                this.UpdateUi();
+                int index = this.CaretIndex;
+                int lastLine = this.document.Text.LastIndexOf(Environment.NewLine, index, StringComparison.CurrentCulture);
+                int spaces = 0;
+
+                if (lastLine != -1)
+                {
+                    string line = this.document.Text.Substring(lastLine, this.document.Text.Length - lastLine);
+
+                    int startLine = line.IndexOf(Environment.NewLine, StringComparison.CurrentCulture);
+
+                    if (startLine != -1)
+                    {
+                        line = line.Substring(startLine).TrimStart('\r', '\n');
+                    }
+
+                    foreach (char c in line)
+                    {
+                        if (c == ' ')
+                        {
+                            spaces++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.Text = this.Text.Insert(index, Environment.NewLine + new string(' ', spaces));
+                this.CaretIndex = index + Environment.NewLine.Length + spaces;
+
                 e.Handled = true;
             }
             else if (!char.IsControl(pressedChar) && !pressedChar.Equals(' '))
