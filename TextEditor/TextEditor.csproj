@@ -88,6 +88,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\NewLineCommand.cs" />
     <Compile Include="Commands\TextEditorCommandsManager.cs" />
     <Compile Include="Commands\ICommand.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
