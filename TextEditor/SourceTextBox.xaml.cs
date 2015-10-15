@@ -78,6 +78,7 @@ namespace TextEditor
             // CTRL + Z
             if (e.Key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control)
             {
+                this.lastCarretIndex = this.CaretIndex - this.document.CaretPositionInLineByIndex(this.CaretIndex);
                 this.commandManager.Undo();
                 this.UpdateUi();
                 e.Handled = true;
@@ -86,21 +87,33 @@ namespace TextEditor
             // Backspace
             else if (e.Key == Key.Back)
             {
-                if (this.CaretIndex == 0)
+                if (this.SelectionLength > 0)
                 {
-                    return;
+                    this.lastCarretIndex = this.SelectionStart;
+                    RemoveStringCommand removeSelectionCommand = new RemoveStringCommand(this.document, 
+                        this.SelectionStart, 
+                        this.SelectionLength);
+                    this.commandManager.AddCommand(removeSelectionCommand);
+                }
+                else
+                {
+                    if (this.CaretIndex == 0)
+                    {
+                        return;
+                    }
+
+                    this.lastCarretIndex = this.CaretIndex - 1;
+                    RemoveStringCommand removeCommand = new RemoveStringCommand(this.document, this.CaretIndex - 1, 1);
+                    this.commandManager.AddCommand(removeCommand);
                 }
 
-                this.lastCarretIndex = this.CaretIndex - 1;
-                RemoveStringCommand removeCommand = new RemoveStringCommand(this.document, this.CaretIndex - 1, 1);
-                this.commandManager.AddCommand(removeCommand);
                 this.commandManager.Run();
                 this.UpdateUi();
                 e.Handled = true;
             }
 
             // Enter
-            else if (e.Key == System.Windows.Input.Key.Return)
+            else if (e.Key == Key.Return)
             {
                 NewLineCommand newLineCommand = new NewLineCommand(this.document, this.CaretIndex);
                 this.lastCarretIndex = this.CaretIndex + 1;
