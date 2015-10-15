@@ -29,31 +29,44 @@ namespace TextEditorTests
             InsertStringCommand command = new InsertStringCommand("a", this.document, 0);
             command.Execute();
             Assert.AreEqual("ahello", this.document.Lines[0]);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new InsertStringCommand("a", this.document, 5);
+            command.Execute();
+            Assert.AreEqual("helloa", this.document.Lines[0]);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
             command = new InsertStringCommand("a", this.document, 6);
             command.Execute();
-            Assert.AreEqual("ahelloa", this.document.Lines[0]);
-            command = new InsertStringCommand("a", this.document, 7);
-            command.Execute();
-            Assert.AreEqual("ahelloaa", this.document.Lines[0]);
-            command = new InsertStringCommand("a", this.document, 9);
-            command.Execute();
             Assert.AreEqual("aworld", this.document.Lines[1]);
-            command = new InsertStringCommand("a", this.document, 15);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new InsertStringCommand("a", this.document, 11);
             command.Execute();
-            Assert.AreEqual("aworlda", this.document.Lines[1]);
-            command = new InsertStringCommand("a", this.document, 16);
-            command.Execute();
-            Assert.AreEqual("aworldaa", this.document.Lines[1]);
-            command = new InsertStringCommand("a", this.document, 18);
+            Assert.AreEqual("worlda", this.document.Lines[1]);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new InsertStringCommand("a", this.document, 12);
             command.Execute();
             Assert.AreEqual("a", this.document.Lines[2]);
-            command = new InsertStringCommand("a", this.document, 19);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new InsertStringCommand("a", this.document, 13);
             command.Execute();
-            Assert.AreEqual("aa", this.document.Lines[2]);
-            command = new InsertStringCommand("a", this.document, 20);
+            Assert.AreEqual("a123", this.document.Lines[3]);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new InsertStringCommand("a", this.document, 16);
             command.Execute();
-            Assert.AreEqual("aaa", this.document.Lines[2]);
-            Assert.AreEqual(4, this.document.Lines.Count);
+            Assert.AreEqual("123a", this.document.Lines[3]);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
         }
 
         [TestMethod]
