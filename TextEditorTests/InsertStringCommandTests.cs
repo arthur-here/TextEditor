@@ -9,15 +9,18 @@ namespace TextEditorTests
     public class InsertStringCommandTests
     {
         TextEditorDocument document;
+        TextEditorDocument initialDocument;
 
         [TestInitialize]
         public void setUp()
         {
             this.document = new TextEditorDocument("example.txt");
+            this.initialDocument = new TextEditorDocument("example.txt");
             this.document.Lines.Add("hello");
             this.document.Lines.Add("world");
             this.document.Lines.Add("");
             this.document.Lines.Add("123");
+            this.document.Lines.ForEach(l => this.initialDocument.Lines.Add(l));
         }
 
         [TestMethod]
@@ -51,7 +54,6 @@ namespace TextEditorTests
             command.Execute();
             Assert.AreEqual("aaa", this.document.Lines[2]);
             Assert.AreEqual(4, this.document.Lines.Count);
-            Console.WriteLine(document.Text);
         }
 
         [TestMethod]
