@@ -36,7 +36,7 @@ namespace TextEditor
             {
                 this.codeArea.Document = value;
                 this.document = value;
-                this.TitleLabel.Text = "Text Editor - " + value.FileName;
+                this.TitleLabel.Text = "Text Editor - " + value.Title;
             }
         }
 

@@ -35,6 +35,22 @@ namespace TextEditor
             set { this.fileName = value; }
         }
 
+        public string Title
+        {
+            get
+            {
+                int lastSlashIndex = this.FileName.LastIndexOf('\\');
+                if (lastSlashIndex == -1)
+                {
+                    return this.FileName;
+                }
+                else
+                {
+                    return this.FileName.Substring(lastSlashIndex + 1);
+                }
+            }
+        }
+
         /// <summary>
         /// Gets array of document's lines.
         /// </summary>
