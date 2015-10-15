@@ -63,6 +63,7 @@ namespace TextEditor.Commands
                 if (this.line + 1 < this.document.Lines.Count)
                 {
                     this.isLineRemoved = true;
+                    this.document.Lines[this.line] += this.document.Lines[this.line + 1];
                     this.document.Lines.RemoveAt(this.line + 1);
                 }
 
@@ -78,17 +79,19 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
+            string paragraph = this.document.Lines[this.line];
             if (this.removedString == null)
             {
                 if (this.isLineRemoved)
                 {
-                    this.document.Lines.Insert(this.line + 1, string.Empty);
+                    string nextLineString = paragraph.Substring(this.position, paragraph.Length - this.position);
+                    this.document.Lines[this.line] = paragraph.Remove(this.position, paragraph.Length - this.position);
+                    this.document.Lines.Insert(this.line + 1, nextLineString);
                 }
 
                 return;
             }
 
-            string paragraph = this.document.Lines.ElementAt(this.line);
             this.document.Lines[this.line] = paragraph.Insert(this.position, this.removedString);
         }
     }
