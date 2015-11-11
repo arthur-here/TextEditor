@@ -28,6 +28,7 @@ namespace TextEditor
 
         private TextEditorDocument document;
         private TextEditorCommandManager commandManager = new TextEditorCommandManager();
+        private SnippetLibrary snippetLibrary = new SnippetLibrary();
         private int lastCarretIndex = 0;
 
         /// <summary>
@@ -36,8 +37,15 @@ namespace TextEditor
         public SourceTextBox()
         {
             this.AcceptsReturn = true;
-
+            this.AcceptsTab = true;
             this.InitializeComponent();
+            List<string> s1Content = new List<string>()
+            {
+                "lorem ipsum dot sit amet,",
+                "consectetur adipisicing elit"
+            };
+            Snippet s1 = new Snippet("lorem", s1Content);
+            this.snippetLibrary.Add(s1);
         }
 
         /// <summary>
@@ -112,6 +120,35 @@ namespace TextEditor
                 e.Handled = true;
             }
 
+            // Tab
+            else if (e.Key == Key.Tab)
+            {
+                string line = this.document.Lines[this.document.LineNumberByIndex(this.CaretIndex)];
+                int caretPosition = this.document.CaretPositionInLineByIndex(this.CaretIndex);
+                if (caretPosition < line.Length - 1)
+                {
+                    line = line.Remove(caretPosition);
+                }
+                
+                int indexOfLastSpace = line.LastIndexOf(' ');
+                if (indexOfLastSpace != -1 && line.Length > indexOfLastSpace + 1)
+                {
+                    line = line.Substring(indexOfLastSpace + 1);
+                }
+
+                Snippet snippet = this.snippetLibrary.GetByName(line);
+                if (snippet != null)
+                {
+                    this.lastCarretIndex = this.CaretIndex + snippet.Name.Length;
+                    InsertStringCommand insertCommand = new InsertStringCommand(snippet.Name, this.document, this.CaretIndex);
+                    this.commandManager.AddCommand(insertCommand);
+                    this.commandManager.Run();
+                    this.UpdateUi();
+                }
+
+                e.Handled = true;
+            }
+
             // Enter
             else if (e.Key == Key.Return)
             {
@@ -122,7 +159,9 @@ namespace TextEditor
                 this.UpdateUi();
                 e.Handled = true;
             }
-            else if (!char.IsControl(pressedChar) && !pressedChar.Equals(' '))
+
+            // Some symbol 
+            else if ((!char.IsControl(pressedChar) && !pressedChar.Equals(' ')) || e.Key == Key.Space)
             {
                 this.lastCarretIndex = this.CaretIndex + 1;
                 InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.document, this.CaretIndex);

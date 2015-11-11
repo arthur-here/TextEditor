@@ -70,6 +70,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -95,6 +96,8 @@
     </Compile>
     <Compile Include="Commands\InsertStringCommand.cs" />
     <Compile Include="Commands\RemoveStringCommand.cs" />
+    <Compile Include="Snippet.cs" />
+    <Compile Include="SnippetLibrary.cs" />
     <Compile Include="TextEditorDocument.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>

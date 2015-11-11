@@ -57,6 +57,7 @@
     <Compile Include="InsertStringCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveStringCommandTests.cs" />
+    <Compile Include="SnippetLibraryTests.cs" />
     <Compile Include="TextEditorDocumentTests.cs" />
     <Compile Include="NewLineCommandTests.cs" />
   </ItemGroup>
