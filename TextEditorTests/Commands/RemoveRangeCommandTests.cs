@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace TextEditorTests
 {
     [TestClass]
-    public class RemoveStringCommandTests
+    public class RemoveRangeCommandTests
     {
         TextEditorDocument document;
         TextEditorDocument initialDocument;
@@ -25,7 +25,7 @@ namespace TextEditorTests
         }
 
         [TestMethod]
-        public void RemoveStringCommand_RemoveCharacter()
+        public void RemoveRangeCommand_RemoveCharacter()
         {
             RemoveRangeCommand command = new RemoveRangeCommand(this.document, 0, 1);
             command.Execute();
@@ -68,14 +68,14 @@ namespace TextEditorTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void RemoveStringCommand_RemoveCharacter_InvalidCaretIndex()
+        public void RemoveRangeCommand_RemoveCharacter_InvalidCaretIndex()
         {
             RemoveRangeCommand command = new RemoveRangeCommand(this.document, this.document.Text.Length + 1, 1);
             command.Execute();
         }
 
         [TestMethod]
-        public void RemoveStringCommand_RemoveLines()
+        public void RemoveRangeCommand_RemoveLines()
         {
             RemoveRangeCommand command = new RemoveRangeCommand(this.document, 3, 5);
             command.Execute();

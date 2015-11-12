@@ -57,7 +57,7 @@
     <Compile Include="FileManagerTests.cs" />
     <Compile Include="Commands\InsertStringCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\RemoveStringCommandTests.cs" />
+    <Compile Include="Commands\RemoveRangeCommandTests.cs" />
     <Compile Include="SnippetLibraryTests.cs" />
     <Compile Include="TextEditorDocumentTests.cs" />
     <Compile Include="Commands\NewLineCommandTests.cs" />

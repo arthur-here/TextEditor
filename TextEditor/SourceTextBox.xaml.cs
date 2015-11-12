@@ -139,8 +139,9 @@ namespace TextEditor
                 Snippet snippet = this.snippetLibrary.GetByName(line);
                 if (snippet != null)
                 {
-                    this.lastCarretIndex = this.CaretIndex + string.Join("\n", snippet.Content).Length;
-                    InsertLinesCommand insertCommand = new InsertLinesCommand(snippet.Content, this.document, this.CaretIndex);
+                    this.lastCarretIndex = this.CaretIndex + string.Join("\n", snippet.Content).Length - snippet.Name.Length;
+                    InsertSnippetCommand insertCommand = 
+                        new InsertSnippetCommand(snippet, this.document, this.CaretIndex - snippet.Name.Length);
                     this.commandManager.AddCommand(insertCommand);
                     this.commandManager.Run();
                     this.UpdateUi();

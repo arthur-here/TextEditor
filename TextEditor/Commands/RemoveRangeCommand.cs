@@ -22,6 +22,27 @@ namespace TextEditor.Commands
         /// Initializes a new instance of the <see cref="RemoveRangeCommand"/> class.
         /// </summary>
         /// <param name="document">Document insert to.</param>
+        /// <param name="line">Line number.</param>
+        /// <param name="position">Index in line.</param>
+        /// <param name="length">Count of chars to delete.</param>
+        public RemoveRangeCommand(TextEditorDocument document, int line, int position, int length)
+        {
+            if (document == null)
+            {
+                throw new ArgumentException("Document shouldn't be null");
+            }
+
+            this.document = document;
+            this.line = line;
+            this.position = position;
+            this.caretIndex = document.CaretIndexByPosition(line, position);
+            this.length = length;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RemoveRangeCommand"/> class.
+        /// </summary>
+        /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
         /// <param name="length">Count of chars to delete.</param>
         public RemoveRangeCommand(TextEditorDocument document, int caretIndex, int length)

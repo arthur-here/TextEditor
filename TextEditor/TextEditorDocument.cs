@@ -128,5 +128,23 @@ namespace TextEditor
 
             return caretIndex;
         }
+
+        /// <summary>
+        /// Calculates carret index by provided line and position.
+        /// </summary>
+        /// <param name="line">Line index in document.</param>
+        /// <param name="position">Position in line.</param>
+        /// <returns>Caret index.</returns>
+        public int CaretIndexByPosition(int line, int position)
+        {
+            int index = 0;
+            for (int i = 0; i < line; i++)
+            {
+                index += this.Lines[i].Length + 1;
+            }
+
+            index += position;
+            return index;
+        }
     }
 }
