@@ -53,13 +53,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Commands\InsertLinesCommandTests.cs" />
     <Compile Include="FileManagerTests.cs" />
-    <Compile Include="InsertStringCommandTests.cs" />
+    <Compile Include="Commands\InsertStringCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoveStringCommandTests.cs" />
+    <Compile Include="Commands\RemoveStringCommandTests.cs" />
     <Compile Include="SnippetLibraryTests.cs" />
     <Compile Include="TextEditorDocumentTests.cs" />
-    <Compile Include="NewLineCommandTests.cs" />
+    <Compile Include="Commands\NewLineCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DocumentExample.txt">
