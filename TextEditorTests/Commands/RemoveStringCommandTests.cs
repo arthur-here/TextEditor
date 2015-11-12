@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextEditor;
 using TextEditor.Commands;
+using System.Collections.Generic;
 
 namespace TextEditorTests
 {
@@ -71,6 +72,43 @@ namespace TextEditorTests
         {
             RemoveStringCommand command = new RemoveStringCommand(this.document, this.document.Text.Length + 1, 1);
             command.Execute();
+        }
+
+        [TestMethod]
+        public void RemoveStringCommand_RemoveLines()
+        {
+            RemoveStringCommand command = new RemoveStringCommand(this.document, 3, 5);
+            command.Execute();
+            List<string> expected = new List<string>()
+            { "helrld", "", "123" };
+            string expectedString = string.Join("\n", expected);
+            Assert.AreEqual(expectedString, this.document.Text);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new RemoveStringCommand(this.document, 0, this.document.Text.Length);
+            command.Execute();
+            Assert.AreEqual("", this.document.Text);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new RemoveStringCommand(this.document, 12, 4);
+            command.Execute();
+            expected = new List<string>()
+            { "hello", "world", "" };
+            expectedString = string.Join("\n", expected);
+            Assert.AreEqual(expectedString, this.document.Text);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
+
+            command = new RemoveStringCommand(this.document, 11, 5);
+            command.Execute();
+            expected = new List<string>()
+            { "hello", "world" };
+            expectedString = string.Join("\n", expected);
+            Assert.AreEqual(expectedString, this.document.Text);
+            command.Undo();
+            Assert.AreEqual(this.initialDocument.Text, this.document.Text);
         }
     }
 }

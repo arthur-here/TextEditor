@@ -12,26 +12,11 @@ namespace TextEditor.Commands
     public class RemoveStringCommand : ICommand
     {
         private TextEditorDocument document;
+        private int caretIndex;
         private int line;
         private int position;
         private int length;
-        private string removedString;
-        private bool isLineRemoved = false;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveStringCommand"/> class.
-        /// </summary>
-        /// <param name="document">Document insert to.</param>
-        /// <param name="line">Line number.</param>
-        /// <param name="position">Index in line.</param>
-        /// <param name="length">Count of chars to delete.</param>
-        public RemoveStringCommand(TextEditorDocument document, int line, int position, int length)
-        {
-            this.document = document;
-            this.line = line;
-            this.position = position;
-            this.length = length;
-        }
+        private List<string> removedLines;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveStringCommand"/> class.
@@ -47,6 +32,7 @@ namespace TextEditor.Commands
             }
 
             this.document = document;
+            this.caretIndex = caretIndex;
             this.line = this.document.LineNumberByIndex(caretIndex);
             this.position = this.document.CaretPositionInLineByIndex(caretIndex);
             this.length = length;
@@ -57,21 +43,25 @@ namespace TextEditor.Commands
         /// </summary>
         public void Execute()
         {
-            string paragraph = this.document.Lines[this.line];
-            if (this.position + this.length > paragraph.Length)
+            int endCaretIndex = this.caretIndex + this.length;
+            if (endCaretIndex > this.document.Text.Length)
             {
-                if (this.line + 1 < this.document.Lines.Count)
-                {
-                    this.isLineRemoved = true;
-                    this.document.Lines[this.line] += this.document.Lines[this.line + 1];
-                    this.document.Lines.RemoveAt(this.line + 1);
-                }
-
-                return;
+                endCaretIndex = this.document.Text.Length;
             }
 
-            this.removedString = paragraph.Substring(this.position, this.length);
-            this.document.Lines[this.line] = paragraph.Remove(this.position, this.length);
+            int endPosition = this.document.CaretPositionInLineByIndex(endCaretIndex);
+            int endLineIndex = this.document.LineNumberByIndex(endCaretIndex);
+            this.removedLines = this.document.Lines.GetRange(this.line, endLineIndex - this.line + 1);
+
+            string paragraph = this.document.Lines[this.line];
+            string lineToMove = this.document.Lines[endLineIndex].Substring(endPosition);
+            if (paragraph.Length > this.position)
+            {
+                paragraph = paragraph.Remove(this.position);
+            }
+
+            this.document.Lines[this.line] = paragraph + lineToMove;
+            this.document.Lines.RemoveRange(this.line + 1, endLineIndex - this.line);
         }
 
         /// <summary>
@@ -79,20 +69,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            string paragraph = this.document.Lines[this.line];
-            if (this.removedString == null)
-            {
-                if (this.isLineRemoved)
-                {
-                    string nextLineString = paragraph.Substring(this.position, paragraph.Length - this.position);
-                    this.document.Lines[this.line] = paragraph.Remove(this.position, paragraph.Length - this.position);
-                    this.document.Lines.Insert(this.line + 1, nextLineString);
-                }
-
-                return;
-            }
-
-            this.document.Lines[this.line] = paragraph.Insert(this.position, this.removedString);
+            this.document.Lines.RemoveAt(this.line);
+            this.document.Lines.InsertRange(this.line, this.removedLines);
         }
     }
 }
