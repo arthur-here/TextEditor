@@ -98,7 +98,7 @@ namespace TextEditor
                 if (this.SelectionLength > 0)
                 {
                     this.lastCarretIndex = this.SelectionStart;
-                    RemoveStringCommand removeSelectionCommand = new RemoveStringCommand(this.document, 
+                    RemoveRangeCommand removeSelectionCommand = new RemoveRangeCommand(this.document, 
                         this.SelectionStart, 
                         this.SelectionLength);
                     this.commandManager.AddCommand(removeSelectionCommand);
@@ -111,7 +111,7 @@ namespace TextEditor
                     }
 
                     this.lastCarretIndex = this.CaretIndex - 1;
-                    RemoveStringCommand removeCommand = new RemoveStringCommand(this.document, this.CaretIndex - 1, 1);
+                    RemoveRangeCommand removeCommand = new RemoveRangeCommand(this.document, this.CaretIndex - 1, 1);
                     this.commandManager.AddCommand(removeCommand);
                 }
 

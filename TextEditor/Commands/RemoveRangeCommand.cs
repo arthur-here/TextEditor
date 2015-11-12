@@ -9,7 +9,7 @@ namespace TextEditor.Commands
     /// <summary>
     /// Provides command to remove string from document at specified position.
     /// </summary>
-    public class RemoveStringCommand : ICommand
+    public class RemoveRangeCommand : ICommand
     {
         private TextEditorDocument document;
         private int caretIndex;
@@ -19,12 +19,12 @@ namespace TextEditor.Commands
         private List<string> removedLines;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveStringCommand"/> class.
+        /// Initializes a new instance of the <see cref="RemoveRangeCommand"/> class.
         /// </summary>
         /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
         /// <param name="length">Count of chars to delete.</param>
-        public RemoveStringCommand(TextEditorDocument document, int caretIndex, int length)
+        public RemoveRangeCommand(TextEditorDocument document, int caretIndex, int length)
         {
             if (document == null)
             {

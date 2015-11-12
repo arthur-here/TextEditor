@@ -27,39 +27,39 @@ namespace TextEditorTests
         [TestMethod]
         public void RemoveStringCommand_RemoveCharacter()
         {
-            RemoveStringCommand command = new RemoveStringCommand(this.document, 0, 1);
+            RemoveRangeCommand command = new RemoveRangeCommand(this.document, 0, 1);
             command.Execute();
             Assert.AreEqual("ello", this.document.Lines[0]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 4, 1);
+            command = new RemoveRangeCommand(this.document, 4, 1);
             command.Execute();
             Assert.AreEqual("hell", this.document.Lines[0]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 5, 1);
+            command = new RemoveRangeCommand(this.document, 5, 1);
             command.Execute();
             Assert.AreEqual("helloworld", this.document.Lines[0]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 11, 1);
+            command = new RemoveRangeCommand(this.document, 11, 1);
             command.Execute();
             Assert.AreEqual(3, this.document.Lines.Count);
             Assert.AreEqual("hello\nworld\n123", this.document.Text);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 12, 1);
+            command = new RemoveRangeCommand(this.document, 12, 1);
             command.Execute();
             Assert.AreEqual(3, this.document.Lines.Count);
             Assert.AreEqual("hello\nworld\n123", this.document.Text);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, this.document.Text.Length, 1);
+            command = new RemoveRangeCommand(this.document, this.document.Text.Length, 1);
             command.Execute();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
             command.Undo();
@@ -70,14 +70,14 @@ namespace TextEditorTests
         [ExpectedException(typeof(ArgumentException))]
         public void RemoveStringCommand_RemoveCharacter_InvalidCaretIndex()
         {
-            RemoveStringCommand command = new RemoveStringCommand(this.document, this.document.Text.Length + 1, 1);
+            RemoveRangeCommand command = new RemoveRangeCommand(this.document, this.document.Text.Length + 1, 1);
             command.Execute();
         }
 
         [TestMethod]
         public void RemoveStringCommand_RemoveLines()
         {
-            RemoveStringCommand command = new RemoveStringCommand(this.document, 3, 5);
+            RemoveRangeCommand command = new RemoveRangeCommand(this.document, 3, 5);
             command.Execute();
             List<string> expected = new List<string>()
             { "helrld", "", "123" };
@@ -86,13 +86,13 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 0, this.document.Text.Length);
+            command = new RemoveRangeCommand(this.document, 0, this.document.Text.Length);
             command.Execute();
             Assert.AreEqual("", this.document.Text);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 12, 4);
+            command = new RemoveRangeCommand(this.document, 12, 4);
             command.Execute();
             expected = new List<string>()
             { "hello", "world", "" };
@@ -101,7 +101,7 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new RemoveStringCommand(this.document, 11, 5);
+            command = new RemoveRangeCommand(this.document, 11, 5);
             command.Execute();
             expected = new List<string>()
             { "hello", "world" };

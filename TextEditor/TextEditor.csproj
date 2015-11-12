@@ -96,7 +96,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Commands\InsertStringCommand.cs" />
-    <Compile Include="Commands\RemoveStringCommand.cs" />
+    <Compile Include="Commands\RemoveRangeCommand.cs" />
     <Compile Include="Snippet.cs" />
     <Compile Include="SnippetLibrary.cs" />
     <Compile Include="TextEditorDocument.cs">
