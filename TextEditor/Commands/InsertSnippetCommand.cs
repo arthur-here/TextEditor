@@ -33,7 +33,7 @@ namespace TextEditor.Commands
             {
                 throw new ArgumentException("Document shouldn't be null");
             }
-
+            
             this.snippet = snippet;
             this.document = document;
             this.line = line;
@@ -52,7 +52,7 @@ namespace TextEditor.Commands
             {
                 throw new ArgumentException("Document shouldn't be null");
             }
-
+            
             this.snippet = snippet;
             this.document = document;
             this.line = this.document.LineNumberByIndex(caretIndex);
@@ -64,7 +64,16 @@ namespace TextEditor.Commands
         /// </summary>
         public void Execute()
         {
-            this.removeCommand = new RemoveRangeCommand(this.document, this.line, this.position, this.snippet.Name.Length);
+            string paragrapgh = this.document.Lines[this.line];
+            int paragraphIndex = this.position;
+            int length = 0;
+            while (paragraphIndex < paragrapgh.Length && paragrapgh[paragraphIndex] == this.snippet.Name[length])
+            {
+                paragraphIndex++;
+                length++;
+            }
+
+            this.removeCommand = new RemoveRangeCommand(this.document, this.line, this.position, length);
             this.removeCommand.Execute();
             this.insertCommand = new InsertLinesCommand(this.snippet.Content, this.document, this.line, this.position);
             this.insertCommand.Execute();
