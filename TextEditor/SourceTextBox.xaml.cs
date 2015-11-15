@@ -39,6 +39,8 @@ namespace TextEditor
             this.AcceptsReturn = true;
             this.AcceptsTab = true;
             this.InitializeComponent();
+            this.Text = string.Empty;
+
             List<string> s1Content = new List<string>()
             {
                 "lorem ipsum dot sit amet,",
@@ -78,6 +80,11 @@ namespace TextEditor
         {
             if (e == null)
             {
+                return;
+            } 
+            else if (this.Document == null)
+            {
+                e.Handled = true;
                 return;
             }
 
@@ -123,6 +130,13 @@ namespace TextEditor
             // Tab
             else if (e.Key == Key.Tab)
             {
+                Button listBox = new Button();
+                Rect charRect = this.GetRectFromCharacterIndex(this.CaretIndex);
+                listBox.Margin = new Thickness(charRect.X, charRect.Y, 0, 0);
+                listBox.Width = 20;
+                listBox.Height = 10; 
+                this.AddVisualChild(listBox);
+
                 string line = this.document.Lines[this.document.LineNumberByIndex(this.CaretIndex)];
                 int caretPosition = this.document.CaretPositionInLineByIndex(this.CaretIndex);
                 if (caretPosition < line.Length - 1)

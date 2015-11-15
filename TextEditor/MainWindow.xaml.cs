@@ -15,7 +15,6 @@ namespace TextEditor
     public partial class MainWindow : Window
     {
         private TextEditorFileManager fileManager = new FileManager.TextEditorFileManager();
-        private TextEditorDocument document;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -29,13 +28,12 @@ namespace TextEditor
         {
             get
             {
-                return this.document == null ? this.codeArea.Document as TextEditorDocument : this.document;
+                return this.codeArea.Document;
             }
 
             set
             {
                 this.codeArea.Document = value;
-                this.document = value;
                 this.TitleLabel.Text = "Text Editor - " + value.Title;
             }
         }
