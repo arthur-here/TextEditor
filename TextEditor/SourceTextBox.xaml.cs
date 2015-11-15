@@ -20,6 +20,33 @@ using TextEditor.Utilities;
 namespace TextEditor
 {
     /// <summary>
+    /// EventArgs for LibraryWordEnteredEvent.
+    /// </summary>
+    public class LibraryWordEnteredEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LibraryWordEnteredEventArgs"/> class.
+        /// </summary>
+        /// <param name="word">Word form library which was entered.</param>
+        /// <param name="charRect">Rectangle for character.</param>
+        public LibraryWordEnteredEventArgs(string word, Rect charRect)
+        {
+            this.Word = word;
+            this.CharacterRect = charRect;
+        }
+
+        /// <summary>
+        /// Gets word form library which was entered.
+        /// </summary>
+        public string Word { get; private set; }
+
+        /// <summary>
+        /// Gets rectangle of index caret.
+        /// </summary>
+        public Rect CharacterRect { get; private set; }
+    }
+
+    /// <summary>
     /// Interaction logic for SourceTextBox.
     /// </summary>
     public partial class SourceTextBox : TextBox
@@ -28,7 +55,7 @@ namespace TextEditor
 
         private TextEditorDocument document;
         private TextEditorCommandManager commandManager = new TextEditorCommandManager();
-        private SnippetLibrary snippetLibrary = new SnippetLibrary();
+        private SnippetLibrary snippetLibrary;
         private int lastCarretIndex = 0;
 
         /// <summary>
@@ -40,15 +67,12 @@ namespace TextEditor
             this.AcceptsTab = true;
             this.InitializeComponent();
             this.Text = string.Empty;
-
-            List<string> s1Content = new List<string>()
-            {
-                "lorem ipsum dot sit amet,",
-                "consectetur adipisicing elit"
-            };
-            Snippet s1 = new Snippet("lorem", s1Content);
-            this.snippetLibrary.Add(s1);
         }
+
+        /// <summary>
+        /// Event fires when user entered word from library.
+        /// </summary>
+        public event System.EventHandler<LibraryWordEnteredEventArgs> LibraryWordEnteredEvent;
 
         /// <summary>
         /// Gets or sets <see cref="TextEditorDocument"/>, which displayed by <see cref="SourceTextBox"/>.
@@ -70,6 +94,15 @@ namespace TextEditor
                 this.document = value;
                 this.UpdateUi();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets SnippetLibrary.
+        /// </summary>
+        public SnippetLibrary SnippetLibrary
+        {
+            get { return this.snippetLibrary; }
+            set { this.snippetLibrary = value; }
         }
 
         /// <summary>
@@ -130,13 +163,6 @@ namespace TextEditor
             // Tab
             else if (e.Key == Key.Tab)
             {
-                Button listBox = new Button();
-                Rect charRect = this.GetRectFromCharacterIndex(this.CaretIndex);
-                listBox.Margin = new Thickness(charRect.X, charRect.Y, 0, 0);
-                listBox.Width = 20;
-                listBox.Height = 10; 
-                this.AddVisualChild(listBox);
-
                 string line = this.document.Lines[this.document.LineNumberByIndex(this.CaretIndex)];
                 int caretPosition = this.document.CaretPositionInLineByIndex(this.CaretIndex);
                 if (caretPosition < line.Length - 1)
@@ -149,6 +175,8 @@ namespace TextEditor
                 {
                     line = line.Substring(indexOfLastSpace + 1);
                 }
+
+                this.OnLibraryWordEntered(new LibraryWordEnteredEventArgs(line, this.GetRectFromCharacterIndex(this.CaretIndex)));
 
                 Snippet snippet = this.snippetLibrary.GetByName(line);
                 if (snippet != null)
@@ -241,6 +269,18 @@ namespace TextEditor
             }
 
             drawingContext.DrawText(ft, new Point(leftTextBorder - this.HorizontalOffset, topMargin - this.VerticalOffset));
+        }
+
+        /// <summary>
+        /// Fires a LibraryWordEntered event.
+        /// </summary>
+        /// <param name="e">Event arguments.</param>
+        protected virtual void OnLibraryWordEntered(LibraryWordEnteredEventArgs e)
+        {
+            if (this.LibraryWordEnteredEvent != null)
+            {
+                this.LibraryWordEnteredEvent(this, e);
+            }
         }
 
         private void TextBox_ScrollChanged(object sender, ScrollChangedEventArgs e)

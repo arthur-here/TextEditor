@@ -14,7 +14,14 @@ namespace TextEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        private TextEditorFileManager fileManager = new FileManager.TextEditorFileManager();
+        private TextEditorFileManager fileManager = new TextEditorFileManager();
+        private ListBox tipListBox = new ListBox()
+        {
+            Visibility = Visibility.Hidden,
+            SelectionMode = SelectionMode.Single
+        };
+
+        private bool isAutocompleteListShown = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -22,6 +29,10 @@ namespace TextEditor
         public MainWindow()
         {
             this.InitializeComponent();
+            this.codeArea.SnippetLibrary = new SnippetLibrary();
+            this.codeArea.LibraryWordEnteredEvent += this.CodeArea_LibraryWordEnteredEvent;
+            this.tipListBox.SelectionChanged += this.TipListBox_SelectionChanged;
+            this.SetupUi();
         }
 
         private TextEditorDocument Document
@@ -36,6 +47,90 @@ namespace TextEditor
                 this.codeArea.Document = value;
                 this.TitleLabel.Text = "Text Editor - " + value.Title;
             }
+        }
+
+        /// <summary>
+        /// Handles PreviewKeyDown event.
+        /// </summary>
+        /// <param name="e">Event arguments.</param>
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+
+            if (this.isAutocompleteListShown)
+            {
+                if (e.Key == Key.Up)
+                {
+                    if (this.tipListBox.SelectedIndex > 0)
+                    {
+                        this.tipListBox.SelectedIndex--;
+                    }
+                }
+                else if (e.Key == Key.Down)
+                {
+                    if (this.tipListBox.SelectedIndex < this.tipListBox.Items.Count - 1)
+                    {
+                        this.tipListBox.SelectedIndex++;
+                    }
+                }
+                else if (e.Key == Key.Enter)
+                {
+                    Console.WriteLine(this.tipListBox.SelectedItem);
+                    this.isAutocompleteListShown = false;
+                    this.tipListBox.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    this.isAutocompleteListShown = false;
+                    this.tipListBox.Visibility = Visibility.Hidden;
+                }
+
+                e.Handled = true;
+            }
+
+            base.OnPreviewKeyDown(e);
+        }
+
+        /// <summary>
+        /// Handles PreviewMouseDown event.
+        /// </summary>
+        /// <param name="e">Event arguments.</param>
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        {
+            if (this.isAutocompleteListShown)
+            {
+                this.isAutocompleteListShown = false;
+                this.tipListBox.Visibility = Visibility.Hidden;
+            }
+
+            base.OnPreviewMouseDown(e);
+        }
+
+        private void CodeArea_LibraryWordEnteredEvent(object sender, LibraryWordEnteredEventArgs e)
+        {
+            double rightMargin = this.codeArea.ActualWidth - 200 - e.CharacterRect.Left;
+            double bottomMargin = this.codeArea.ActualHeight - 100 - e.CharacterRect.Top;
+            this.tipListBox.Margin = new Thickness(this.codeArea.Margin.Left + e.CharacterRect.Left, 
+                this.codeArea.Margin.Top + e.CharacterRect.Top, 
+                rightMargin, 
+                bottomMargin);
+            this.tipListBox.Items.Add(e.Word);
+            this.tipListBox.Visibility = Visibility.Visible;
+            this.isAutocompleteListShown = true;
+        }
+
+        private void TipListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count <= 0)
+            {
+                return;
+            }
+
+            var newSelectedItem = e.AddedItems[0];
+            (sender as ListBox).ScrollIntoView(newSelectedItem);
         }
 
         private void NewFileMenuItem_Click(object sender, RoutedEventArgs e)
@@ -108,6 +203,13 @@ namespace TextEditor
             }
 
             this.Document = this.fileManager.OpenFileUsingEncoding(this.Document.FileName, encoding);
+        }
+
+        private void SetupUi()
+        {
+            this.tipListBox.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+            this.tipListBox.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+            this.RootGrid.Children.Add(this.tipListBox);
         }
     }
 }

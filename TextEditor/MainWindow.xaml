@@ -13,7 +13,7 @@
         <System:Double x:Key="FontSize">12</System:Double>
     </Window.Resources>
     <Border CornerRadius="5,5,0,0" BorderThickness="1" BorderBrush="#FFF4F4F5">
-        <Grid>
+        <Grid x:Name="RootGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>

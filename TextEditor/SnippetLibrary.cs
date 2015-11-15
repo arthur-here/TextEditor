@@ -100,7 +100,7 @@ namespace TextEditor
 
         private void Save()
         {
-            using (Stream writer = new FileStream(this.filename, FileMode.Create))
+            using (Stream writer = new FileStream(this.filename, FileMode.OpenOrCreate))
             {
                 DataContractSerializer ser = new DataContractSerializer(typeof(List<Snippet>));
                 ser.WriteObject(writer, this.snippets);
