@@ -85,7 +85,6 @@
     <Rule Id="CA1302" Action="Error" />
     <Rule Id="CA1304" Action="Error" />
     <Rule Id="CA1306" Action="Error" />
-    <Rule Id="CA1307" Action="Error" />
     <Rule Id="CA1308" Action="Error" />
     <Rule Id="CA1400" Action="Error" />
     <Rule Id="CA1401" Action="Error" />

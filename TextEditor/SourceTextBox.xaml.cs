@@ -27,18 +27,18 @@ namespace TextEditor
         /// <summary>
         /// Initializes a new instance of the <see cref="LibraryWordEnteredEventArgs"/> class.
         /// </summary>
-        /// <param name="word">Word form library which was entered.</param>
+        /// <param name="names">Names form library which was entered.</param>
         /// <param name="charRect">Rectangle for character.</param>
-        public LibraryWordEnteredEventArgs(string word, Rect charRect)
+        public LibraryWordEnteredEventArgs(List<string> names, Rect charRect)
         {
-            this.Word = word;
+            this.Names = names;
             this.CharacterRect = charRect;
         }
 
         /// <summary>
         /// Gets word form library which was entered.
         /// </summary>
-        public string Word { get; private set; }
+        public List<string> Names { get; private set; }
 
         /// <summary>
         /// Gets rectangle of index caret.
@@ -106,6 +106,33 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Inserts snippet at caret index replacing it's name.
+        /// </summary>
+        /// <param name="snippetName">Name of snippet.</param>
+        public void InsertSnippet(string snippetName)
+        {
+            if (snippetName == null)
+            {
+                return;
+            }
+
+            Snippet snippet = this.snippetLibrary.GetByName(snippetName);
+            if (snippet == null)
+            {
+                return;
+            }
+
+            string word = this.document.GetWordByCaretIndex(this.CaretIndex);
+            int index = this.CaretIndex - word.Length;
+
+            this.lastCarretIndex = index + string.Join("\n", snippet.Content).Length;
+            InsertSnippetCommand insertCommand = new InsertSnippetCommand(snippet, this.document, index);
+            this.commandManager.AddCommand(insertCommand);
+            this.commandManager.Run();
+            this.UpdateUi();
+        }
+
+        /// <summary>
         /// Handles KeyDown.
         /// </summary>
         /// <param name="e">Key event arguments.</param>
@@ -163,32 +190,6 @@ namespace TextEditor
             // Tab
             else if (e.Key == Key.Tab)
             {
-                string line = this.document.Lines[this.document.LineNumberByIndex(this.CaretIndex)];
-                int caretPosition = this.document.CaretPositionInLineByIndex(this.CaretIndex);
-                if (caretPosition < line.Length - 1)
-                {
-                    line = line.Remove(caretPosition);
-                }
-                
-                int indexOfLastSpace = line.LastIndexOf(' ');
-                if (indexOfLastSpace != -1 && line.Length > indexOfLastSpace + 1)
-                {
-                    line = line.Substring(indexOfLastSpace + 1);
-                }
-
-                this.OnLibraryWordEntered(new LibraryWordEnteredEventArgs(line, this.GetRectFromCharacterIndex(this.CaretIndex)));
-
-                Snippet snippet = this.snippetLibrary.GetByName(line);
-                if (snippet != null)
-                {
-                    this.lastCarretIndex = this.CaretIndex + string.Join("\n", snippet.Content).Length - snippet.Name.Length;
-                    InsertSnippetCommand insertCommand = 
-                        new InsertSnippetCommand(snippet, this.document, this.CaretIndex - snippet.Name.Length);
-                    this.commandManager.AddCommand(insertCommand);
-                    this.commandManager.Run();
-                    this.UpdateUi();
-                }
-
                 e.Handled = true;
             }
 
@@ -211,6 +212,17 @@ namespace TextEditor
                 this.commandManager.AddCommand(insertCommand);
                 this.commandManager.Run();
                 this.UpdateUi();
+
+                // Autocompletion analyzing
+                string currentWord = this.document.GetWordByCaretIndex(this.CaretIndex);
+
+                List<string> snippetsNames = SnippetLibrary.Names.Where(s => s.StartsWith(currentWord)).ToList();
+                if (snippetsNames.Count > 0)
+                {
+                    this.OnLibraryWordEntered(
+                        new LibraryWordEnteredEventArgs(snippetsNames, this.GetRectFromCharacterIndex(this.CaretIndex)));
+                }
+
                 e.Handled = true;
             }
 

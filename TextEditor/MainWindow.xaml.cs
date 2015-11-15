@@ -68,6 +68,8 @@ namespace TextEditor
                     {
                         this.tipListBox.SelectedIndex--;
                     }
+
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Down)
                 {
@@ -75,20 +77,22 @@ namespace TextEditor
                     {
                         this.tipListBox.SelectedIndex++;
                     }
+
+                    e.Handled = true;
                 }
                 else if (e.Key == Key.Enter)
                 {
-                    Console.WriteLine(this.tipListBox.SelectedItem);
+                    this.codeArea.InsertSnippet(this.tipListBox.SelectedItem as string);
                     this.isAutocompleteListShown = false;
                     this.tipListBox.Visibility = Visibility.Hidden;
+
+                    e.Handled = true;
                 }
                 else
                 {
                     this.isAutocompleteListShown = false;
                     this.tipListBox.Visibility = Visibility.Hidden;
                 }
-
-                e.Handled = true;
             }
 
             base.OnPreviewKeyDown(e);
@@ -117,7 +121,7 @@ namespace TextEditor
                 this.codeArea.Margin.Top + e.CharacterRect.Top, 
                 rightMargin, 
                 bottomMargin);
-            this.tipListBox.Items.Add(e.Word);
+            this.tipListBox.ItemsSource = e.Names;
             this.tipListBox.Visibility = Visibility.Visible;
             this.isAutocompleteListShown = true;
         }

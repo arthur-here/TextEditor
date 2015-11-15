@@ -146,5 +146,28 @@ namespace TextEditor
             index += position;
             return index;
         }
+
+        /// <summary>
+        /// Finds word which preceds caret index.
+        /// </summary>
+        /// <param name="caretIndex">Index to search.</param>
+        /// <returns>Word which preceds caret index.</returns>
+        public string GetWordByCaretIndex(int caretIndex)
+        {
+            string line = this.Lines[this.LineNumberByIndex(caretIndex)];
+            int caretPosition = this.CaretPositionInLineByIndex(caretIndex);
+            if (caretPosition < line.Length - 1)
+            {
+                line = line.Remove(caretPosition);
+            }
+
+            int indexOfLastSpace = line.LastIndexOf(' ');
+            if (indexOfLastSpace != -1 && line.Length > indexOfLastSpace + 1)
+            {
+                line = line.Substring(indexOfLastSpace + 1);
+            }
+
+            return line;
+        }
     }
 }
