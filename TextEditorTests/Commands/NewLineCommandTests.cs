@@ -26,7 +26,7 @@ namespace TextEditorTests
         [TestMethod]
         public void NewLineCommand_AddNewLine()
         {
-            NewLineCommand command = new NewLineCommand(this.document, 0);
+            NewLineCommand command = new NewLineCommand(0, this.document, 0);
             command.Execute();
             Assert.AreEqual(5, this.document.Lines.Count);
             Assert.AreEqual("", this.document.Lines[0]);
@@ -34,7 +34,7 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new NewLineCommand(this.document, 2);
+            command = new NewLineCommand(0, this.document, 2);
             command.Execute();
             Assert.AreEqual(5, this.document.Lines.Count);
             Assert.AreEqual("he", this.document.Lines[0]);
@@ -42,7 +42,7 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new NewLineCommand(this.document, 5);
+            command = new NewLineCommand(0, this.document, 5);
             command.Execute();
             Assert.AreEqual(5, this.document.Lines.Count);
             Assert.AreEqual("hello", this.document.Lines[0]);
@@ -50,7 +50,7 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new NewLineCommand(this.document, 6);
+            command = new NewLineCommand(0, this.document, 6);
             command.Execute();
             Assert.AreEqual(5, this.document.Lines.Count);
             Assert.AreEqual("", this.document.Lines[1]);
@@ -58,7 +58,7 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new NewLineCommand(this.document, 11);
+            command = new NewLineCommand(0, this.document, 11);
             command.Execute();
             Assert.AreEqual(5, this.document.Lines.Count);
             Assert.AreEqual("", this.document.Lines[2]);
@@ -66,7 +66,7 @@ namespace TextEditorTests
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new NewLineCommand(this.document, this.document.Text.Length);
+            command = new NewLineCommand(0, this.document, this.document.Text.Length);
             command.Execute();
             Assert.AreEqual(5, this.document.Lines.Count);
             Assert.AreEqual("123", this.document.Lines[3]);
@@ -79,7 +79,7 @@ namespace TextEditorTests
         [ExpectedException(typeof(ArgumentException))]
         public void NewLineCommand_AddNewLine_WrongCaretIndex()
         {
-            NewLineCommand command = new NewLineCommand(this.document, this.document.Text.Length + 1);
+            NewLineCommand command = new NewLineCommand(0, this.document, this.document.Text.Length + 1);
             command.Execute();
         }
     }

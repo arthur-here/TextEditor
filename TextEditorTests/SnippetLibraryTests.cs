@@ -18,6 +18,7 @@ namespace TextEditorTests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Resources\SnippetLibrary.xml", "UserData")]
         public void SnippetLibrary_Add()
         {
             List<string> s1Content = new List<string>()
@@ -33,6 +34,7 @@ namespace TextEditorTests
         }
         
         [TestMethod]
+        [DeploymentItem(@"Resources\SnippetLibrary.xml", "UserData")]
         public void SnippetLibrary_Remove()
         {
             List<string> s1Content = new List<string>()

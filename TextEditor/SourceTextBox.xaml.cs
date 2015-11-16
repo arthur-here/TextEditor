@@ -165,8 +165,8 @@ namespace TextEditor
                 if (this.SelectionLength > 0)
                 {
                     this.lastCarretIndex = this.SelectionStart;
-                    RemoveRangeCommand removeSelectionCommand = new RemoveRangeCommand(this.document, 
-                        this.SelectionStart, 
+                    RemoveRangeCommand removeSelectionCommand = new RemoveRangeCommand(this.document,
+                        this.SelectionStart,
                         this.SelectionLength);
                     this.commandManager.AddCommand(removeSelectionCommand);
                 }
@@ -190,14 +190,27 @@ namespace TextEditor
             // Tab
             else if (e.Key == Key.Tab)
             {
+                this.lastCarretIndex = this.CaretIndex + 2;
+                InsertStringCommand insertCommand = new InsertStringCommand("  ", this.document, this.CaretIndex);
+                this.commandManager.AddCommand(insertCommand);
+                this.commandManager.Run();
+                this.UpdateUi();
+
                 e.Handled = true;
             }
 
             // Enter
             else if (e.Key == Key.Return)
             {
-                NewLineCommand newLineCommand = new NewLineCommand(this.document, this.CaretIndex);
-                this.lastCarretIndex = this.CaretIndex + 1;
+                string paragraph = this.document.Lines[this.document.LineNumberByIndex(this.CaretIndex)];
+                int spaceCount = 0;
+                while (spaceCount < paragraph.Length && paragraph[spaceCount] == ' ')
+                {
+                    spaceCount++;
+                }
+
+                NewLineCommand newLineCommand = new NewLineCommand(spaceCount, this.document, this.CaretIndex);
+                this.lastCarretIndex = this.CaretIndex + 1 + spaceCount;
                 this.commandManager.AddCommand(newLineCommand);
                 this.commandManager.Run();
                 this.UpdateUi();

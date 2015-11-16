@@ -4,6 +4,7 @@
   <Deployment>
     <DeploymentItem filename="TextEditor\Resources\" />
     <DeploymentItem filename="TextEditorTests\Resources\" />
+    <DeploymentItem filename="TextEditor\UserData\SnippetLibrary.xml" />
     <DeploymentItem filename="TextEditorTests\Resources\DocumentExample.txt" />
   </Deployment>
   <Execution>

@@ -11,6 +11,9 @@
         Background="Transparent" ResizeMode="CanResizeWithGrip">
     <Window.Resources>
         <System:Double x:Key="FontSize">12</System:Double>
+        <Style TargetType="MenuItem" x:Key="DefaultMenuItem">
+            <Setter Property="Background" Value="#FFF1F1F1"/>
+        </Style>
     </Window.Resources>
     <Border CornerRadius="5,5,0,0" BorderThickness="1" BorderBrush="#FFF4F4F5">
         <Grid x:Name="RootGrid">
@@ -47,6 +50,12 @@
                         <MenuItem Header="UTF8" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"  Click="EncodingMenuItem_Click"/>
                     </MenuItem>
                 </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <TextBlock Text="Tools" VerticalAlignment="CENTER" HorizontalAlignment="Center"/>
+                    </MenuItem.Header>
+                    <MenuItem Header="Snippet Library" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"/>
+                    </MenuItem>
             </Menu>
             <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click">
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />

@@ -14,15 +14,18 @@ namespace TextEditor.Commands
         private TextEditorDocument document;
         private int currentLineIndex;
         private int currentLineCaretPosition;
+        private int indentationLevel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewLineCommand"/> class.
         /// </summary>
+        /// <param name="indentationLevel">How many spaces place before line.</param>
         /// <param name="document">Document insert to.</param>
         /// <param name="currentLineIndex">Number of current line.</param>
         /// <param name="currentLineCaretPosition">Caret position in current line.</param>
-        public NewLineCommand(TextEditorDocument document, int currentLineIndex, int currentLineCaretPosition)
+        public NewLineCommand(int indentationLevel, TextEditorDocument document, int currentLineIndex, int currentLineCaretPosition)
         {
+            this.indentationLevel = indentationLevel;
             this.document = document;
             this.currentLineIndex = currentLineIndex;
             this.currentLineCaretPosition = currentLineCaretPosition;
@@ -31,15 +34,17 @@ namespace TextEditor.Commands
         /// <summary>
         /// Initializes a new instance of the <see cref="NewLineCommand"/> class.
         /// </summary>
+        /// <param name="indentationLevel">How many spaces place before line.</param>
         /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
-        public NewLineCommand(TextEditorDocument document, int caretIndex)
+        public NewLineCommand(int indentationLevel, TextEditorDocument document, int caretIndex)
         {
             if (document == null)
             {
                 throw new ArgumentException("Document shouldn't be null.");
             }
 
+            this.indentationLevel = indentationLevel;
             this.document = document;
             this.currentLineIndex = document.LineNumberByIndex(caretIndex);
             this.currentLineCaretPosition = document.CaretPositionInLineByIndex(caretIndex);
@@ -57,6 +62,11 @@ namespace TextEditor.Commands
                 int substringLength = paragraph.Length - this.currentLineCaretPosition;
                 substringToTranslate = paragraph.Substring(this.currentLineCaretPosition, substringLength);
                 this.document.Lines[this.currentLineIndex] = paragraph.Remove(this.currentLineCaretPosition, substringLength);
+            }
+
+            for (int i = 0; i < this.indentationLevel; i++)
+            {
+                substringToTranslate = " " + substringToTranslate;
             }
 
             this.document.Lines.Insert(this.currentLineIndex + 1, substringToTranslate);

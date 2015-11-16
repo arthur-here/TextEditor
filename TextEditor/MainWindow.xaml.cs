@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using TextEditor.FileManager;
 
 namespace TextEditor
@@ -15,6 +16,7 @@ namespace TextEditor
     public partial class MainWindow : Window
     {
         private TextEditorFileManager fileManager = new TextEditorFileManager();
+        private SnippetLibrary snippetLibrary = new SnippetLibrary();
         private ListBox tipListBox = new ListBox()
         {
             Visibility = Visibility.Hidden,
@@ -29,7 +31,7 @@ namespace TextEditor
         public MainWindow()
         {
             this.InitializeComponent();
-            this.codeArea.SnippetLibrary = new SnippetLibrary();
+            this.codeArea.SnippetLibrary = this.snippetLibrary;
             this.codeArea.LibraryWordEnteredEvent += this.CodeArea_LibraryWordEnteredEvent;
             this.tipListBox.SelectionChanged += this.TipListBox_SelectionChanged;
             this.SetupUi();
@@ -80,7 +82,7 @@ namespace TextEditor
 
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Enter)
+                else if (e.Key == Key.Enter || e.Key == Key.Tab)
                 {
                     this.codeArea.InsertSnippet(this.tipListBox.SelectedItem as string);
                     this.isAutocompleteListShown = false;
@@ -122,6 +124,7 @@ namespace TextEditor
                 rightMargin, 
                 bottomMargin);
             this.tipListBox.ItemsSource = e.Names;
+            this.tipListBox.SelectedIndex = 0;
             this.tipListBox.Visibility = Visibility.Visible;
             this.isAutocompleteListShown = true;
         }

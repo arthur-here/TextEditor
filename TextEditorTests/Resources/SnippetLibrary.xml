@@ -1,0 +1,43 @@
+<ArrayOfSnippet xmlns="http://schemas.datacontract.org/2004/07/TextEditor" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Snippet>
+    <Content xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:string>lorem ipsum dot sit amet,</a:string>
+      <a:string>consectetur adipisicing elit</a:string>
+    </Content>
+    <Name>lorem</Name>
+  </Snippet>
+  <Snippet>
+    <Content xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:string>if  {</a:string>
+      <a:string></a:string>
+      <a:string>}</a:string>
+    </Content>
+    <Name>if</Name>
+  </Snippet>
+  <Snippet>
+    <Content xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:string>if  {</a:string>
+      <a:string></a:string>
+      <a:string>} else {</a:string>
+      <a:string></a:string>
+      <a:string>}</a:string>
+    </Content>
+    <Name>if-else</Name>
+  </Snippet>
+  <Snippet>
+    <Content xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:string>while  {</a:string>
+      <a:string></a:string>
+      <a:string>}</a:string>
+    </Content>
+    <Name>while</Name>
+  </Snippet>
+  <Snippet>
+    <Content xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:string>for x in 1...10 {</a:string>
+      <a:string></a:string>
+      <a:string>}</a:string>
+    </Content>
+    <Name>for</Name>
+  </Snippet>
+</ArrayOfSnippet>

@@ -66,6 +66,9 @@
     <Content Include="Resources\DocumentExample.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\SnippetLibrary.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TextEditor\TextEditor.csproj">

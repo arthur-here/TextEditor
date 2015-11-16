@@ -17,7 +17,7 @@ namespace TextEditor
     {
         private List<Snippet> snippets;
 
-        private string filename = "SnippetLibrary.xml";
+        private string filename = "UserData\\SnippetLibrary.xml";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SnippetLibrary"/> class.
@@ -100,7 +100,7 @@ namespace TextEditor
 
         private void Save()
         {
-            using (Stream writer = new FileStream(this.filename, FileMode.OpenOrCreate))
+            using (Stream writer = new FileStream(this.filename, FileMode.Create))
             {
                 DataContractSerializer ser = new DataContractSerializer(typeof(List<Snippet>));
                 ser.WriteObject(writer, this.snippets);
