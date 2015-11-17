@@ -98,7 +98,10 @@ namespace TextEditor
             this.Save();
         }
 
-        private void Save()
+        /// <summary>
+        /// Saves current snippets settings.
+        /// </summary>
+        public void Save()
         {
             using (Stream writer = new FileStream(this.filename, FileMode.Create))
             {

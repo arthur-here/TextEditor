@@ -1,0 +1,26 @@
+﻿<Window x:Class="TextEditor.SnippetLibraryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TextEditor"
+        mc:Ignorable="d"
+        Title="SnippetLibraryWindow" Height="398.667" Width="432"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent" ResizeMode="CanResizeWithGrip" Foreground="{x:Null}" BorderBrush="Black" MouseDown="Window_MouseDown">
+    <Grid Background="#FFB4B4B4">
+        <Border x:Name="mask" Background="#FF212121" CornerRadius="5,5,0,0" BorderThickness="1" />
+        <ListBox x:Name="snippetsListBox" Margin="0,25,0,47" SelectionChanged="snippetsListBox_SelectionChanged" Background="LightGray" BorderBrush="{x:Null}" HorizontalAlignment="Left" Width="167"/>
+        <TextBox x:Name="snippetContentTextBox" Margin="167,25,0,47" Background="#FFD8D8D8" BorderBrush="{x:Null}" />
+        <Button x:Name="closeButton" Content="Close" Margin="0,0,10,10" Background="#FFDADADA" BorderBrush="{x:Null}" Click="closeButton_Click" BorderThickness="0,1" HorizontalAlignment="Right" Width="48" Height="25" VerticalAlignment="Bottom"/>
+        <Button x:Name="saveButton" Content="Save" Margin="10,0,0,10" Background="#FFDADADA" BorderBrush="{x:Null}" Click="saveButton_Click" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="69"/>
+        <Button x:Name="newButton" Content="New" Margin="84,0,0,10" Background="#FFDADADA" BorderBrush="{x:Null}" Click="newButton_Click" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50"/>
+        <Button x:Name="removeButton" Content="Remove" Margin="139,0,0,10" Background="#FFDADADA" BorderBrush="{x:Null}" HorizontalAlignment="Left" Width="53" Height="25" VerticalAlignment="Bottom" Click="removeButton_Click"/>
+        <Label x:Name="label" Content="Snippets" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="168" Foreground="#FFBFBFBF"/>
+        <Label x:Name="label2" Content="Content" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="168" Foreground="#FFBFBFBF" Margin="168,0,0,0"/>
+        <Grid.OpacityMask>
+            <VisualBrush Visual="{Binding ElementName=mask}"/>
+        </Grid.OpacityMask>
+    </Grid>
+</Window>

@@ -218,5 +218,11 @@ namespace TextEditor
             this.tipListBox.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.RootGrid.Children.Add(this.tipListBox);
         }
+
+        private void SnippetLibraryMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SnippetLibraryWindow slw = new SnippetLibraryWindow(this.snippetLibrary);
+            slw.Show();
+        }
     }
 }

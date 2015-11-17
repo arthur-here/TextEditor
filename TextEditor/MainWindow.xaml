@@ -54,7 +54,7 @@
                     <MenuItem.Header>
                         <TextBlock Text="Tools" VerticalAlignment="CENTER" HorizontalAlignment="Center"/>
                     </MenuItem.Header>
-                    <MenuItem Header="Snippet Library" Background="#FF2A2F3A" HorizontalAlignment="Left" Width="145"/>
+                    <MenuItem Header="Snippet Library" Background="#FF2A2F3A" HorizontalAlignment="Left" Click="SnippetLibraryMenuItem_Click"/>
                     </MenuItem>
             </Menu>
             <Button x:Name="ExitButton" Margin="0,11,11,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Width="12" IsManipulationEnabled="True" Style="{DynamicResource IconButtonStyle}" Background="{x:Null}" Click="ExitButton_Click">

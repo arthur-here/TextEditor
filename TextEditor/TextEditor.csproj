@@ -103,8 +103,11 @@
     </Compile>
     <Compile Include="Snippet.cs" />
     <Compile Include="SnippetLibrary.cs" />
-    <Compile Include="SnippetLibraryWindow.xaml.cs">
+    <Compile Include="Windows\SnippetLibraryWindow.xaml.cs">
       <DependentUpon>SnippetLibraryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SnippetLibraryAddNewWindow.xaml.cs">
+      <DependentUpon>SnippetLibraryAddNewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TextEditorDocument.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -143,7 +146,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SnippetLibraryWindow.xaml">
+    <Page Include="Windows\SnippetLibraryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SnippetLibraryAddNewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
