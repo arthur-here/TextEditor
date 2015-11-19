@@ -54,7 +54,7 @@ namespace TextEditor
         private Brush fontBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
 
         private TextEditorDocument document;
-        private TextEditorCommandManager commandManager = new TextEditorCommandManager();
+        private TextEditorCommandManager commandManager;
         private SnippetLibrary snippetLibrary;
         private int lastCarretIndex = 0;
 
@@ -92,6 +92,7 @@ namespace TextEditor
                 }
 
                 this.document = value;
+                this.commandManager = new TextEditorCommandManager(this.document);
                 this.UpdateUi();
             }
         }
@@ -126,7 +127,7 @@ namespace TextEditor
             int index = this.CaretIndex - word.Length;
 
             this.lastCarretIndex = index + string.Join("\n", snippet.Content).Length;
-            InsertSnippetCommand insertCommand = new InsertSnippetCommand(snippet, this.document, index);
+            InsertSnippetCommand insertCommand = new InsertSnippetCommand(snippet, index);
             this.commandManager.AddCommand(insertCommand);
             this.commandManager.Run();
             this.UpdateUi();
@@ -165,9 +166,7 @@ namespace TextEditor
                 if (this.SelectionLength > 0)
                 {
                     this.lastCarretIndex = this.SelectionStart;
-                    RemoveRangeCommand removeSelectionCommand = new RemoveRangeCommand(this.document,
-                        this.SelectionStart,
-                        this.SelectionLength);
+                    RemoveRangeCommand removeSelectionCommand = new RemoveRangeCommand(this.SelectionStart, this.SelectionLength);
                     this.commandManager.AddCommand(removeSelectionCommand);
                 }
                 else
@@ -178,7 +177,7 @@ namespace TextEditor
                     }
 
                     this.lastCarretIndex = this.CaretIndex - 1;
-                    RemoveRangeCommand removeCommand = new RemoveRangeCommand(this.document, this.CaretIndex - 1, 1);
+                    RemoveRangeCommand removeCommand = new RemoveRangeCommand(this.CaretIndex - 1, 1);
                     this.commandManager.AddCommand(removeCommand);
                 }
 
@@ -191,7 +190,7 @@ namespace TextEditor
             else if (e.Key == Key.Tab)
             {
                 this.lastCarretIndex = this.CaretIndex + 2;
-                InsertStringCommand insertCommand = new InsertStringCommand("  ", this.document, this.CaretIndex);
+                InsertStringCommand insertCommand = new InsertStringCommand("  ", this.CaretIndex);
                 this.commandManager.AddCommand(insertCommand);
                 this.commandManager.Run();
                 this.UpdateUi();
@@ -209,7 +208,7 @@ namespace TextEditor
                     spaceCount++;
                 }
 
-                NewLineCommand newLineCommand = new NewLineCommand(spaceCount, this.document, this.CaretIndex);
+                NewLineCommand newLineCommand = new NewLineCommand(spaceCount, this.CaretIndex);
                 this.lastCarretIndex = this.CaretIndex + 1 + spaceCount;
                 this.commandManager.AddCommand(newLineCommand);
                 this.commandManager.Run();
@@ -221,7 +220,7 @@ namespace TextEditor
             else if ((!char.IsControl(pressedChar) && !pressedChar.Equals(' ')) || e.Key == Key.Space)
             {
                 this.lastCarretIndex = this.CaretIndex + 1;
-                InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.document, this.CaretIndex);
+                InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.CaretIndex);
                 this.commandManager.AddCommand(insertCommand);
                 this.commandManager.Run();
                 this.UpdateUi();

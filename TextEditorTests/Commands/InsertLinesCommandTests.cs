@@ -31,8 +31,8 @@ namespace TextEditorTests.Commands
             {
                 "insert", "some", " ", "lines"
             };
-            InsertLinesCommand command = new InsertLinesCommand(lines, this.document, 9);
-            command.Execute();
+            InsertLinesCommand command = new InsertLinesCommand(lines, 9);
+            command.Execute(this.document);
             List<string> expected = new List<string>()
             {
                 "hello", "worinsert", "some", " ", "linesld", "", "123"
@@ -42,8 +42,8 @@ namespace TextEditorTests.Commands
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertLinesCommand(lines, this.document, 16);
-            command.Execute();
+            command = new InsertLinesCommand(lines, 16);
+            command.Execute(this.document);
             expected = new List<string>()
             {
                 "hello", "world", "", "123insert", "some", " ", "lines"
@@ -53,8 +53,8 @@ namespace TextEditorTests.Commands
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertLinesCommand(lines, this.document, 0);
-            command.Execute();
+            command = new InsertLinesCommand(lines, 0);
+            command.Execute(this.document);
             expected = new List<string>()
             {
                 "insert", "some", " ", "lineshello", "world", "", "123"

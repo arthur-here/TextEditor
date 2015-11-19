@@ -11,57 +11,46 @@ namespace TextEditor.Commands
     /// </summary>
     public class NewLineCommand : ICommand
     {
-        private TextEditorDocument document;
-        private int currentLineIndex;
-        private int currentLineCaretPosition;
+        private int caretIndex;
         private int indentationLevel;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NewLineCommand"/> class.
-        /// </summary>
-        /// <param name="indentationLevel">How many spaces place before line.</param>
-        /// <param name="document">Document insert to.</param>
-        /// <param name="currentLineIndex">Number of current line.</param>
-        /// <param name="currentLineCaretPosition">Caret position in current line.</param>
-        public NewLineCommand(int indentationLevel, TextEditorDocument document, int currentLineIndex, int currentLineCaretPosition)
-        {
-            this.indentationLevel = indentationLevel;
-            this.document = document;
-            this.currentLineIndex = currentLineIndex;
-            this.currentLineCaretPosition = currentLineCaretPosition;
-        }
+        private TextEditorDocument changedDocument;
+        private int line;
+        private int position;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewLineCommand"/> class.
         /// </summary>
         /// <param name="indentationLevel">How many spaces place before line.</param>
-        /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
-        public NewLineCommand(int indentationLevel, TextEditorDocument document, int caretIndex)
+        public NewLineCommand(int indentationLevel, int caretIndex)
         {
-            if (document == null)
-            {
-                throw new ArgumentException("Document shouldn't be null.");
-            }
-
             this.indentationLevel = indentationLevel;
-            this.document = document;
-            this.currentLineIndex = document.LineNumberByIndex(caretIndex);
-            this.currentLineCaretPosition = document.CaretPositionInLineByIndex(caretIndex);
+            this.caretIndex = caretIndex;
         }
 
         /// <summary>
         /// Executes command.
         /// </summary>
-        public void Execute()
+        /// <param name="document">Document to run command.</param>
+        public void Execute(TextEditorDocument document)
         {
-            string paragraph = this.document.Lines[this.currentLineIndex];
-            string substringToTranslate = string.Empty;
-            if (this.currentLineCaretPosition < paragraph.Length)
+            if (document == null)
             {
-                int substringLength = paragraph.Length - this.currentLineCaretPosition;
-                substringToTranslate = paragraph.Substring(this.currentLineCaretPosition, substringLength);
-                this.document.Lines[this.currentLineIndex] = paragraph.Remove(this.currentLineCaretPosition, substringLength);
+                return;
+            }
+
+            this.line = document.LineNumberByIndex(this.caretIndex);
+            this.position = document.CaretPositionInLineByIndex(this.caretIndex);
+            this.changedDocument = document;
+
+            string paragraph = document.Lines[this.line];
+            string substringToTranslate = string.Empty;
+            if (this.position < paragraph.Length)
+            {
+                int substringLength = paragraph.Length - this.position;
+                substringToTranslate = paragraph.Substring(this.position, substringLength);
+                document.Lines[this.line] = paragraph.Remove(this.position, substringLength);
             }
 
             for (int i = 0; i < this.indentationLevel; i++)
@@ -69,7 +58,7 @@ namespace TextEditor.Commands
                 substringToTranslate = " " + substringToTranslate;
             }
 
-            this.document.Lines.Insert(this.currentLineIndex + 1, substringToTranslate);
+            document.Lines.Insert(this.line + 1, substringToTranslate);
         }
 
         /// <summary>
@@ -77,9 +66,9 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            this.document.Lines[this.currentLineIndex] = this.document.Lines[this.currentLineIndex] + 
-                this.document.Lines[this.currentLineIndex + 1];
-            this.document.Lines.RemoveAt(this.currentLineIndex + 1);
+            this.changedDocument.Lines[this.line] = this.changedDocument.Lines[this.line] + 
+                this.changedDocument.Lines[this.line + 1];
+            this.changedDocument.Lines.RemoveAt(this.line + 1);
         }
     }
 }

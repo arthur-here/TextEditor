@@ -15,52 +15,41 @@ namespace TextEditor.Commands
     /// </summary>
     public class InsertStringCommand : ICommand
     {
-        private TextEditorDocument document;
-        private int line;
-        private int position;
+        private int caretIndex;
         private string text;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InsertStringCommand"/> class.
-        /// </summary>
-        /// <param name="text">Text to insert.</param>
-        /// <param name="document">Document insert to.</param>
-        /// <param name="line">Line number.</param>
-        /// <param name="position">Index in line.</param>
-        public InsertStringCommand(string text, TextEditorDocument document, int line, int position)
-        {
-            this.text = text;
-            this.document = document;
-            this.line = line;
-            this.position = position;
-        }
+        private TextEditorDocument changedDocument;
+        private int line;
+        private int position;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InsertStringCommand"/> class.
         /// </summary>
         /// <param name="text">Text to insert.</param>
-        /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
-        public InsertStringCommand(string text, TextEditorDocument document, int caretIndex)
+        public InsertStringCommand(string text, int caretIndex)
         {
-            if (document == null)
-            {
-                throw new ArgumentException("document shouldn't be null");
-            }
-
             this.text = text;
-            this.document = document;
-            this.line = this.document.LineNumberByIndex(caretIndex);
-            this.position = this.document.CaretPositionInLineByIndex(caretIndex);
+            this.caretIndex = caretIndex;
         }
 
         /// <summary>
         /// Executes command.
         /// </summary>
-        public void Execute()
+        /// <param name="document">Document to run command.</param>
+        public void Execute(TextEditorDocument document)
         {
-            string paragraph = this.document.Lines[this.line];
-            this.document.Lines[this.line] = paragraph.Insert(this.position, this.text);
+            if (document == null)
+            {
+                return;
+            }
+
+            this.line = document.LineNumberByIndex(this.caretIndex);
+            this.position = document.CaretPositionInLineByIndex(this.caretIndex);
+            this.changedDocument = document;
+
+            string paragraph = document.Lines[this.line];
+            document.Lines[this.line] = paragraph.Insert(this.position, this.text);
         }
 
         /// <summary>
@@ -68,8 +57,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            string paragraph = this.document.Lines.ElementAt(this.line);
-            this.document.Lines[this.line] = paragraph.Remove(this.position, this.text.Length);
+            string paragraph = this.changedDocument.Lines.ElementAt(this.line);
+            this.changedDocument.Lines[this.line] = paragraph.Remove(this.position, this.text.Length);
         }
     }
 }

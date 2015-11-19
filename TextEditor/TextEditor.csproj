@@ -101,6 +101,7 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Macro.cs" />
     <Compile Include="Snippet\Snippet.cs" />
     <Compile Include="Snippet\SnippetLibrary.cs" />
     <Compile Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml.cs">

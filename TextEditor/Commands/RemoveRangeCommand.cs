@@ -11,78 +11,59 @@ namespace TextEditor.Commands
     /// </summary>
     public class RemoveRangeCommand : ICommand
     {
-        private TextEditorDocument document;
         private int caretIndex;
+        private int length;
+
+        private TextEditorDocument changedDocument;
         private int line;
         private int position;
-        private int length;
         private List<string> removedLines;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveRangeCommand"/> class.
         /// </summary>
-        /// <param name="document">Document insert to.</param>
-        /// <param name="line">Line number.</param>
-        /// <param name="position">Index in line.</param>
-        /// <param name="length">Count of chars to delete.</param>
-        public RemoveRangeCommand(TextEditorDocument document, int line, int position, int length)
-        {
-            if (document == null)
-            {
-                throw new ArgumentException("Document shouldn't be null");
-            }
-
-            this.document = document;
-            this.line = line;
-            this.position = position;
-            this.caretIndex = document.CaretIndexByPosition(line, position);
-            this.length = length;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveRangeCommand"/> class.
-        /// </summary>
-        /// <param name="document">Document insert to.</param>
         /// <param name="caretIndex">Index of caret in document.</param>
         /// <param name="length">Count of chars to delete.</param>
-        public RemoveRangeCommand(TextEditorDocument document, int caretIndex, int length)
+        public RemoveRangeCommand(int caretIndex, int length)
         {
-            if (document == null)
-            {
-                throw new ArgumentException("Document shouldn't be null");
-            }
-
-            this.document = document;
             this.caretIndex = caretIndex;
-            this.line = this.document.LineNumberByIndex(caretIndex);
-            this.position = this.document.CaretPositionInLineByIndex(caretIndex);
             this.length = length;
         }
 
         /// <summary>
         /// Executes command.
         /// </summary>
-        public void Execute()
+        /// <param name="document">Document to run command.</param>
+        public void Execute(TextEditorDocument document)
         {
-            int endCaretIndex = this.caretIndex + this.length;
-            if (endCaretIndex > this.document.Text.Length)
+            if (document == null)
             {
-                endCaretIndex = this.document.Text.Length;
+                return;
             }
 
-            int endPosition = this.document.CaretPositionInLineByIndex(endCaretIndex);
-            int endLineIndex = this.document.LineNumberByIndex(endCaretIndex);
-            this.removedLines = this.document.Lines.GetRange(this.line, endLineIndex - this.line + 1);
+            this.line = document.LineNumberByIndex(this.caretIndex);
+            this.position = document.CaretPositionInLineByIndex(this.caretIndex);
+            this.changedDocument = document;
 
-            string paragraph = this.document.Lines[this.line];
-            string lineToMove = this.document.Lines[endLineIndex].Substring(endPosition);
+            int endCaretIndex = this.caretIndex + this.length;
+            if (endCaretIndex > document.Text.Length)
+            {
+                endCaretIndex = document.Text.Length;
+            }
+
+            int endPosition = document.CaretPositionInLineByIndex(endCaretIndex);
+            int endLineIndex = document.LineNumberByIndex(endCaretIndex);
+            this.removedLines = document.Lines.GetRange(this.line, endLineIndex - this.line + 1);
+
+            string paragraph = document.Lines[this.line];
+            string lineToMove = document.Lines[endLineIndex].Substring(endPosition);
             if (paragraph.Length > this.position)
             {
                 paragraph = paragraph.Remove(this.position);
             }
 
-            this.document.Lines[this.line] = paragraph + lineToMove;
-            this.document.Lines.RemoveRange(this.line + 1, endLineIndex - this.line);
+            document.Lines[this.line] = paragraph + lineToMove;
+            document.Lines.RemoveRange(this.line + 1, endLineIndex - this.line);
         }
 
         /// <summary>
@@ -90,8 +71,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            this.document.Lines.RemoveAt(this.line);
-            this.document.Lines.InsertRange(this.line, this.removedLines);
+            this.changedDocument.Lines.RemoveAt(this.line);
+            this.changedDocument.Lines.InsertRange(this.line, this.removedLines);
         }
     }
 }

@@ -14,7 +14,8 @@ namespace TextEditor.Commands
         /// <summary>
         /// Executes command.
         /// </summary>
-        void Execute();
+        /// <param name="document">Document to change.</param>
+        void Execute(TextEditorDocument document);
 
         /// <summary>
         /// Unexecutes command.

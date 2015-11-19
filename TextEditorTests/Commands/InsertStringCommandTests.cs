@@ -26,44 +26,44 @@ namespace TextEditorTests
         [TestMethod]
         public void InsertStringCommand_InsertCharacter()
         {
-            InsertStringCommand command = new InsertStringCommand("a", this.document, 0);
-            command.Execute();
+            InsertStringCommand command = new InsertStringCommand("a", 0);
+            command.Execute(this.document);
             Assert.AreEqual("ahello", this.document.Lines[0]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertStringCommand("a", this.document, 5);
-            command.Execute();
+            command = new InsertStringCommand("a", 5);
+            command.Execute(this.document);
             Assert.AreEqual("helloa", this.document.Lines[0]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertStringCommand("a", this.document, 6);
-            command.Execute();
+            command = new InsertStringCommand("a", 6);
+            command.Execute(this.document);
             Assert.AreEqual("aworld", this.document.Lines[1]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertStringCommand("a", this.document, 11);
-            command.Execute();
+            command = new InsertStringCommand("a", 11);
+            command.Execute(this.document);
             Assert.AreEqual("worlda", this.document.Lines[1]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertStringCommand("a", this.document, 12);
-            command.Execute();
+            command = new InsertStringCommand("a", 12);
+            command.Execute(this.document);
             Assert.AreEqual("a", this.document.Lines[2]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertStringCommand("a", this.document, 13);
-            command.Execute();
+            command = new InsertStringCommand("a", 13);
+            command.Execute(this.document);
             Assert.AreEqual("a123", this.document.Lines[3]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
 
-            command = new InsertStringCommand("a", this.document, 16);
-            command.Execute();
+            command = new InsertStringCommand("a", 16);
+            command.Execute(this.document);
             Assert.AreEqual("123a", this.document.Lines[3]);
             command.Undo();
             Assert.AreEqual(this.initialDocument.Text, this.document.Text);
@@ -73,8 +73,8 @@ namespace TextEditorTests
         [ExpectedException(typeof(ArgumentException))]
         public void InsertStringCommand_InsertCharacter_InalidCaretIndex()
         {
-            InsertStringCommand command = new InsertStringCommand("a", this.document, 17);
-            command.Execute();
+            InsertStringCommand command = new InsertStringCommand("a", 17);
+            command.Execute(this.document);
         }
     }
 }
