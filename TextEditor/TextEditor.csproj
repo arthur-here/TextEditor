@@ -101,12 +101,12 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Snippet.cs" />
-    <Compile Include="SnippetLibrary.cs" />
-    <Compile Include="Windows\SnippetLibraryWindow.xaml.cs">
+    <Compile Include="Snippet\Snippet.cs" />
+    <Compile Include="Snippet\SnippetLibrary.cs" />
+    <Compile Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml.cs">
       <DependentUpon>SnippetLibraryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\SnippetLibraryAddNewWindow.xaml.cs">
+    <Compile Include="UserInterface\SnippetWindows\SnippetLibraryAddNewWindow.xaml.cs">
       <DependentUpon>SnippetLibraryAddNewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TextEditorDocument.cs">
@@ -123,7 +123,7 @@
     <Compile Include="FileManager\FileReaderStrategy\UTF8FileReader.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="SourceTextBox.xaml.cs">
+    <Compile Include="UserInterface\SourceTextBox.xaml.cs">
       <DependentUpon>SourceTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\ExtensionMethods.cs">
@@ -146,15 +146,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\SnippetLibraryWindow.xaml">
+    <Page Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\SnippetLibraryAddNewWindow.xaml">
+    <Page Include="UserInterface\SnippetWindows\SnippetLibraryAddNewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SourceTextBox.xaml">
+    <Page Include="UserInterface\SourceTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
