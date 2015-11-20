@@ -88,7 +88,7 @@ namespace TextEditor
         {
             if (caretIndex < 0 || caretIndex > this.Text.Length)
             {
-                throw new ArgumentException("Caret index should be >= 0");
+                throw new ArgumentException("Caret index should be in document range.");
             }
 
             int line = 0;
@@ -116,7 +116,7 @@ namespace TextEditor
         {
             if (caretIndex < 0 || caretIndex > this.Text.Length)
             {
-                throw new ArgumentException("Caret index should in correct range.");
+                throw new ArgumentException("Caret index should in document range.");
             }
 
             int line = 0;

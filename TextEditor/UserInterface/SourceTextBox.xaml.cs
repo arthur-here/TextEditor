@@ -56,6 +56,7 @@ namespace TextEditor
         private TextEditorDocument document;
         private TextEditorCommandManager commandManager;
         private SnippetLibrary snippetLibrary;
+        private MacroLibrary macroLibrary;
         private int lastCarretIndex = 0;
 
         /// <summary>
@@ -107,6 +108,15 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Gets or sets SnippetLibrary.
+        /// </summary>
+        public MacroLibrary MacroLibrary
+        {
+            get { return this.macroLibrary; }
+            set { this.macroLibrary = value; }
+        }
+
+        /// <summary>
         /// Inserts snippet at caret index replacing it's name.
         /// </summary>
         /// <param name="snippetName">Name of snippet.</param>
@@ -130,6 +140,22 @@ namespace TextEditor
             InsertSnippetCommand insertCommand = new InsertSnippetCommand(snippet, index);
             this.commandManager.AddCommand(insertCommand);
             this.commandManager.Run();
+            this.UpdateUi();
+        }
+
+        /// <summary>
+        /// Executes macro.
+        /// </summary>
+        /// <param name="macro">Macro to execute.</param>
+        public void ExecuteMacro(Macro macro)
+        {
+            if (macro == null)
+            {
+                return;
+            }
+
+            this.lastCarretIndex = this.CaretIndex;
+            macro.Run(this.document, this.CaretIndex);
             this.UpdateUi();
         }
 
@@ -163,11 +189,11 @@ namespace TextEditor
             // Backspace
             else if (e.Key == Key.Back)
             {
+                RemoveRangeCommand removeCommand;
                 if (this.SelectionLength > 0)
                 {
                     this.lastCarretIndex = this.SelectionStart;
-                    RemoveRangeCommand removeSelectionCommand = new RemoveRangeCommand(this.SelectionStart, this.SelectionLength);
-                    this.commandManager.AddCommand(removeSelectionCommand);
+                    removeCommand = new RemoveRangeCommand(this.SelectionStart, this.SelectionLength);
                 }
                 else
                 {
@@ -177,12 +203,10 @@ namespace TextEditor
                     }
 
                     this.lastCarretIndex = this.CaretIndex - 1;
-                    RemoveRangeCommand removeCommand = new RemoveRangeCommand(this.CaretIndex - 1, 1);
-                    this.commandManager.AddCommand(removeCommand);
+                    removeCommand = new RemoveRangeCommand(this.CaretIndex - 1, 1);
                 }
 
-                this.commandManager.Run();
-                this.UpdateUi();
+                this.RunCommand(removeCommand);
                 e.Handled = true;
             }
 
@@ -191,9 +215,7 @@ namespace TextEditor
             {
                 this.lastCarretIndex = this.CaretIndex + 2;
                 InsertStringCommand insertCommand = new InsertStringCommand("  ", this.CaretIndex);
-                this.commandManager.AddCommand(insertCommand);
-                this.commandManager.Run();
-                this.UpdateUi();
+                this.RunCommand(insertCommand);
 
                 e.Handled = true;
             }
@@ -210,9 +232,7 @@ namespace TextEditor
 
                 NewLineCommand newLineCommand = new NewLineCommand(spaceCount, this.CaretIndex);
                 this.lastCarretIndex = this.CaretIndex + 1 + spaceCount;
-                this.commandManager.AddCommand(newLineCommand);
-                this.commandManager.Run();
-                this.UpdateUi();
+                this.RunCommand(newLineCommand);
                 e.Handled = true;
             }
 
@@ -221,9 +241,7 @@ namespace TextEditor
             {
                 this.lastCarretIndex = this.CaretIndex + 1;
                 InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.CaretIndex);
-                this.commandManager.AddCommand(insertCommand);
-                this.commandManager.Run();
-                this.UpdateUi();
+                this.RunCommand(insertCommand);
 
                 // Autocompletion analyzing
                 string currentWord = this.document.GetWordByCaretIndex(this.CaretIndex);
@@ -305,6 +323,18 @@ namespace TextEditor
             {
                 this.LibraryWordEnteredEvent(this, e);
             }
+        }
+
+        /// <summary>
+        /// Executes the command and updates UI.
+        /// </summary>
+        /// <param name="command">Command to run.</param>
+        private void RunCommand(Commands.ICommand command)
+        {
+            this.macroLibrary.AddCommand(command);
+            this.commandManager.AddCommand(command);
+            this.commandManager.Run();
+            this.UpdateUi();
         }
 
         private void TextBox_ScrollChanged(object sender, ScrollChangedEventArgs e)

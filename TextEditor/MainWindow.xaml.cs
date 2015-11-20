@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,8 @@ namespace TextEditor
     {
         private TextEditorFileManager fileManager = new TextEditorFileManager();
         private SnippetLibrary snippetLibrary = new SnippetLibrary();
+        private MacroLibrary macroLibrary = new MacroLibrary();
+
         private ListBox tipListBox = new ListBox()
         {
             Visibility = Visibility.Hidden,
@@ -32,6 +35,7 @@ namespace TextEditor
         {
             this.InitializeComponent();
             this.codeArea.SnippetLibrary = this.snippetLibrary;
+            this.codeArea.MacroLibrary = this.macroLibrary;
             this.codeArea.LibraryWordEnteredEvent += this.CodeArea_LibraryWordEnteredEvent;
             this.tipListBox.SelectionChanged += this.TipListBox_SelectionChanged;
             this.SetupUi();
@@ -217,12 +221,43 @@ namespace TextEditor
             this.tipListBox.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.tipListBox.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.RootGrid.Children.Add(this.tipListBox);
+            Style s = new Style(typeof(MenuItem));
+            Setter setter = new Setter { Property = MenuItem.BackgroundProperty, Value = new SolidColorBrush(Color.FromRgb(16, 18, 23)) };
+            s.Setters.Add(setter);
+            this.MacrosMenuItem.ItemContainerStyle = s;
+            this.MacrosMenuItem.ItemsSource = this.macroLibrary.Library.Select(m => m.Name);
         }
 
         private void SnippetLibraryMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SnippetLibraryWindow slw = new SnippetLibraryWindow(this.snippetLibrary);
             slw.Show();
+        }
+
+        private void RecordMacroMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!this.macroLibrary.IsRecording)
+            {
+                this.macroLibrary.StartRecording();
+                this.RecordMacroMenuItem.Header = new TextBlock(new Run("Stop Recording"));
+            }
+            else
+            {
+                this.macroLibrary.StopRecording();
+                this.RecordMacroMenuItem.Header = new TextBlock(new Run("Start Recording"));
+                this.MacrosMenuItem.ItemsSource = this.macroLibrary.Library.Select(m => m.Name);
+                this.MacrosMenuItem.Click += this.MacroMenuItem_Click;
+            }
+        }
+
+        private void MacroMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string itemHeader = (e.OriginalSource as MenuItem).Header.ToString();
+            Macro selectedMacro = this.macroLibrary.Library.Where(m => m.Name == itemHeader).FirstOrDefault();
+            if (selectedMacro != null)
+            {
+                this.codeArea.ExecuteMacro(selectedMacro);
+            }
         }
     }
 }

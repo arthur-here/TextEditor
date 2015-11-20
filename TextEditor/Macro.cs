@@ -52,11 +52,12 @@ namespace TextEditor
         /// Runs the macro.
         /// </summary>
         /// <param name="document">Document to execute macro.</param>
-        public void Run(TextEditorDocument document)
+        /// <param name="caretIndex">Caret index to execute macro.</param>
+        public void Run(TextEditorDocument document, int caretIndex)
         {
             foreach (ICommand command in this.commands)
             {
-                command.Execute(document);
+                command.Execute(document, caretIndex);
             }
         }
     }

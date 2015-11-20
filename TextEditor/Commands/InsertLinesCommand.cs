@@ -63,6 +63,17 @@ namespace TextEditor.Commands
         }
 
         /// <summary>
+        /// Executes command on new caretIndex.
+        /// </summary>
+        /// <param name="document">Document to change.</param>
+        /// <param name="newCaretIndex">New caretIndex.</param>
+        public void Execute(TextEditorDocument document, int newCaretIndex)
+        {
+            this.caretIndex = newCaretIndex;
+            this.Execute(document);
+        }
+
+        /// <summary>
         /// Undo command.
         /// </summary>
         public void Undo()
