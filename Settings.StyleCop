@@ -166,7 +166,7 @@
         <StringProperty Name="AdvancedNaming_PrivateInstanceField">$(aaBb)</StringProperty>
         <StringProperty Name="AdvancedNaming_ProtectedStaticField">$(aaBb)</StringProperty>
         <StringProperty Name="AdvancedNaming_PrivateStaticField">$(aaBb)</StringProperty>
-        <StringProperty Name="AdvancedNaming_EnumItem">$(AaBb)$(AA_BB)</StringProperty>
+        <StringProperty Name="AdvancedNaming_EnumItem">$(AaBb):$(AA_BB)</StringProperty>
       </AnalyzerSettings>
     </Analyzer>
     <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">

@@ -101,10 +101,13 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="ISyntaxAnalyzer.cs" />
     <Compile Include="Macro.cs" />
     <Compile Include="MacroLibrary.cs" />
     <Compile Include="Snippet\Snippet.cs" />
     <Compile Include="Snippet\SnippetLibrary.cs" />
+    <Compile Include="SwiftSyntaxAnalyzer.cs" />
+    <Compile Include="Token.cs" />
     <Compile Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml.cs">
       <DependentUpon>SnippetLibraryWindow.xaml</DependentUpon>
     </Compile>
