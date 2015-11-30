@@ -57,6 +57,7 @@ namespace TextEditor
         private TextEditorCommandManager commandManager;
         private SnippetLibrary snippetLibrary;
         private MacroLibrary macroLibrary;
+        private ISyntaxAnalyzer syntaxAnalyzer = new SwiftSyntaxAnalyzer();
         private int lastCarretIndex = 0;
 
         /// <summary>
@@ -236,6 +237,17 @@ namespace TextEditor
                 e.Handled = true;
             }
 
+            // Ctrl+V
+            else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                string clipboardText = Clipboard.GetText();
+                List<string> clipboardLines = clipboardText.Split('\n').Select(l => l.Replace("\r", "")).ToList();
+                this.lastCarretIndex += clipboardText.Length;
+
+                InsertLinesCommand command = new InsertLinesCommand(clipboardLines, this.CaretIndex);
+                this.RunCommand(command);
+            }
+
             // Some symbol 
             else if ((!char.IsControl(pressedChar) && !pressedChar.Equals(' ')) || e.Key == Key.Space)
             {
@@ -289,6 +301,14 @@ namespace TextEditor
                 this.FontSize, 
                 this.fontBrush);
             
+            if (this.syntaxAnalyzer != null)
+            {
+                foreach (Token token in this.syntaxAnalyzer.Tokens)
+                {
+                    ft.SetForegroundBrush(new SolidColorBrush(Colors.DarkSeaGreen), token.CaretIndex, token.Length);
+                }
+            }
+
             var topMargin = 2.0 + this.BorderThickness.Top;
             ft.MaxTextWidth = this.ActualWidth - 6;
             ScrollViewer scrollview = this.FindVisualChild<ScrollViewer>();
@@ -323,6 +343,22 @@ namespace TextEditor
             {
                 this.LibraryWordEnteredEvent(this, e);
             }
+        }
+
+        /// <summary>
+        /// Check text changed
+        /// </summary>
+        /// <param name="e">TextChanged event arguments.</param>
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+
+            if (this.syntaxAnalyzer != null)
+            {
+                this.syntaxAnalyzer.Parse(this.Document);
+            }
+
+            this.UpdateUi();
         }
 
         /// <summary>
