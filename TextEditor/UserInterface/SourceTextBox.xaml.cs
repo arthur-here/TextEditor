@@ -224,7 +224,15 @@ namespace TextEditor
             // Enter
             else if (e.Key == Key.Return)
             {
-                string paragraph = this.document.Lines[this.document.LineNumberByIndex(this.CaretIndex)];
+                int line = this.document.LineNumberByIndex(this.CaretIndex);
+
+                if (line == -1)
+                {
+                    line = 0;
+                    this.document.Lines.Add(string.Empty);
+                }
+
+                string paragraph = this.document.Lines[line];
                 int spaceCount = 0;
                 while (spaceCount < paragraph.Length && paragraph[spaceCount] == ' ')
                 {

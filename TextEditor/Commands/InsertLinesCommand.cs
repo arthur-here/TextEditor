@@ -44,13 +44,19 @@ namespace TextEditor.Commands
             this.position = document.CaretPositionInLineByIndex(this.caretIndex);
             this.changedDocument = document;
 
+            if (this.line == -1)
+            {
+                this.line = 0;
+                document.Lines.Add(string.Empty);
+            }
+
             string paragraph = document.Lines[this.line];
             string partToMove = paragraph.Substring(this.position);
             if (paragraph.Length > this.position)
             {
                 paragraph = paragraph.Remove(this.position);
             }
-            
+
             document.Lines[this.line] = paragraph.Insert(this.position, this.text.First());
             List<string> newLines = new List<string>(this.text);
             newLines.RemoveAt(0);
