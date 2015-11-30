@@ -58,11 +58,6 @@ namespace TextEditor
         {
             get
             {
-                if (lines.Count == 0)
-                {
-                    lines.Add(string.Empty);
-                }
-
                 return lines;
             }
             set

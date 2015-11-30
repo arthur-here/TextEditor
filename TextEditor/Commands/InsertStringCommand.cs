@@ -47,7 +47,13 @@ namespace TextEditor.Commands
             this.line = document.LineNumberByIndex(this.caretIndex);
             this.position = document.CaretPositionInLineByIndex(this.caretIndex);
             this.changedDocument = document;
-            
+
+            if (this.line == -1)
+            {
+                this.line = 0;
+                document.Lines.Add(string.Empty);
+            }
+
             string paragraph = document.Lines[this.line];
             document.Lines[this.line] = paragraph.Insert(this.position, this.text);
         }
