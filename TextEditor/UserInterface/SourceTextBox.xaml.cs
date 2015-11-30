@@ -241,7 +241,7 @@ namespace TextEditor
             else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 string clipboardText = Clipboard.GetText();
-                List<string> clipboardLines = clipboardText.Split('\n').Select(l => l.Replace("\r", "")).ToList();
+                List<string> clipboardLines = clipboardText.Split('\n').Select(l => l.Replace("\r", string.Empty)).ToList();
                 this.lastCarretIndex += clipboardText.Length;
 
                 InsertLinesCommand command = new InsertLinesCommand(clipboardLines, this.CaretIndex);

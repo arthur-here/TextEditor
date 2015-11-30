@@ -73,11 +73,21 @@ namespace TextEditor
                 Color color;
                 switch (this.TokenType)
                 {
-                    case TokenType.Keyword: color = Color.FromRgb(251, 222, 45); break;
-                    case TokenType.Comment: color = Color.FromRgb(174, 174, 174); break;
-                    case TokenType.Number: color = Color.FromRgb(174, 174, 174); break;
-                    case TokenType.String: color = Color.FromRgb(255, 165, 0); break;
-                    default: color = Color.FromRgb(230, 230, 230); break;
+                    case TokenType.Keyword:
+                        color = Color.FromRgb(251, 222, 45);
+                        break;
+                    case TokenType.Comment:
+                        color = Color.FromRgb(174, 174, 174);
+                        break;
+                    case TokenType.Number:
+                        color = Color.FromRgb(216, 250, 60);
+                        break;
+                    case TokenType.String:
+                        color = Color.FromRgb(255, 165, 0);
+                        break;
+                    default:
+                        color = Color.FromRgb(230, 230, 230);
+                        break;
                 }
 
                 return new SolidColorBrush(color);
