@@ -305,7 +305,7 @@ namespace TextEditor
             {
                 foreach (Token token in this.syntaxAnalyzer.Tokens)
                 {
-                    ft.SetForegroundBrush(new SolidColorBrush(Colors.DarkSeaGreen), token.CaretIndex, token.Length);
+                    ft.SetForegroundBrush(token.ColorBrush, token.CaretIndex, token.Length);
                 }
             }
 

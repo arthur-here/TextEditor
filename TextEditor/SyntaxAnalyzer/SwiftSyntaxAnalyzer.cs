@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace TextEditor
 {
@@ -12,6 +13,7 @@ namespace TextEditor
     public class SwiftSyntaxAnalyzer : ISyntaxAnalyzer
     {
         private Dictionary<string, TokenType> library;
+        private string keywordsPattern;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SwiftSyntaxAnalyzer"/> class.
@@ -39,29 +41,35 @@ namespace TextEditor
             }
 
             this.Tokens.Clear();
-            int caretIndex = 0;
-            foreach (string line in document.Lines)
-            {
-                List<string> words = line.Split(' ').ToList();
-                foreach (string word in words)
-                {
-                    string key = this.GetKeyForWord(word);
-                    if (key != null)
-                    {
-                        Token token = new Token(this.library[key], caretIndex, word.Length);
-                        this.Tokens.Add(token);
-                    }
 
-                    caretIndex += word.Length + 1;
-                }
+            this.ParseKeywords(document.Text);
+            this.ParseComments(document.Text);
+        }
+
+        private void ParseComments(string text)
+        {
+            string pattern = @"(?s:/\*((?!\*/).)*\*/)";
+            MatchCollection matches = Regex.Matches(text, pattern);
+            foreach (Match m in matches)
+            {
+                Tokens.Add(new Token(TokenType.Comment, m.Index, m.Length));
+            }
+
+            pattern = "//+.*";
+            matches = Regex.Matches(text, pattern);
+            foreach (Match m in matches)
+            {
+                this.Tokens.Add(new Token(TokenType.Comment, m.Index, m.Length));
             }
         }
 
-        private string GetKeyForWord(string word)
+        private void ParseKeywords(string text)
         {
-            word = word.Replace(",", string.Empty);
-            
-            return this.library.Keys.Where(k => word.Equals(k)).FirstOrDefault();
+            MatchCollection matches = Regex.Matches(text, keywordsPattern);
+            foreach (Match m in matches)
+            {
+                Tokens.Add(new Token(TokenType.Keyword, m.Index, m.Length));
+            }
         }
 
         private void InitLibrary()
@@ -144,6 +152,15 @@ namespace TextEditor
                 { "weak", TokenType.Keyword},
                 { "willSet", TokenType.Keyword}
             };
+
+            keywordsPattern = "\\b(";
+            foreach (string key in library.Keys)
+            {
+                keywordsPattern += key + "|";
+            }
+
+            keywordsPattern = keywordsPattern.Remove(keywordsPattern.Length - 1);
+            keywordsPattern += ")\\b";
         }
     }
 }

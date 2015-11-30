@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace TextEditor
 {   
@@ -11,7 +12,7 @@ namespace TextEditor
     /// </summary>
     public enum TokenType
     {
-        Comment, Number, Keyword
+        Comment, Number, Keyword, String
     }
 
     /// <summary>
@@ -60,6 +61,27 @@ namespace TextEditor
         {
             get { return this.length; }
             set { this.length = value; }
+        }
+
+        /// <summary>
+        /// Gets <see cref="SolidColorBrush"/> of this token.
+        /// </summary>
+        public Brush ColorBrush
+        {
+            get
+            {
+                Color color;
+                switch (this.TokenType)
+                {
+                    case TokenType.Keyword: color = Color.FromRgb(251, 222, 45); break;
+                    case TokenType.Comment: color = Color.FromRgb(174, 174, 174); break;
+                    case TokenType.Number: color = Color.FromRgb(174, 174, 174); break;
+                    case TokenType.String: color = Color.FromRgb(255, 165, 0); break;
+                    default: color = Color.FromRgb(230, 230, 230); break;
+                }
+
+                return new SolidColorBrush(color);
+            }
         }
     }
 }
