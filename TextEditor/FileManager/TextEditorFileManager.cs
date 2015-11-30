@@ -111,8 +111,8 @@ namespace TextEditor.FileManager
             {
                 return null;
             }
-            
-            return new TextEditorDocument(sfd.FileName);
+            TextEditorDocument document = new TextEditorDocument(sfd.FileName);
+            return new TextEditorDocumentProxy(document);
         }
 
         private ITextEditorDocument readWithReaderStrategy(string filename, FileReaderStrategy strategy)
@@ -124,7 +124,7 @@ namespace TextEditor.FileManager
                 result.Lines.Add(line);
             }
 
-            return result;
+            return new TextEditorDocumentProxy(result);
         }
     }
 }

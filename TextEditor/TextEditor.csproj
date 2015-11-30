@@ -109,6 +109,7 @@
     <Compile Include="Snippet\SnippetLibrary.cs" />
     <Compile Include="SyntaxAnalyzer\SwiftSyntaxAnalyzer.cs" />
     <Compile Include="SyntaxAnalyzer\Token.cs" />
+    <Compile Include="TextEditorDocumentProxy.cs" />
     <Compile Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml.cs">
       <DependentUpon>SnippetLibraryWindow.xaml</DependentUpon>
     </Compile>
