@@ -53,7 +53,7 @@ namespace TextEditor
         /// </summary>
         /// <param name="document">Document to execute macro.</param>
         /// <param name="caretIndex">Caret index to execute macro.</param>
-        public void Run(TextEditorDocument document, int caretIndex)
+        public void Run(ITextEditorDocument document, int caretIndex)
         {
             foreach (ICommand command in this.commands)
             {

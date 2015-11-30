@@ -20,6 +20,6 @@ namespace TextEditor
         /// Parse document text and saves result in Tokens.
         /// </summary>
         /// <param name="document">Document to analyze.</param>
-        void Parse(TextEditorDocument document);
+        void Parse(ITextEditorDocument document);
     }
 }

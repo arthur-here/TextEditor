@@ -12,7 +12,7 @@ namespace TextEditor
     /// <summary>
     /// Represents a TextEditor Document.
     /// </summary>
-    public class TextEditorDocument
+    public class TextEditorDocument: ITextEditorDocument
     {
         private string fileName;
 
@@ -35,6 +35,9 @@ namespace TextEditor
             set { this.fileName = value; }
         }
 
+        /// <summary>
+        /// Gets titile of current openet document.
+        /// </summary>
         public string Title
         {
             get

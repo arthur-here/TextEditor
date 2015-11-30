@@ -53,7 +53,7 @@ namespace TextEditor
     {
         private Brush fontBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
 
-        private TextEditorDocument document;
+        private ITextEditorDocument document;
         private TextEditorCommandManager commandManager;
         private SnippetLibrary snippetLibrary;
         private MacroLibrary macroLibrary;
@@ -79,7 +79,7 @@ namespace TextEditor
         /// <summary>
         /// Gets or sets <see cref="TextEditorDocument"/>, which displayed by <see cref="SourceTextBox"/>.
         /// </summary>
-        public TextEditorDocument Document
+        public ITextEditorDocument Document
         {
             get
             {

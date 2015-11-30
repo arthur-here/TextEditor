@@ -9,7 +9,7 @@ namespace TextEditorTests
     [TestClass]
     public class FileManagerTests
     {
-        TextEditorDocument document;
+        ITextEditorDocument document;
         TextEditorFileManager fileManager;
 
         [TestInitialize]

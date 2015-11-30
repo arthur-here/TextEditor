@@ -13,13 +13,13 @@ namespace TextEditor.Commands
     {
         private List<ICommand> commandsQueue = new List<ICommand>();
         private int lastExecutedCommandIndex = -1;
-        private TextEditorDocument document;
+        private ITextEditorDocument document;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextEditorCommandManager"/> class.
         /// </summary>
         /// <param name="document">Document to manage.</param>
-        public TextEditorCommandManager(TextEditorDocument document)
+        public TextEditorCommandManager(ITextEditorDocument document)
         {
             this.document = document;
         }

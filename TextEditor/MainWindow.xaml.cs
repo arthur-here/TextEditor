@@ -41,7 +41,7 @@ namespace TextEditor
             this.SetupUi();
         }
 
-        private TextEditorDocument Document
+        private ITextEditorDocument Document
         {
             get
             {
@@ -146,7 +146,7 @@ namespace TextEditor
 
         private void NewFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            TextEditorDocument newDocument = this.fileManager.New();
+            ITextEditorDocument newDocument = this.fileManager.New();
             if (newDocument != null)
             {
                 this.Document = newDocument;
@@ -155,7 +155,7 @@ namespace TextEditor
 
         private void OpenFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            TextEditorDocument newDocument = this.fileManager.OpenFile();
+            ITextEditorDocument newDocument = this.fileManager.OpenFile();
             if (newDocument != null)
             {
                 this.Document = newDocument;

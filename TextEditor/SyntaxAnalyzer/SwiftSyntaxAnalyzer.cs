@@ -33,7 +33,7 @@ namespace TextEditor
         /// Parse document text and saves result in Tokens.
         /// </summary>
         /// <param name="document">Document to analyze.</param>
-        public void Parse(TextEditorDocument document)
+        public void Parse(ITextEditorDocument document)
         {
             if (document == null)
             {

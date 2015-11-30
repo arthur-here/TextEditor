@@ -36,7 +36,7 @@ namespace TextEditor.Commands
         /// Executes command.
         /// </summary>
         /// <param name="document">Document to run command.</param>
-        public void Execute(TextEditorDocument document)
+        public void Execute(ITextEditorDocument document)
         {
             if (document == null)
             {
@@ -66,7 +66,7 @@ namespace TextEditor.Commands
         /// </summary>
         /// <param name="document">Document to change.</param>
         /// <param name="newCaretIndex">New caretIndex.</param>
-        public void Execute(TextEditorDocument document, int newCaretIndex)
+        public void Execute(ITextEditorDocument document, int newCaretIndex)
         {
             this.caretIndex = newCaretIndex;
             this.Execute(document);

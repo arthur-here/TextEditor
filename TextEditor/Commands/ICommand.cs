@@ -15,14 +15,14 @@ namespace TextEditor.Commands
         /// Executes command.
         /// </summary>
         /// <param name="document">Document to change.</param>
-        void Execute(TextEditorDocument document);
+        void Execute(ITextEditorDocument document);
 
         /// <summary>
         /// Executes command on new caretIndex.
         /// </summary>
         /// <param name="document">Document to change.</param>
         /// <param name="newCaretIndex">New caretIndex.</param>
-        void Execute(TextEditorDocument document, int newCaretIndex);
+        void Execute(ITextEditorDocument document, int newCaretIndex);
 
         /// <summary>
         /// Unexecutes command.

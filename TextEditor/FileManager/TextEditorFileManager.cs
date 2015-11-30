@@ -19,7 +19,7 @@ namespace TextEditor.FileManager
         /// Shows OpenFileDialog.
         /// </summary>
         /// <returns>TextEditorDocument with read data.</returns>
-        public TextEditorDocument OpenFile()
+        public ITextEditorDocument OpenFile()
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 
@@ -40,7 +40,7 @@ namespace TextEditor.FileManager
         /// <param name="fileName">Path to file.</param>
         /// <param name="encodingName">Name of encoding to use.</param>
         /// <returns>New TextEditorDocument with data from 'fileName'.</returns>
-        public TextEditorDocument OpenFileUsingEncoding(string fileName, Encoding encoding)
+        public ITextEditorDocument OpenFileUsingEncoding(string fileName, Encoding encoding)
         {
             FileReaderStrategy fileReader;
             if (encoding == Encoding.ASCII)
@@ -67,7 +67,7 @@ namespace TextEditor.FileManager
         /// Saves document to location specified in FileName.
         /// </summary>
         /// <param name="document">Document to save.</param>
-        public void SaveDocument(TextEditorDocument document)
+        public void SaveDocument(ITextEditorDocument document)
         {
             if (document == null)
             {
@@ -81,7 +81,7 @@ namespace TextEditor.FileManager
         /// Shows SaveFileDialogSaves and saves document to specified location.
         /// </summary>
         /// <param name="document">Document to save.</param>
-        public void SaveAsDocument(TextEditorDocument document)
+        public void SaveAsDocument(ITextEditorDocument document)
         {
             if (document == null)
             {
@@ -103,7 +103,7 @@ namespace TextEditor.FileManager
         /// Shows SaveFileDialog to specify new document location.
         /// </summary>
         /// <returns>New document.</returns>
-        public TextEditorDocument New()
+        public ITextEditorDocument New()
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
 
@@ -115,7 +115,7 @@ namespace TextEditor.FileManager
             return new TextEditorDocument(sfd.FileName);
         }
 
-        private TextEditorDocument readWithReaderStrategy(string filename, FileReaderStrategy strategy)
+        private ITextEditorDocument readWithReaderStrategy(string filename, FileReaderStrategy strategy)
         {
             string[] text = strategy.Read();
             TextEditorDocument result = new TextEditorDocument(filename);

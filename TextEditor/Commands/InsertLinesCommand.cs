@@ -14,7 +14,7 @@ namespace TextEditor.Commands
         private int caretIndex;
         private List<string> text;
 
-        private TextEditorDocument changedDocument;
+        private ITextEditorDocument changedDocument;
         private int line;
         private int position;
 
@@ -33,7 +33,7 @@ namespace TextEditor.Commands
         /// Executes command.
         /// </summary>
         /// <param name="document">Document insert to.</param>
-        public void Execute(TextEditorDocument document)
+        public void Execute(ITextEditorDocument document)
         {
             if (this.text.Count == 0 || document == null)
             {
@@ -73,7 +73,7 @@ namespace TextEditor.Commands
         /// </summary>
         /// <param name="document">Document to change.</param>
         /// <param name="newCaretIndex">New caretIndex.</param>
-        public void Execute(TextEditorDocument document, int newCaretIndex)
+        public void Execute(ITextEditorDocument document, int newCaretIndex)
         {
             this.caretIndex = newCaretIndex;
             this.Execute(document);
