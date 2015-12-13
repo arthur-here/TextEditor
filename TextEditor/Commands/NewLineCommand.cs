@@ -17,6 +17,7 @@ namespace TextEditor.Commands
         private ITextEditorDocument changedDocument;
         private int line;
         private int position;
+        private string changedLine;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewLineCommand"/> class.
@@ -45,6 +46,8 @@ namespace TextEditor.Commands
             this.changedDocument = document;
 
             string paragraph = document.Lines[this.line];
+            this.changedLine = document.Lines[this.line];
+
             string substringToTranslate = string.Empty;
             if (this.position < paragraph.Length)
             {
@@ -77,8 +80,7 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            this.changedDocument.Lines[this.line] = this.changedDocument.Lines[this.line] + 
-                this.changedDocument.Lines[this.line + 1];
+            this.changedDocument.Lines[this.line] = this.changedLine;
             this.changedDocument.Lines.RemoveAt(this.line + 1);
         }
     }

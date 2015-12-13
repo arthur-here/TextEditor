@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,8 +45,15 @@ namespace TextEditor
         /// </summary>
         public List<string> Lines
         {
-            get { return this.document.Lines; }
-            set { this.document.Lines = value; }
+            get
+            {
+                return this.document.Lines;
+            }
+
+            set
+            {
+                this.document.Lines = value;
+            }
         }
 
         /// <summary>
@@ -53,7 +61,7 @@ namespace TextEditor
         /// </summary>
         public string Text
         {
-            get { return this.document.Text; }
+            get { return string.Join("\n", this.Lines); }
         }
 
         /// <summary>

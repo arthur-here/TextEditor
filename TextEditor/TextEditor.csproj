@@ -101,7 +101,7 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="ITextEditorDocument.cs" />
+    <Compile Include="Document\ITextEditorDocument.cs" />
     <Compile Include="SyntaxAnalyzer\ISyntaxAnalyzer.cs" />
     <Compile Include="Macro.cs" />
     <Compile Include="MacroLibrary.cs" />
@@ -109,14 +109,14 @@
     <Compile Include="Snippet\SnippetLibrary.cs" />
     <Compile Include="SyntaxAnalyzer\SwiftSyntaxAnalyzer.cs" />
     <Compile Include="SyntaxAnalyzer\Token.cs" />
-    <Compile Include="TextEditorDocumentProxy.cs" />
+    <Compile Include="Document\TextEditorDocumentProxy.cs" />
     <Compile Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml.cs">
       <DependentUpon>SnippetLibraryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserInterface\SnippetWindows\SnippetLibraryAddNewWindow.xaml.cs">
       <DependentUpon>SnippetLibraryAddNewWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TextEditorDocument.cs">
+    <Compile Include="Document\TextEditorDocument.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="FileManager\TextEditorFileManager.cs">
