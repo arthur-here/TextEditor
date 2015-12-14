@@ -10,7 +10,7 @@ namespace TextEditor
     /// <summary>
     /// Concrete implementation of Swift syntax analyzer.
     /// </summary>
-    public class SwiftSyntaxAnalyzer : ISyntaxAnalyzer
+    public class SwiftSyntaxAnalyzer : TextEditorSyntaxAnalyzer
     {
         private List<string> library;
         private string keywordsPattern;
@@ -24,73 +24,12 @@ namespace TextEditor
             this.Tokens = new List<Token>();
         }
 
-        /// <summary>
-        /// Gets list of parsed tokens from text.
-        /// </summary>
-        public List<Token> Tokens { get; private set; }
-
-        /// <summary>
-        /// Parse document text and saves result in Tokens.
-        /// </summary>
-        /// <param name="document">Document to analyze.</param>
-        public void Parse(ITextEditorDocument document)
-        {
-            if (document == null)
-            {
-                return;
-            }
-
-            this.Tokens.Clear();
-
-            this.ParseKeywords(document.Text);
-            this.ParseNumbers(document.Text);
-            this.ParseStrings(document.Text);
-            this.ParseComments(document.Text);
-        }
-
-        private void ParseComments(string text)
-        {
-            string pattern = @"(?s:/\*((?!\*/).)*\*/)";
-            MatchCollection matches = Regex.Matches(text, pattern);
-            foreach (Match m in matches)
-            {
-                this.Tokens.Add(new Token(TokenType.Comment, m.Index, m.Length));
-            }
-
-            pattern = "//+.*";
-            matches = Regex.Matches(text, pattern);
-            foreach (Match m in matches)
-            {
-                this.Tokens.Add(new Token(TokenType.Comment, m.Index, m.Length));
-            }
-        }
-
-        private void ParseKeywords(string text)
+        protected override void ParseKeywords(string text)
         {
             MatchCollection matches = Regex.Matches(text, this.keywordsPattern);
             foreach (Match m in matches)
             {
                 this.Tokens.Add(new Token(TokenType.Keyword, m.Index, m.Length));
-            }
-        }
-
-        private void ParseStrings(string text)
-        {
-            string pattern = "\"[^\"\\\r\n]*(?:\\.[^\"\\\r\n]*)*\"";
-            MatchCollection matches = Regex.Matches(text, pattern);
-            foreach (Match m in matches)
-            {
-                this.Tokens.Add(new Token(TokenType.String, m.Index, m.Length));
-            }
-        }
-
-        private void ParseNumbers(string text)
-        {
-            string pattern = "\\b(\\d+.?\\d*)\\b";
-            MatchCollection matches = Regex.Matches(text, pattern);
-            foreach (Match m in matches)
-            {
-                this.Tokens.Add(new Token(TokenType.Number, m.Index, m.Length));
             }
         }
 
