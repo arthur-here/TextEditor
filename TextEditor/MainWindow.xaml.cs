@@ -38,6 +38,7 @@ namespace TextEditor
             this.codeArea.MacroLibrary = this.macroLibrary;
             this.codeArea.LibraryWordEnteredEvent += this.CodeArea_LibraryWordEnteredEvent;
             this.tipListBox.SelectionChanged += this.TipListBox_SelectionChanged;
+            this.codeArea.PreviewMouseWheel += this.codeArea_MouseWheel;
             this.SetupUi();
         }
 
@@ -218,6 +219,8 @@ namespace TextEditor
 
         private void SetupUi()
         {
+            numberLabel.FontFamily = codeArea.FontFamily;
+            numberLabel.FontSize = codeArea.FontSize;
             this.tipListBox.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.tipListBox.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.RootGrid.Children.Add(this.tipListBox);
@@ -226,6 +229,25 @@ namespace TextEditor
             s.Setters.Add(setter);
             this.MacrosMenuItem.ItemContainerStyle = s;
             this.MacrosMenuItem.ItemsSource = this.macroLibrary.Library.Select(m => m.Name);
+        }
+
+        private void UpdateNumberLabel()
+        {
+            Point pos = new Point(0, 0);
+            int firstLine = codeArea.GetFirstVisibleLineIndex();
+
+            pos.X = this.codeArea.ActualWidth;
+            pos.Y = this.codeArea.ActualHeight;
+            int lastIndex = codeArea.GetCharacterIndexFromPoint(pos, true);
+            int lastLine = codeArea.GetLastVisibleLineIndex();
+
+            pos = this.codeArea.GetRectFromCharacterIndex(lastIndex).Location;
+
+            numberLabel.Content = string.Empty;
+            for (int i = firstLine; i <= lastLine + 1; i++)
+            {
+                numberLabel.Content += i + 1 + "\n";
+            }
         }
 
         private void SnippetLibraryMenuItem_Click(object sender, RoutedEventArgs e)
@@ -258,6 +280,15 @@ namespace TextEditor
             {
                 this.codeArea.ExecuteMacro(selectedMacro);
             }
+        }
+
+        private void codeArea_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            double fontHeight = this.codeArea.FontSize * this.codeArea.FontFamily.LineSpacing;
+            double d = this.codeArea.GetRectFromCharacterIndex(0).Y % fontHeight;
+            numberLabel.Margin = new Thickness(0, d, 0, 0);
+
+            this.UpdateNumberLabel();
         }
     }
 }

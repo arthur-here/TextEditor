@@ -21,7 +21,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border x:Name="mask" Background="LightBlue" CornerRadius="5,5,0,0" BorderThickness="1"/>
-            <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}"/>
+            <ListBox x:Name="LineNumberListBox" Margin="0,86,0,0" Background="#FF535A6F" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFF1F1F1" HorizontalAlignment="Left" Width="31" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Consolas" FontSize="{StaticResource FontSize}">
+                <Label x:Name="numberLabel" Content="1&#xD;&#xA;" Height="502" Width="28" Padding="0" Foreground="#FFD4D4D4" IsHitTestVisible="False" HorizontalContentAlignment="Right"/>
+            </ListBox>
             <Rectangle Fill="#FFE2E2E2" Height="34" VerticalAlignment="Top"/>
             <TextBlock x:Name="TitleLabel" Text="Text Editor" TextTrimming="CharacterEllipsis" FontSize="16" MouseDown="TitleLabel_MouseDown" Height="34" TextAlignment="Center" MaxHeight="34" VerticalAlignment="Top" UseLayoutRounding="False" Padding="10,5,10,0" Margin="34,0"/>
             <Menu x:Name="menu" ClipToBounds="True" Background="#FF2A2F3A" Height="29" VerticalAlignment="Top" Margin="0,34,0,0" Foreground="White">
@@ -65,7 +67,7 @@
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
             </Button>
             <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Height="23" VerticalAlignment="Top"/>
-            <local:SourceTextBox BorderThickness="0" x:Name="codeArea" Text="" Margin="31,86,0,0" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <local:SourceTextBox BorderThickness="0" x:Name="codeArea" Text="" Margin="31,86,0,0" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" MouseWheel="codeArea_MouseWheel"/>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Grid.OpacityMask>
