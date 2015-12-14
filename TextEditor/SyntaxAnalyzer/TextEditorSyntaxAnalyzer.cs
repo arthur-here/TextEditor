@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace TextEditor
 {
-    public abstract class TextEditorSyntaxAnalyzer: ISyntaxAnalyzer
+    /// <summary>
+    /// Abstract syntax analyzer which searches for numbers, strings and comments in document.
+    /// </summary>
+    public abstract class TextEditorSyntaxAnalyzer : ISyntaxAnalyzer
     {
         /// <summary>
-        /// Gets list of parsed tokens from text.
+        /// Gets or sets list of parsed tokens from text.
         /// </summary>
         public List<Token> Tokens { get; protected set; }
 
@@ -33,6 +36,10 @@ namespace TextEditor
             this.ParseComments(document.Text);
         }
 
+        /// <summary>
+        /// Parse all languages keywords from input.
+        /// </summary>
+        /// <param name="text">Input to parse.</param>
         protected abstract void ParseKeywords(string text);
 
         private void ParseComments(string text)

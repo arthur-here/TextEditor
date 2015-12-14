@@ -24,6 +24,10 @@ namespace TextEditor
             this.Tokens = new List<Token>();
         }
 
+        /// <summary>
+        /// Parse all languages keywords from input.
+        /// </summary>
+        /// <param name="text">Input to parse.</param>
         protected override void ParseKeywords(string text)
         {
             MatchCollection matches = Regex.Matches(text, this.keywordsPattern);
