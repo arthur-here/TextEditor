@@ -48,7 +48,7 @@ namespace TextEditor
         {
             get
             {
-                return this.document.Lines.GetRange(0, 20);
+                return this.document.Lines.GetRange(0, this.document.Lines.Count);
             }
         }
 
