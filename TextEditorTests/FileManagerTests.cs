@@ -38,11 +38,11 @@ namespace TextEditorTests
         {
             document = fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Default);
             Assert.IsNotNull(this.document, "FileManager couldn't open document");
-            document.Lines.Add("Hello");
+            document.AddLine("Hello");
             fileManager.SaveDocument(document);
             document = fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Default);
             Assert.IsTrue(document.Lines[document.Lines.Count - 1] == "Hello", "Changes to document haven't been saved by FileManager");
-            document.Lines.RemoveAt(document.Lines.Count - 1);
+            document.RemoveLineAtIndex(document.Lines.Count - 1);
             fileManager.SaveDocument(document);
         }
     }

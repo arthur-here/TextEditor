@@ -51,11 +51,11 @@ namespace TextEditor.Commands
             if (this.line == -1)
             {
                 this.line = 0;
-                document.Lines.Add(string.Empty);
+                document.AddLine(string.Empty);
             }
 
             string paragraph = document.Lines[this.line];
-            document.Lines[this.line] = paragraph.Insert(this.position, this.text);
+            document.ChangeLineAtIndex(this.line, paragraph.Insert(this.position, this.text));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace TextEditor.Commands
         public void Undo()
         {
             string paragraph = this.changedDocument.Lines.ElementAt(this.line);
-            this.changedDocument.Lines[this.line] = paragraph.Remove(this.position, this.text.Length);
+            this.changedDocument.ChangeLineAtIndex(this.line, paragraph.Remove(this.position, this.text.Length));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,18 +42,13 @@ namespace TextEditor
         }
 
         /// <summary>
-        /// Gets or sets array of document's lines.
+        /// Gets array of document's lines.
         /// </summary>
         public List<string> Lines
         {
             get
             {
-                return this.document.Lines;
-            }
-
-            set
-            {
-                this.document.Lines = value;
+                return this.document.Lines.GetRange(0, 20);
             }
         }
 
@@ -62,6 +58,64 @@ namespace TextEditor
         public string Text
         {
             get { return string.Join("\n", this.Lines); }
+        }
+
+        /// <summary>
+        /// Adds new line to the end of this document.
+        /// </summary>
+        /// <param name="line">Line to add.</param>
+        public void AddLine(string line)
+        {
+            this.document.AddLine(line);
+        }
+
+        /// <summary>
+        /// Insert new line at specified index.
+        /// </summary>
+        /// <param name="index">Index to insert.</param>
+        /// <param name="line">Line to insert.</param>
+        public void InsertLineAtIndex(int index, string line)
+        {
+            this.document.InsertLineAtIndex(index, line);
+        }
+
+        /// <summary>
+        /// Insert new lines at specified index.
+        /// </summary>
+        /// <param name="index">Index to insert.</param>
+        /// <param name="newLines">Lines to insert.</param>
+        public void InsertLinesAtIndex(int index, List<string> newLines)
+        {
+            this.document.InsertLinesAtIndex(index, newLines);
+        }
+
+        /// <summary>
+        /// Replace line at index with provided line.
+        /// </summary>
+        /// <param name="index">Index of line to replace.</param>
+        /// <param name="newLine">New line.</param>
+        public void ChangeLineAtIndex(int index, string newLine)
+        {
+            this.document.ChangeLineAtIndex(index, newLine);
+        }
+
+        /// <summary>
+        /// Remove lines at specified index.
+        /// </summary>
+        /// <param name="index">Start index.</param>
+        /// <param name="count">Number of lines to remove.</param>
+        public void RemoveLines(int index, int count)
+        {
+            this.document.RemoveLines(index, count);
+        }
+
+        /// <summary>
+        /// Remove one line at specified index.
+        /// </summary>
+        /// <param name="index">Index of line to remove.</param>
+        public void RemoveLineAtIndex(int index)
+        {
+            this.document.RemoveLineAtIndex(index);
         }
 
         /// <summary>

@@ -23,14 +23,54 @@ namespace TextEditor
         string Title { get; }
 
         /// <summary>
-        /// Gets or sets array of document's lines.
+        /// Gets array of document's lines.
         /// </summary>
-        List<string> Lines { get; set; }
+        List<string> Lines { get; }
 
         /// <summary>
         /// Gets all lines, joined by \n.
         /// </summary>
         string Text { get; }
+
+        /// <summary>
+        /// Adds new line to the end of this document.
+        /// </summary>
+        /// <param name="line">Line to add.</param>
+        void AddLine(string line);
+
+        /// <summary>
+        /// Insert new line at specified index.
+        /// </summary>
+        /// <param name="index">Index to insert.</param>
+        /// <param name="line">Line to insert.</param>
+        void InsertLineAtIndex(int index, string line);
+
+        /// <summary>
+        /// Insert new lines at specified index.
+        /// </summary>
+        /// <param name="index">Index to insert.</param>
+        /// <param name="newLines">Lines to insert.</param>
+        void InsertLinesAtIndex(int index, List<string> newLines);
+
+        /// <summary>
+        /// Replace line at index with provided line.
+        /// </summary>
+        /// <param name="index">Index of line to replace.</param>
+        /// <param name="newLine">New line.</param>
+        void ChangeLineAtIndex(int index, string newLine);
+
+        /// <summary>
+        /// Remove lines at specified index.
+        /// </summary>
+        /// <param name="index">Start index.</param>
+        /// <param name="count">Number of lines to remove.</param>
+        void RemoveLines(int index, int count);
+
+        /// <summary>
+        /// Remove one line at specified index.
+        /// </summary>
+        /// <param name="index">Index of line to remove.</param>
+        void RemoveLineAtIndex(int index);
 
         /// <summary>
         /// Finds number of line in document by caret index.

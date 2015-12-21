@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace TextEditor
     public class TextEditorDocument: ITextEditorDocument
     {
         private string fileName;
+        private List<string> lines = new List<string>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextEditorDocument"/> class.
@@ -63,10 +65,6 @@ namespace TextEditor
             {
                 return lines;
             }
-            set
-            {
-                lines = value;
-            }
         }
 
         /// <summary>
@@ -80,7 +78,68 @@ namespace TextEditor
             }
         }
 
-        private List<string> lines = new List<string>();
+        /// <summary>
+        /// Adds new line to the end of this document.
+        /// </summary>
+        /// <param name="line">Line to add.</param>
+        public void AddLine(string line)
+        {
+            this.lines.Add(line);
+        }
+
+        /// <summary>
+        /// Insert new line at specified index.
+        /// </summary>
+        /// <param name="index">Index to insert.</param>
+        /// <param name="line">Line to insert.</param>
+        public void InsertLineAtIndex(int index, string line)
+        {
+            Debug.Assert(index >= 0 && index <= this.lines.Count);
+            this.lines.Insert(index, line);
+        }
+
+        /// <summary>
+        /// Insert new lines at specified index.
+        /// </summary>
+        /// <param name="index">Index to insert.</param>
+        /// <param name="newLines">Lines to insert.</param>
+        public void InsertLinesAtIndex(int index, List<string> newLines)
+        {
+            Debug.Assert(index >= 0 && index <= this.lines.Count);
+            this.lines.InsertRange(index, newLines);
+        }
+
+        /// <summary>
+        /// Replace line at index with provided line.
+        /// </summary>
+        /// <param name="index">Index of line to replace.</param>
+        /// <param name="newLine">New line.</param>
+        public void ChangeLineAtIndex(int index, string newLine)
+        {
+            Debug.Assert(index >= 0 && index < this.lines.Count);
+            this.lines[index] = newLine;
+        }
+
+        /// <summary>
+        /// Remove lines at specified index.
+        /// </summary>
+        /// <param name="index">Start index.</param>
+        /// <param name="count">Number of lines to remove.</param>
+        public void RemoveLines(int index, int count)
+        {
+            Debug.Assert(index >= 0 && index + count - 1 < this.lines.Count);
+            this.lines.RemoveRange(index, count);
+        }
+
+        /// <summary>
+        /// Remove one line at specified index.
+        /// </summary>
+        /// <param name="index">Index of line to remove.</param>
+        public void RemoveLineAtIndex(int index)
+        {
+            Debug.Assert(index >= 0 && index < this.lines.Count);
+            this.lines.RemoveAt(index);
+        }
 
         /// <summary>
         /// Finds number of line in document by carret index.

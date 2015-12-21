@@ -203,7 +203,7 @@ namespace TextEditor
                 if (line == -1)
                 {
                     line = 0;
-                    this.document.Lines.Add(string.Empty);
+                    this.document.AddLine(string.Empty);
                 }
 
                 string paragraph = this.document.Lines[line];

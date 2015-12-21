@@ -47,7 +47,7 @@ namespace TextEditor.Commands
             if (this.line == -1)
             {
                 this.line = 0;
-                document.Lines.Add(string.Empty);
+                document.AddLine(string.Empty);
             }
 
             string paragraph = document.Lines[this.line];
@@ -56,16 +56,17 @@ namespace TextEditor.Commands
             {
                 paragraph = paragraph.Remove(this.position);
             }
-
-            document.Lines[this.line] = paragraph.Insert(this.position, this.text.First());
+            
+            document.ChangeLineAtIndex(this.line, paragraph.Insert(this.position, this.text.First()));
             List<string> newLines = new List<string>(this.text);
             newLines.RemoveAt(0);
             for (int i = 0; i < newLines.Count; i++)
             {
-                document.Lines.Insert(this.line + i + 1, newLines[i]);
+                document.InsertLineAtIndex(this.line + i + 1, newLines[i]);
             }
 
-            document.Lines[this.line + this.text.Count - 1] += partToMove;
+            string lastLine = document.Lines[this.line + this.text.Count - 1];
+            document.ChangeLineAtIndex(this.line + this.text.Count - 1, lastLine + partToMove);
         }
 
         /// <summary>
@@ -92,9 +93,9 @@ namespace TextEditor.Commands
             string lastAddedLine = this.changedDocument.Lines[this.line + this.text.Count - 1];
             string partToMoveBack = lastAddedLine.Substring(this.text.Last().Length);
             string paragraph = this.changedDocument.Lines.ElementAt(this.line);
-            this.changedDocument.Lines[this.line] = paragraph.Remove(this.position, this.text.First().Length);
-            this.changedDocument.Lines[this.line] += partToMoveBack;
-            this.changedDocument.Lines.RemoveRange(this.line + 1, this.text.Count - 1);
+            string lastLine = paragraph.Remove(this.position, this.text.First().Length) + partToMoveBack;
+            this.changedDocument.ChangeLineAtIndex(this.line, lastLine);
+            this.changedDocument.RemoveLines(this.line + 1, this.text.Count - 1);
         }
     }
 }

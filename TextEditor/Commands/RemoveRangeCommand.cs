@@ -61,9 +61,9 @@ namespace TextEditor.Commands
             {
                 paragraph = paragraph.Remove(this.position);
             }
-
-            document.Lines[this.line] = paragraph + lineToMove;
-            document.Lines.RemoveRange(this.line + 1, endLineIndex - this.line);
+            
+            document.ChangeLineAtIndex(this.line, paragraph + lineToMove);
+            document.RemoveLines(this.line + 1, endLineIndex - this.line);
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            this.changedDocument.Lines.RemoveAt(this.line);
-            this.changedDocument.Lines.InsertRange(this.line, this.removedLines);
+            this.changedDocument.RemoveLineAtIndex(this.line);
+            this.changedDocument.InsertLinesAtIndex(this.line, this.removedLines);
         }
     }
 }

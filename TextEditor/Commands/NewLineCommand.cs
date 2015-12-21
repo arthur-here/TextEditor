@@ -53,7 +53,7 @@ namespace TextEditor.Commands
             {
                 int substringLength = paragraph.Length - this.position;
                 substringToTranslate = paragraph.Substring(this.position, substringLength);
-                document.Lines[this.line] = paragraph.Remove(this.position, substringLength);
+                document.ChangeLineAtIndex(this.line, paragraph.Remove(this.position, substringLength));
             }
 
             for (int i = 0; i < this.indentationLevel; i++)
@@ -61,7 +61,7 @@ namespace TextEditor.Commands
                 substringToTranslate = " " + substringToTranslate;
             }
 
-            document.Lines.Insert(this.line + 1, substringToTranslate);
+            document.InsertLineAtIndex(this.line + 1, substringToTranslate);
         }
 
         /// <summary>
@@ -80,8 +80,8 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            this.changedDocument.Lines[this.line] = this.changedLine;
-            this.changedDocument.Lines.RemoveAt(this.line + 1);
+            this.changedDocument.ChangeLineAtIndex(this.line, this.changedLine);
+            this.changedDocument.RemoveLineAtIndex(this.line + 1);
         }
     }
 }
