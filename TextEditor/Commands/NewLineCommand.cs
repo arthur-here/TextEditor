@@ -45,8 +45,8 @@ namespace TextEditor.Commands
             this.position = document.CaretPositionInLineByIndex(this.caretIndex);
             this.changedDocument = document;
 
-            string paragraph = document.Lines[this.line];
-            this.changedLine = document.Lines[this.line];
+            string paragraph = document.AllLines[this.line];
+            this.changedLine = document.AllLines[this.line];
 
             string substringToTranslate = string.Empty;
             if (this.position < paragraph.Length)

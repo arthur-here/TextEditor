@@ -68,6 +68,14 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Gets array of all document's lines.
+        /// </summary>
+        public List<string> AllLines
+        {
+            get { return this.Lines; }
+        }
+
+        /// <summary>
         /// Gets all lines, joined by \n.
         /// </summary>
         public string Text

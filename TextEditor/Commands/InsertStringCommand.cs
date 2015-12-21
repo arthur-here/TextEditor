@@ -54,7 +54,7 @@ namespace TextEditor.Commands
                 document.AddLine(string.Empty);
             }
 
-            string paragraph = document.Lines[this.line];
+            string paragraph = document.AllLines[this.line];
             document.ChangeLineAtIndex(this.line, paragraph.Insert(this.position, this.text));
         }
 
@@ -74,7 +74,7 @@ namespace TextEditor.Commands
         /// </summary>
         public void Undo()
         {
-            string paragraph = this.changedDocument.Lines.ElementAt(this.line);
+            string paragraph = this.changedDocument.AllLines.ElementAt(this.line);
             this.changedDocument.ChangeLineAtIndex(this.line, paragraph.Remove(this.position, this.text.Length));
         }
     }

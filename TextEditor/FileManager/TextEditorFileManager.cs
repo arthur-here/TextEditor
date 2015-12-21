@@ -74,7 +74,7 @@ namespace TextEditor.FileManager
                 throw new ArgumentNullException("document");
             }
 
-            File.WriteAllLines(document.FileName, document.Lines);
+            File.WriteAllLines(document.FileName, document.AllLines);
         }
 
         /// <summary>

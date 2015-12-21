@@ -50,7 +50,7 @@ namespace TextEditor.Commands
                 document.AddLine(string.Empty);
             }
 
-            string paragraph = document.Lines[this.line];
+            string paragraph = document.AllLines[this.line];
             string partToMove = paragraph.Substring(this.position);
             if (paragraph.Length > this.position)
             {
@@ -65,7 +65,7 @@ namespace TextEditor.Commands
                 document.InsertLineAtIndex(this.line + i + 1, newLines[i]);
             }
 
-            string lastLine = document.Lines[this.line + this.text.Count - 1];
+            string lastLine = document.AllLines[this.line + this.text.Count - 1];
             document.ChangeLineAtIndex(this.line + this.text.Count - 1, lastLine + partToMove);
         }
 
@@ -90,9 +90,9 @@ namespace TextEditor.Commands
                 return;
             }
 
-            string lastAddedLine = this.changedDocument.Lines[this.line + this.text.Count - 1];
+            string lastAddedLine = this.changedDocument.AllLines[this.line + this.text.Count - 1];
             string partToMoveBack = lastAddedLine.Substring(this.text.Last().Length);
-            string paragraph = this.changedDocument.Lines.ElementAt(this.line);
+            string paragraph = this.changedDocument.AllLines.ElementAt(this.line);
             string lastLine = paragraph.Remove(this.position, this.text.First().Length) + partToMoveBack;
             this.changedDocument.ChangeLineAtIndex(this.line, lastLine);
             this.changedDocument.RemoveLines(this.line + 1, this.text.Count - 1);

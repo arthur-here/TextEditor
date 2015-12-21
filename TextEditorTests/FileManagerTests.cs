@@ -41,8 +41,8 @@ namespace TextEditorTests
             document.AddLine("Hello");
             fileManager.SaveDocument(document);
             document = fileManager.OpenFileUsingEncoding(@"Resources\DocumentExample.txt", Encoding.Default);
-            Assert.IsTrue(document.Lines[document.Lines.Count - 1] == "Hello", "Changes to document haven't been saved by FileManager");
-            document.RemoveLineAtIndex(document.Lines.Count - 1);
+            Assert.IsTrue(document.AllLines[document.AllLines.Count - 1] == "Hello", "Changes to document haven't been saved by FileManager");
+            document.RemoveLineAtIndex(document.AllLines.Count - 1);
             fileManager.SaveDocument(document);
         }
     }

@@ -23,9 +23,9 @@ namespace TextEditor
         string Title { get; }
 
         /// <summary>
-        /// Gets array of document's lines.
+        /// Gets array of all document's lines.
         /// </summary>
-        List<string> Lines { get; }
+        List<string> AllLines { get; }
 
         /// <summary>
         /// Gets all lines, joined by \n.

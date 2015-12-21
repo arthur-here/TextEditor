@@ -207,7 +207,7 @@ namespace TextEditor
                     this.document.AddLine(string.Empty);
                 }
 
-                string paragraph = this.document.Lines[line];
+                string paragraph = this.document.AllLines[line];
                 int spaceCount = 0;
                 while (spaceCount < paragraph.Length && paragraph[spaceCount] == ' ')
                 {

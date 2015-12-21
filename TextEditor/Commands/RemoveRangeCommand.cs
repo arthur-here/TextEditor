@@ -53,10 +53,10 @@ namespace TextEditor.Commands
 
             int endPosition = document.CaretPositionInLineByIndex(endCaretIndex);
             int endLineIndex = document.LineNumberByIndex(endCaretIndex);
-            this.removedLines = document.Lines.GetRange(this.line, endLineIndex - this.line + 1);
+            this.removedLines = document.AllLines.GetRange(this.line, endLineIndex - this.line + 1);
 
-            string paragraph = document.Lines[this.line];
-            string lineToMove = document.Lines[endLineIndex].Substring(endPosition);
+            string paragraph = document.AllLines[this.line];
+            string lineToMove = document.AllLines[endLineIndex].Substring(endPosition);
             if (paragraph.Length > this.position)
             {
                 paragraph = paragraph.Remove(this.position);

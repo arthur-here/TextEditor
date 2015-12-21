@@ -46,7 +46,7 @@ namespace TextEditor.Commands
             this.line = document.LineNumberByIndex(this.caretIndex);
             this.position = document.CaretPositionInLineByIndex(this.caretIndex);
 
-            string paragrapgh = document.Lines[this.line];
+            string paragrapgh = document.AllLines[this.line];
             int paragraphIndex = this.position;
             int length = 0;
             while (paragraphIndex < paragrapgh.Length && paragrapgh[paragraphIndex] == this.snippet.Name[length])

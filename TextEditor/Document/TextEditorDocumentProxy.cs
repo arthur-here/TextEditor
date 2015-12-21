@@ -59,9 +59,6 @@ namespace TextEditor
                 {
                     this.linesOffset = value;
                 }
-
-                Console.WriteLine(this.document.Lines.Count - this.AmountOfLinesToShow);
-                Console.WriteLine(this.linesOffset);
             }
         }
 
@@ -100,11 +97,27 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Gets array of all document's lines.
+        /// </summary>
+        public List<string> AllLines
+        {
+            get { return this.document.Lines; }
+        }
+
+        /// <summary>
         /// Gets all lines, joined by \n.
         /// </summary>
         public string Text
         {
             get { return string.Join("\n", this.Lines); }
+        }
+
+        private int CarretOffset
+        {
+            get
+            {
+                return this.document.CaretIndexByPosition(this.LinesOffset, 0);
+            }
         }
 
         /// <summary>
@@ -172,7 +185,7 @@ namespace TextEditor
         /// <returns>Number of line in document.</returns>
         public int LineNumberByIndex(int caretIndex)
         {
-            return this.document.LineNumberByIndex(caretIndex);
+            return this.document.LineNumberByIndex(this.CarretOffset + caretIndex);
         }
 
         /// <summary>
@@ -182,7 +195,7 @@ namespace TextEditor
         /// <returns>Caret position in line.</returns>
         public int CaretPositionInLineByIndex(int caretIndex)
         {
-            return this.document.CaretPositionInLineByIndex(caretIndex);
+            return this.document.CaretPositionInLineByIndex(this.CarretOffset + caretIndex);
         }
 
         /// <summary>
@@ -193,7 +206,7 @@ namespace TextEditor
         /// <returns>Caret index.</returns>
         public int CaretIndexByPosition(int line, int position)
         {
-            return this.document.CaretIndexByPosition(line, position);
+            return this.document.CaretIndexByPosition(this.LinesOffset + line, position);
         }
 
         /// <summary>
@@ -203,7 +216,7 @@ namespace TextEditor
         /// <returns>Word which precedes caret index.</returns>
         public string GetWordByCaretIndex(int caretIndex)
         {
-            return this.document.GetWordByCaretIndex(caretIndex);
+            return this.document.GetWordByCaretIndex(this.CarretOffset + caretIndex);
         }
     }
 }
