@@ -111,6 +111,9 @@
     <Compile Include="SyntaxAnalyzer\TextEditorSyntaxAnalyzer.cs" />
     <Compile Include="SyntaxAnalyzer\Token.cs" />
     <Compile Include="Document\TextEditorDocumentProxy.cs" />
+    <Compile Include="UserInterface\MacroNameWindow.xaml.cs">
+      <DependentUpon>MacroNameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml.cs">
       <DependentUpon>SnippetLibraryWindow.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserInterface\MacroNameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserInterface\SnippetWindows\SnippetLibraryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

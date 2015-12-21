@@ -44,11 +44,13 @@ namespace TextEditor
         /// <summary>
         /// Finishes recording.
         /// </summary>
-        public void StopRecording()
+        /// <returns>Recorded macro.</returns>
+        public Macro StopRecording()
         {
+            Macro recordedMacro = this.newMacro;
             this.isRecording = false;
-            this.library.Add(this.newMacro);
             this.newMacro = null;
+            return recordedMacro;
         }
 
         /// <summary>

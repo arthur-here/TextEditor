@@ -230,6 +230,7 @@ namespace TextEditor
             s.Setters.Add(setter);
             this.MacrosMenuItem.ItemContainerStyle = s;
             this.MacrosMenuItem.ItemsSource = this.macroLibrary.Library.Select(m => m.Name);
+            this.MacrosMenuItem.Click += this.MacroMenuItem_Click;
         }
 
         private void SnippetLibraryMenuItem_Click(object sender, RoutedEventArgs e)
@@ -247,10 +248,11 @@ namespace TextEditor
             }
             else
             {
-                this.macroLibrary.StopRecording();
+                Macro recordedMacro = this.macroLibrary.StopRecording();
+                MacroNameWindow mnw = new MacroNameWindow(this.macroLibrary, recordedMacro);
+                mnw.ShowDialog();
                 this.RecordMacroMenuItem.Header = new TextBlock(new Run("Start Recording"));
                 this.MacrosMenuItem.ItemsSource = this.macroLibrary.Library.Select(m => m.Name);
-                this.MacrosMenuItem.Click += this.MacroMenuItem_Click;
             }
         }
 

@@ -24,9 +24,9 @@ namespace TextEditor
         }
 
         /// <summary>
-        /// Gets the macros name.
+        /// Gets or sets the macros name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Adds command to macro.
@@ -55,9 +55,11 @@ namespace TextEditor
         /// <param name="caretIndex">Caret index to execute macro.</param>
         public void Run(ITextEditorDocument document, int caretIndex)
         {
+            int index = caretIndex;
             foreach (ICommand command in this.commands)
             {
-                command.Execute(document, caretIndex);
+                command.Execute(document, index);
+                index += command.CaretIndexOffset;
             }
         }
     }
