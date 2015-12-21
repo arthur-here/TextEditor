@@ -20,33 +20,6 @@ using TextEditor.Utilities;
 namespace TextEditor
 {
     /// <summary>
-    /// EventArgs for LibraryWordEnteredEvent.
-    /// </summary>
-    public class LibraryWordEnteredEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LibraryWordEnteredEventArgs"/> class.
-        /// </summary>
-        /// <param name="names">Names form library which was entered.</param>
-        /// <param name="charRect">Rectangle for character.</param>
-        public LibraryWordEnteredEventArgs(List<string> names, Rect charRect)
-        {
-            this.Names = names;
-            this.CharacterRect = charRect;
-        }
-
-        /// <summary>
-        /// Gets word form library which was entered.
-        /// </summary>
-        public List<string> Names { get; private set; }
-
-        /// <summary>
-        /// Gets rectangle of index caret.
-        /// </summary>
-        public Rect CharacterRect { get; private set; }
-    }
-
-    /// <summary>
     /// Interaction logic for SourceTextBox.
     /// </summary>
     public partial class SourceTextBox : TextBox
@@ -58,6 +31,7 @@ namespace TextEditor
         private SnippetLibrary snippetLibrary;
         private MacroLibrary macroLibrary;
         private ISyntaxAnalyzer syntaxAnalyzer = new SwiftSyntaxAnalyzer();
+        private Task syntaxAnalyzerTask;
         private int lastCarretIndex = 0;
 
         /// <summary>
@@ -169,7 +143,7 @@ namespace TextEditor
             if (e == null)
             {
                 return;
-            } 
+            }
             else if (this.Document == null)
             {
                 e.Handled = true;
@@ -292,8 +266,8 @@ namespace TextEditor
 
             drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, this.ActualWidth, this.ActualHeight)));
             drawingContext.DrawRectangle(
-                new SolidColorBrush(Color.FromRgb(44, 47, 60)), 
-                new Pen(), 
+                new SolidColorBrush(Color.FromRgb(44, 47, 60)),
+                new Pen(),
                 new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
             if (this.document == null || this.document.Text.Length == 0)
@@ -306,10 +280,10 @@ namespace TextEditor
                 System.Globalization.CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 new Typeface(this.FontFamily.Source),
-                this.FontSize, 
+                this.FontSize,
                 this.fontBrush);
             
-            if (this.syntaxAnalyzer != null)
+            if (this.syntaxAnalyzer != null && this.syntaxAnalyzerTask != null && this.syntaxAnalyzerTask.IsCompleted)
             {
                 foreach (Token token in this.syntaxAnalyzer.Tokens)
                 {
@@ -363,10 +337,15 @@ namespace TextEditor
 
             if (this.syntaxAnalyzer != null)
             {
-                this.syntaxAnalyzer.Parse(this.Document);
-            }
+                if (this.syntaxAnalyzerTask != null && !this.syntaxAnalyzerTask.IsCompleted)
+                {
+                    return;
+                }
 
-            this.UpdateUi();
+                this.syntaxAnalyzerTask = Task.Factory
+                    .StartNew(() => this.syntaxAnalyzer.Parse(this.document))
+                    .ContinueWith(task => this.UpdateUi(), TaskScheduler.FromCurrentSynchronizationContext());
+            }
         }
 
         /// <summary>
@@ -396,5 +375,32 @@ namespace TextEditor
 
             this.InvalidateVisual();
         }
+    }
+
+    /// <summary>
+    /// EventArgs for LibraryWordEnteredEvent.
+    /// </summary>
+    public class LibraryWordEnteredEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LibraryWordEnteredEventArgs"/> class.
+        /// </summary>
+        /// <param name="names">Names form library which was entered.</param>
+        /// <param name="charRect">Rectangle for character.</param>
+        public LibraryWordEnteredEventArgs(List<string> names, Rect charRect)
+        {
+            this.Names = names;
+            this.CharacterRect = charRect;
+        }
+
+        /// <summary>
+        /// Gets word form library which was entered.
+        /// </summary>
+        public List<string> Names { get; private set; }
+
+        /// <summary>
+        /// Gets rectangle of index caret.
+        /// </summary>
+        public Rect CharacterRect { get; private set; }
     }
 }
