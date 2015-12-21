@@ -33,6 +33,16 @@ namespace TextEditor.Utilities
         }
 
         /// <summary>
+        /// Join list of strings by \n character.
+        /// </summary>
+        /// <param name="list">List of strings.</param>
+        /// <returns>Joined strings.</returns>
+        public static string Text(this List<string> list)
+        {
+            return string.Join("\n", list);
+        }
+
+        /// <summary>
         /// Searches for visual child of provided type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>

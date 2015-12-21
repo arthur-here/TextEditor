@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextEditor.Utilities;
 
 namespace TextEditor.Commands
 {
@@ -27,7 +28,13 @@ namespace TextEditor.Commands
         {
             this.text = text;
             this.caretIndex = caretIndex;
+            this.CaretIndexOffset = text.Text().Length;
         }
+
+        /// <summary>
+        /// Gets offset of the caret index after command's execution.
+        /// </summary>
+        public int CaretIndexOffset { get; private set; }
 
         /// <summary>
         /// Executes command.

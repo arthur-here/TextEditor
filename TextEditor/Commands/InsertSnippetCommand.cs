@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextEditor.Utilities;
 
 namespace TextEditor.Commands
 {
@@ -28,9 +29,20 @@ namespace TextEditor.Commands
         /// <param name="caretIndex">Index of caret in document.</param>
         public InsertSnippetCommand(Snippet snippet, int caretIndex)
         {
+            if (snippet == null)
+            {
+                return;
+            }
+
             this.snippet = snippet;
             this.caretIndex = caretIndex;
+            this.CaretIndexOffset = snippet.Content.Text().Length;
         }
+
+        /// <summary>
+        /// Gets offset of the caret index after command's execution.
+        /// </summary>
+        public int CaretIndexOffset { get; private set; }
 
         /// <summary>
         /// Executes command.

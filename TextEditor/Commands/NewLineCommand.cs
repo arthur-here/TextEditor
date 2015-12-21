@@ -28,7 +28,13 @@ namespace TextEditor.Commands
         {
             this.indentationLevel = indentationLevel;
             this.caretIndex = caretIndex;
+            this.CaretIndexOffset = indentationLevel + 1;
         }
+
+        /// <summary>
+        /// Gets offset of the caret index after command's execution.
+        /// </summary>
+        public int CaretIndexOffset { get; private set; }
 
         /// <summary>
         /// Executes command.

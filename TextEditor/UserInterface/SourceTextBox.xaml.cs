@@ -116,9 +116,9 @@ namespace TextEditor
 
             string word = this.document.GetWordByCaretIndex(this.CaretIndex);
             int index = this.CaretIndex - word.Length;
-
-            this.lastCarretIndex = index + string.Join("\n", snippet.Content).Length;
+            
             InsertSnippetCommand insertCommand = new InsertSnippetCommand(snippet, index);
+            this.lastCarretIndex = this.CaretIndex + insertCommand.CaretIndexOffset;
             this.commandManager.AddCommand(insertCommand);
             this.commandManager.Run();
             this.UpdateUi();
@@ -183,8 +183,8 @@ namespace TextEditor
                         return;
                     }
 
-                    this.lastCarretIndex = this.CaretIndex - 1;
                     removeCommand = new RemoveRangeCommand(this.CaretIndex - 1, 1);
+                    this.lastCarretIndex = this.CaretIndex + removeCommand.CaretIndexOffset;
                 }
 
                 this.RunCommand(removeCommand);
@@ -194,8 +194,8 @@ namespace TextEditor
             // Tab
             else if (e.Key == Key.Tab)
             {
-                this.lastCarretIndex = this.CaretIndex + 2;
                 InsertStringCommand insertCommand = new InsertStringCommand("  ", this.CaretIndex);
+                this.lastCarretIndex = this.CaretIndex + insertCommand.CaretIndexOffset;
                 this.RunCommand(insertCommand);
 
                 e.Handled = true;
@@ -220,7 +220,7 @@ namespace TextEditor
                 }
 
                 NewLineCommand newLineCommand = new NewLineCommand(spaceCount, this.CaretIndex);
-                this.lastCarretIndex = this.CaretIndex + 1 + spaceCount;
+                this.lastCarretIndex = this.CaretIndex + newLineCommand.CaretIndexOffset;
                 this.RunCommand(newLineCommand);
                 e.Handled = true;
             }
@@ -230,17 +230,16 @@ namespace TextEditor
             {
                 string clipboardText = Clipboard.GetText();
                 List<string> clipboardLines = clipboardText.Split('\n').Select(l => l.Replace("\r", string.Empty)).ToList();
-                this.lastCarretIndex += clipboardText.Length;
-
                 InsertLinesCommand command = new InsertLinesCommand(clipboardLines, this.CaretIndex);
+                this.lastCarretIndex = this.CaretIndex + command.CaretIndexOffset;
                 this.RunCommand(command);
             }
 
             // Some symbol 
             else if ((!char.IsControl(pressedChar) && !pressedChar.Equals(' ')) || e.Key == Key.Space)
             {
-                this.lastCarretIndex = this.CaretIndex + 1;
                 InsertStringCommand insertCommand = new InsertStringCommand(e.Key.GetChar().ToString(), this.CaretIndex);
+                this.lastCarretIndex = this.CaretIndex + insertCommand.CaretIndexOffset;
                 this.RunCommand(insertCommand);
 
                 // Autocompletion analyzing

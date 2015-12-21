@@ -29,9 +29,20 @@ namespace TextEditor.Commands
         /// <param name="caretIndex">Index of caret in document.</param>
         public InsertStringCommand(string text, int caretIndex)
         {
+            if (text == null)
+            {
+                return;
+            }
+
             this.text = text;
             this.caretIndex = caretIndex;
+            this.CaretIndexOffset = text.Length;
         }
+
+        /// <summary>
+        /// Gets offset of the caret index after command's execution.
+        /// </summary>
+        public int CaretIndexOffset { get; private set; }
 
         /// <summary>
         /// Executes command.

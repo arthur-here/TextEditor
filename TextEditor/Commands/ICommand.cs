@@ -12,6 +12,11 @@ namespace TextEditor.Commands
     public interface ICommand
     {
         /// <summary>
+        /// Offset of the caret index after command's execution.
+        /// </summary>
+        int CaretIndexOffset { get; }
+
+        /// <summary>
         /// Executes command.
         /// </summary>
         /// <param name="document">Document to change.</param>

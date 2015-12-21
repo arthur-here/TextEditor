@@ -28,7 +28,13 @@ namespace TextEditor.Commands
         {
             this.caretIndex = caretIndex;
             this.length = length;
+            this.CaretIndexOffset = -length;
         }
+
+        /// <summary>
+        /// Gets offset of the caret index after command's execution.
+        /// </summary>
+        public int CaretIndexOffset { get; private set; }
 
         /// <summary>
         /// Executes command.
