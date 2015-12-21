@@ -14,6 +14,7 @@ namespace TextEditor
     public class TextEditorDocumentProxy : ITextEditorDocument
     {
         private TextEditorDocument document;
+        private int linesOffset = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextEditorDocumentProxy"/> class.
@@ -42,13 +43,24 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Gets or sets offset to show lines.
+        /// </summary>
+        public int LinesOffset
+        {
+            get { return this.linesOffset; }
+            set { this.linesOffset = value; }
+        }
+
+        /// <summary>
         /// Gets array of document's lines.
         /// </summary>
         public List<string> Lines
         {
             get
             {
-                return this.document.Lines.GetRange(0, this.document.Lines.Count);
+                int linesCount = this.document.Lines.Count - this.LinesOffset;
+                int linesToShowCount = linesCount > 50 ? 50 : linesCount;
+                return this.document.Lines.GetRange(this.LinesOffset, linesToShowCount);
             }
         }
 

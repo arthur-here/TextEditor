@@ -33,6 +33,11 @@ namespace TextEditor
         string Text { get; }
 
         /// <summary>
+        /// Gets or sets offset to show lines.
+        /// </summary>
+        int LinesOffset { get; set; }
+
+        /// <summary>
         /// Adds new line to the end of this document.
         /// </summary>
         /// <param name="line">Line to add.</param>

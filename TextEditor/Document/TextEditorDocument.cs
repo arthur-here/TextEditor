@@ -79,6 +79,15 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Gets or sets offset to show lines.
+        /// </summary>
+        public int LinesOffset
+        {
+            get { return 0; }
+            set { ; }
+        }
+
+        /// <summary>
         /// Adds new line to the end of this document.
         /// </summary>
         /// <param name="line">Line to add.</param>
