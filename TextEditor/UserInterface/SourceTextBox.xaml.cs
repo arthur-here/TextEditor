@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,7 +32,6 @@ namespace TextEditor
         private SnippetLibrary snippetLibrary;
         private MacroLibrary macroLibrary;
         private ISyntaxAnalyzer syntaxAnalyzer = new SwiftSyntaxAnalyzer();
-        private Task syntaxAnalyzerTask;
         private int lastCarretIndex = 0;
 
         /// <summary>
@@ -68,6 +68,7 @@ namespace TextEditor
                 }
 
                 this.document = value;
+                this.document.AmountOfLinesToShow = (int)(this.ActualHeight / 14.342857142857143);
                 this.commandManager = new TextEditorCommandManager(this.document);
                 this.UpdateUi();
             }
@@ -283,7 +284,7 @@ namespace TextEditor
                 this.FontSize,
                 this.fontBrush);
             
-            if (this.syntaxAnalyzer != null && this.syntaxAnalyzerTask != null && this.syntaxAnalyzerTask.IsCompleted)
+            if (this.syntaxAnalyzer != null)
             {
                 foreach (Token token in this.syntaxAnalyzer.Tokens)
                 {
@@ -299,7 +300,7 @@ namespace TextEditor
             {
                 ft.MaxTextWidth -= SystemParameters.VerticalScrollBarWidth;
             }
-
+            
             ft.Trimming = TextTrimming.None;
             double leftBorder = GetRectFromCharacterIndex(0).Left;
             double leftTextBorder = double.PositiveInfinity;
@@ -337,14 +338,8 @@ namespace TextEditor
 
             if (this.syntaxAnalyzer != null)
             {
-                if (this.syntaxAnalyzerTask != null && !this.syntaxAnalyzerTask.IsCompleted)
-                {
-                    return;
-                }
-
-                this.syntaxAnalyzerTask = Task.Factory
-                    .StartNew(() => this.syntaxAnalyzer.Parse(this.document))
-                    .ContinueWith(task => this.UpdateUi(), TaskScheduler.FromCurrentSynchronizationContext());
+                this.syntaxAnalyzer.Parse(this.document);
+                this.UpdateUi();
             }
         }
 
@@ -360,20 +355,23 @@ namespace TextEditor
             this.UpdateUi();
         }
 
-        private void TextBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            this.InvalidateVisual();
-        }
-
         private void UpdateUi()
         {
             if (this.document != null)
             {
                 this.Text = this.document.Text;
                 this.CaretIndex = this.lastCarretIndex;
+                this.document.AmountOfLinesToShow = (int)(this.ActualHeight / 14);
             }
 
             this.InvalidateVisual();
+        }
+
+        private void TextBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+            this.document.LinesOffset += e.Delta > 0 ? -1 : 1;
+            this.UpdateUi();
         }
     }
 

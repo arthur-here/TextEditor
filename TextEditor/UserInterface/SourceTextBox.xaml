@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" 
          Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" 
-         HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" 
+         HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" 
          BorderThickness="0" SelectionBrush="#FFE8E8E8" CaretBrush="#FFE6E6E6" 
-         ScrollViewer.ScrollChanged="TextBox_ScrollChanged" FontFamily="Consolas" IsUndoEnabled="False" ScrollViewer.CanContentScroll="True"/>
+         FontFamily="Consolas" IsUndoEnabled="False" PreviewMouseWheel="TextBox_PreviewMouseWheel" ScrollViewer.CanContentScroll="True"/>

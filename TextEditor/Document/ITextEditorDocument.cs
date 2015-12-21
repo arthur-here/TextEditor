@@ -38,6 +38,11 @@ namespace TextEditor
         int LinesOffset { get; set; }
 
         /// <summary>
+        /// Gets or sets amount of lines to render.
+        /// </summary>
+        int AmountOfLinesToShow { get; set; }
+
+        /// <summary>
         /// Adds new line to the end of this document.
         /// </summary>
         /// <param name="line">Line to add.</param>

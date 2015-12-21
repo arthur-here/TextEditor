@@ -88,6 +88,15 @@ namespace TextEditor
         }
 
         /// <summary>
+        /// Gets or sets amount of lines to render.
+        /// </summary>
+        public int AmountOfLinesToShow
+        {
+            get { return this.lines.Count; }
+            set { ; }
+        }
+
+        /// <summary>
         /// Adds new line to the end of this document.
         /// </summary>
         /// <param name="line">Line to add.</param>

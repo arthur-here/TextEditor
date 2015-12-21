@@ -15,6 +15,7 @@ namespace TextEditor
     {
         private TextEditorDocument document;
         private int linesOffset = 0;
+        private int amountOfLinesToShow = 50;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextEditorDocumentProxy"/> class.
@@ -47,8 +48,44 @@ namespace TextEditor
         /// </summary>
         public int LinesOffset
         {
-            get { return this.linesOffset; }
-            set { this.linesOffset = value; }
+            get
+            {
+                return this.linesOffset;
+            }
+
+            set
+            {
+                if (value < this.document.Lines.Count - this.AmountOfLinesToShow && value > 0)
+                {
+                    this.linesOffset = value;
+                }
+
+                Console.WriteLine(this.document.Lines.Count - this.AmountOfLinesToShow);
+                Console.WriteLine(this.linesOffset);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets amount of lines to render.
+        /// </summary>
+        public int AmountOfLinesToShow
+        {
+            get
+            {
+                if (this.document.Lines.Count > this.amountOfLinesToShow)
+                {
+                    return this.amountOfLinesToShow;
+                }
+                else
+                {
+                    return this.document.Lines.Count;
+                }
+            }
+
+            set
+            {
+                this.amountOfLinesToShow = value;
+            }
         }
 
         /// <summary>
@@ -58,9 +95,7 @@ namespace TextEditor
         {
             get
             {
-                int linesCount = this.document.Lines.Count - this.LinesOffset;
-                int linesToShowCount = linesCount > 50 ? 50 : linesCount;
-                return this.document.Lines.GetRange(this.LinesOffset, linesToShowCount);
+                return this.document.Lines.GetRange(this.LinesOffset, this.AmountOfLinesToShow);
             }
         }
 
