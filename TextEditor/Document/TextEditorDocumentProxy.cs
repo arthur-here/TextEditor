@@ -55,7 +55,7 @@ namespace TextEditor
 
             set
             {
-                if (value < this.document.Lines.Count - this.AmountOfLinesToShow && value > 0)
+                if (value < this.document.Lines.Count - this.AmountOfLinesToShow && value >= 0)
                 {
                     this.linesOffset = value;
                 }

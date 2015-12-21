@@ -51,6 +51,11 @@ namespace TextEditor
         public event System.EventHandler<LibraryWordEnteredEventArgs> LibraryWordEnteredEvent;
 
         /// <summary>
+        /// Fires when layout changes and lines numbers needs to be updated.
+        /// </summary>
+        public event System.EventHandler<UpdateLineNumbersEventArgs> UpdateLineNumbersEvent;
+
+        /// <summary>
         /// Gets or sets <see cref="TextEditorDocument"/>, which displayed by <see cref="SourceTextBox"/>.
         /// </summary>
         public ITextEditorDocument Document
@@ -362,6 +367,7 @@ namespace TextEditor
                 this.Text = this.document.Text;
                 this.CaretIndex = this.lastCarretIndex;
                 this.document.AmountOfLinesToShow = (int)(this.ActualHeight / 14);
+                this.UpdateLineNumbersEvent(this, new UpdateLineNumbersEventArgs(this.document));
             }
 
             this.InvalidateVisual();
@@ -370,6 +376,11 @@ namespace TextEditor
         private void TextBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
+            if (this.document == null)
+            {
+                return;
+            }
+
             this.document.LinesOffset += e.Delta > 0 ? -1 : 1;
             this.UpdateUi();
         }
@@ -400,5 +411,36 @@ namespace TextEditor
         /// Gets rectangle of index caret.
         /// </summary>
         public Rect CharacterRect { get; private set; }
+    }
+
+    /// <summary>
+    /// EventArgs for UpdateLineNumbersEvent.
+    /// </summary>
+    public class UpdateLineNumbersEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateLineNumbersEventArgs"/> class.
+        /// </summary>
+        /// <param name="document">Document which lines needs to display.</param>
+        public UpdateLineNumbersEventArgs(ITextEditorDocument document)
+        {
+            if (document == null)
+            {
+                return;
+            }
+
+            this.FirstLineNumber = document.LinesOffset;
+            this.LastLineNumber = document.LinesOffset + document.AmountOfLinesToShow;
+        }
+
+        /// <summary>
+        /// Gets number of the first line.
+        /// </summary>
+        public int FirstLineNumber { get; private set; }
+
+        /// <summary>
+        /// Gets number of the last line.
+        /// </summary>
+        public int LastLineNumber { get; private set; }
     }
 }

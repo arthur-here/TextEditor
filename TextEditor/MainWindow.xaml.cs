@@ -37,8 +37,8 @@ namespace TextEditor
             this.codeArea.SnippetLibrary = this.snippetLibrary;
             this.codeArea.MacroLibrary = this.macroLibrary;
             this.codeArea.LibraryWordEnteredEvent += this.CodeArea_LibraryWordEnteredEvent;
+            this.codeArea.UpdateLineNumbersEvent += this.CodeArea_UpdateLineNumbersEvent;
             this.tipListBox.SelectionChanged += this.TipListBox_SelectionChanged;
-            this.codeArea.PreviewMouseWheel += this.codeArea_MouseWheel;
             this.SetupUi();
         }
 
@@ -220,34 +220,16 @@ namespace TextEditor
         private void SetupUi()
         {
             numberLabel.FontFamily = codeArea.FontFamily;
-            numberLabel.FontSize = codeArea.FontSize;
+            numberLabel.FontSize = codeArea.FontSize + 0.02;
             this.tipListBox.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.tipListBox.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
             this.RootGrid.Children.Add(this.tipListBox);
+
             Style s = new Style(typeof(MenuItem));
             Setter setter = new Setter { Property = MenuItem.BackgroundProperty, Value = new SolidColorBrush(Color.FromRgb(16, 18, 23)) };
             s.Setters.Add(setter);
             this.MacrosMenuItem.ItemContainerStyle = s;
             this.MacrosMenuItem.ItemsSource = this.macroLibrary.Library.Select(m => m.Name);
-        }
-
-        private void UpdateNumberLabel()
-        {
-            Point pos = new Point(0, 0);
-            int firstLine = codeArea.GetFirstVisibleLineIndex();
-
-            pos.X = this.codeArea.ActualWidth;
-            pos.Y = this.codeArea.ActualHeight;
-            int lastIndex = codeArea.GetCharacterIndexFromPoint(pos, true);
-            int lastLine = codeArea.GetLastVisibleLineIndex();
-
-            pos = this.codeArea.GetRectFromCharacterIndex(lastIndex).Location;
-
-            numberLabel.Content = string.Empty;
-            for (int i = firstLine; i <= lastLine + 1; i++)
-            {
-                numberLabel.Content += i + 1 + "\n";
-            }
         }
 
         private void SnippetLibraryMenuItem_Click(object sender, RoutedEventArgs e)
@@ -282,13 +264,26 @@ namespace TextEditor
             }
         }
 
-        private void codeArea_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void CodeArea_UpdateLineNumbersEvent(object sender, UpdateLineNumbersEventArgs e)
         {
-            double fontHeight = this.codeArea.FontSize * this.codeArea.FontFamily.LineSpacing;
-            double d = this.codeArea.GetRectFromCharacterIndex(0).Y % fontHeight;
-            numberLabel.Margin = new Thickness(0, d, 0, 0);
+            this.UpdateNumberLabel(e.FirstLineNumber, e.LastLineNumber);
+        }
 
-            this.UpdateNumberLabel();
+        private void UpdateNumberLabel(int firstLine, int lastLine)
+        {
+            Point pos = new Point(0, 0);
+
+            pos.X = this.codeArea.ActualWidth;
+            pos.Y = this.codeArea.ActualHeight;
+            int lastIndex = codeArea.GetCharacterIndexFromPoint(pos, true);
+
+            pos = this.codeArea.GetRectFromCharacterIndex(lastIndex).Location;
+
+            numberLabel.Content = string.Empty;
+            for (int i = firstLine; i <= lastLine + 1; i++)
+            {
+                numberLabel.Content += i + 1 + "\n";
+            }
         }
     }
 }

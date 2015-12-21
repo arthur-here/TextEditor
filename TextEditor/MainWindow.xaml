@@ -67,7 +67,12 @@
                 <Image Source="pack://siteoforigin:,,,/Resources/exit_icon.png" />
             </Button>
             <Rectangle Fill="#FF535A6F" Margin="0,63,0,0" Height="23" VerticalAlignment="Top"/>
-            <local:SourceTextBox BorderThickness="0" x:Name="codeArea" Text="" Margin="31,86,0,0" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Disabled" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" MouseWheel="codeArea_MouseWheel"/>
+            <local:SourceTextBox BorderThickness="0" x:Name="codeArea" Text="" Margin="31,86,0,0" 
+                                 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" 
+                                 ScrollViewer.CanContentScroll="False" 
+                                 AcceptsReturn="True" 
+                                 TextWrapping="Wrap" 
+                                 Background="{x:Null}" BorderBrush="{x:Null}"/>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Grid.OpacityMask>
